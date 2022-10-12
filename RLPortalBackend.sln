@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RLPortalBackend", "RLPortalBackend\RLPortalBackend.csproj", "{C3B89D03-97A5-42DA-A3CF-C416238AB50D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C3B89D03-97A5-42DA-A3CF-C416238AB50D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3B89D03-97A5-42DA-A3CF-C416238AB50D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3B89D03-97A5-42DA-A3CF-C416238AB50D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3B89D03-97A5-42DA-A3CF-C416238AB50D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D5FDFC2-5A26-44C5-ACDA-2033E51DD7B6}
+	EndGlobalSection
+EndGlobal
