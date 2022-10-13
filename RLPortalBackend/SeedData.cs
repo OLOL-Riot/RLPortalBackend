@@ -1,7 +1,7 @@
-﻿using GeographyPortal.Models.Autentification;
+﻿using RLPortalBackend.Models.Autentification;
 using Microsoft.AspNetCore.Identity;
 
-namespace GeographyPortal
+namespace RLPortalBackend
 {
     public static class SeedData
     {

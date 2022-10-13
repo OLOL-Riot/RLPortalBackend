@@ -3,6 +3,14 @@ using RLPortal.Repositories;
 using RLPortal.Services.Impl;
 using RLPortal.Services;
 using RLPortal.Models;
+using RLPortalBackend.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.OpenApi.Models;
+using RLPortalBackend.Services;
+using RLPortalBackend.Services.Impl;
+using RLPortalBackend;
+using RLPortalBackend.Models.Autentification;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AplicationDBContextConnection") ?? throw new InvalidOperationException("Connection string 'AplicationDBContextConnection' not found.");
@@ -10,7 +18,7 @@ var connectionString = builder.Configuration.GetConnectionString("AplicationDBCo
 builder.Services.AddDbContext<AplicationDBContext>(options =>
     options.UseNpgsql(connectionString));
 //Как поднимается сервис паблишера и ребита поменять значнеие на true для подтвреждения почты
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<RLPortalBackend.Models.Autentification.User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AplicationDBContext>();
 
@@ -25,7 +33,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "GeographyPortal API", Version = "v0.1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "RLPortalBackend API", Version = "v0.1" });
 });
 
 

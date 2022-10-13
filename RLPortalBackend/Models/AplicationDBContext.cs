@@ -1,9 +1,9 @@
-﻿using GeographyPortal.Models.Autentification;
+﻿using RLPortalBackend.Models.Autentification;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace GeographyPortal.Models;
+namespace RLPortalBackend.Models;
 
 public class AplicationDBContext : IdentityDbContext<User>
 {

@@ -1,4 +1,4 @@
-namespace GeographyPortal.Models
+namespace RLPortalBackend.Models
 {
     public class ErrorViewModel
     {

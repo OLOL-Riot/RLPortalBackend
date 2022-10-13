@@ -1,8 +1,8 @@
-﻿using GeographyPortal.Models.Autentification;
-using GeographyPortal.Services;
+﻿using RLPortalBackend.Models.Autentification;
+using RLPortalBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GeographyPortal.Controllers
+namespace RLPortalBackend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

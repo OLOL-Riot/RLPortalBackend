@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GeographyPortal.Models.Autentification
+namespace RLPortalBackend.Models.Autentification
 {
     /// <summary>
     /// UserModel models to auth

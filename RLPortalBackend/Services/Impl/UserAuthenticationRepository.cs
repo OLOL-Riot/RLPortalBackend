@@ -1,9 +1,9 @@
-﻿using GeographyPortal.Models.Autentification;
+﻿using RLPortalBackend.Models.Autentification;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
 
-namespace GeographyPortal.Services.Impl
+namespace RLPortalBackend.Services.Impl
 {
     public class UserAuthenticationRepository : IUserAuthenticationRepository
     {

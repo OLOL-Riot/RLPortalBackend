@@ -1,4 +1,4 @@
-﻿namespace GeographyPortal.Models.Autentification
+﻿namespace RLPortalBackend.Models.Autentification
 {
     public class AutentificationRequest
     {

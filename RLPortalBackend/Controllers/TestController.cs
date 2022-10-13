@@ -1,5 +1,5 @@
-﻿using GeographyPortal.Models;
-using GeographyPortal.Services;
+﻿using RLPortalBackend.Models;
+using RLPortalBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 using RLPortal.Services;
 using RLPortal.Models;

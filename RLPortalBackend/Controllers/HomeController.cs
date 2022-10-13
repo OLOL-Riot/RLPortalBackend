@@ -1,9 +1,9 @@
-﻿using GeographyPortal.Models;
+﻿using RLPortalBackend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace GeographyPortal.Controllers
+namespace RLPortalBackend.Controllers
 {
     public class HomeController : Controller
     {

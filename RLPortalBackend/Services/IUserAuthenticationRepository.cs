@@ -1,7 +1,7 @@
-﻿using GeographyPortal.Models.Autentification;
+﻿using RLPortalBackend.Models.Autentification;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GeographyPortal.Services
+namespace RLPortalBackend.Services
 {
     public interface IUserAuthenticationRepository
     {
