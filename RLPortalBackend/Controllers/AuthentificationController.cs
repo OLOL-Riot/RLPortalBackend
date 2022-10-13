@@ -15,7 +15,7 @@ namespace RLPortalBackend.Controllers
             _auth = auth;
         }
 
-        [HttpPost("Registration")]
+        [HttpPost("registration")]
         public async Task<ActionResult> Registration(UserModel input)
         {
             try
@@ -28,7 +28,12 @@ namespace RLPortalBackend.Controllers
                 return BadRequest(e.Message);
             }
 
+        }
 
+        [HttpPost("login")]
+        public async Task<ActionResult> Login(AutentificationRequest autentificationRequest)
+        {
+            return BadRequest("User not found");
         }
     }
 }
