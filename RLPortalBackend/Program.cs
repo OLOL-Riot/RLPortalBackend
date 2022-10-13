@@ -37,7 +37,10 @@ builder.Services.AddScoped<IExerciseService, ExerciseService>();
 builder.Services.AddScoped<ITestRepository, TestRepository>();
 builder.Services.AddScoped<ITestService, TestService>();
 builder.Services.AddScoped<IUserAuthenticationRepository, UserAuthenticationRepository>();
+builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
 builder.Services.AddCors();
+
+initRabbitMQ();
 
 var app = builder.Build();
 
@@ -80,3 +83,24 @@ app.UseSwaggerUI(c =>
 //app.UseMiddleware<JwtMiddleware>();
 
 app.Run();
+
+
+void initRabbitMQ()
+{
+    builder.Services.AddMassTransit(x =>
+    {
+
+        x.SetKebabCaseEndpointNameFormatter();
+
+        x.UsingRabbitMq((context, cfg) =>
+        {
+            cfg.Host("localhost", "/", h =>
+            {
+                h.Username("guest");
+                h.Password("guest");
+            });
+
+            cfg.ConfigureEndpoints(context);
+        });
+    });
+}
