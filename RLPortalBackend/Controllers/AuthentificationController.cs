@@ -1,6 +1,6 @@
 ﻿using RLPortalBackend.Models.Autentification;
-using RLPortalBackend.Services;
 using Microsoft.AspNetCore.Mvc;
+using RLPortalBackend.Repositories;
 
 namespace RLPortalBackend.Controllers
 {

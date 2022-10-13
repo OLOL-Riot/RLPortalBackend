@@ -1,7 +1,7 @@
 ﻿using RLPortalBackend.Models.Autentification;
 using Microsoft.AspNetCore.Mvc;
 
-namespace RLPortalBackend.Services
+namespace RLPortalBackend.Repositories
 {
     public interface IUserAuthenticationRepository
     {

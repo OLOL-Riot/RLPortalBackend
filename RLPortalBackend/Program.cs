@@ -7,24 +7,25 @@ using RLPortalBackend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
-using RLPortalBackend.Services;
-using RLPortalBackend.Services.Impl;
-using RLPortalBackend;
 using RLPortalBackend.Models.Autentification;
+using RLPortalBackend.Helpers;
+using RLPortalBackend.Repositories.Impl;
+using RLPortalBackend.Repositories;
+using MassTransit;
+using GeographyPortal.Services.Impl;
+using GeographyPortal.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+//Postgres
 var connectionString = builder.Configuration.GetConnectionString("AplicationDBContextConnection") ?? throw new InvalidOperationException("Connection string 'AplicationDBContextConnection' not found.");
 
 builder.Services.AddDbContext<AplicationDBContext>(options =>
     options.UseNpgsql(connectionString));
 //Как поднимается сервис паблишера и ребита поменять значнеие на true для подтвреждения почты
-builder.Services.AddDefaultIdentity<RLPortalBackend.Models.Autentification.User>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AplicationDBContext>();
 
-// Add services to the container.
-builder.Services.Configure<PortalGeographyMongoDBSettings>(
-    builder.Configuration.GetSection("PortalGeographyMongoDB"));
 // Connection to the MongoDB
 builder.Services.Configure<PortalGeographyMongoDBSettings>(
     builder.Configuration.GetSection("RLPortalMongoDB"));
@@ -36,22 +37,16 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "RLPortalBackend API", Version = "v0.1" });
 });
 
-
+//Injections
 builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
 builder.Services.AddScoped<ITestRepository, TestRepository>();
 builder.Services.AddScoped<ITestService, TestService>();
 builder.Services.AddScoped<IUserAuthenticationRepository, UserAuthenticationRepository>();
+builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
 builder.Services.AddCors();
 
-
-
-
-// DI
-builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
-builder.Services.AddScoped<IExerciseService, ExerciseService>();
-builder.Services.AddScoped<ITestRepository, TestRepository>();
-builder.Services.AddScoped<ITestService, TestService>();
+initRabbitMQ();
 
 var app = builder.Build();
 
@@ -94,3 +89,24 @@ app.UseSwaggerUI(c =>
 //app.UseMiddleware<JwtMiddleware>();
 
 app.Run();
+
+
+void initRabbitMQ()
+{
+    builder.Services.AddMassTransit(x =>
+    {
+
+        x.SetKebabCaseEndpointNameFormatter();
+
+        x.UsingRabbitMq((context, cfg) =>
+        {
+            cfg.Host("localhost", "/", h =>
+            {
+                h.Username("guest");
+                h.Password("guest");
+            });
+
+            cfg.ConfigureEndpoints(context);
+        });
+    });
+}
