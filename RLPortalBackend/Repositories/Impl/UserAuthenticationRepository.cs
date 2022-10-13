@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
 
-namespace RLPortalBackend.Services.Impl
+namespace RLPortalBackend.Repositories.Impl
 {
     public class UserAuthenticationRepository : IUserAuthenticationRepository
     {
