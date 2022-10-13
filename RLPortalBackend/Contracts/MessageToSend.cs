@@ -1,4 +1,4 @@
-﻿namespace RLPortal.Container.Messages
+﻿namespace RLPortalBackend.Container.Messages
 {
     public record MessageToSend
     {

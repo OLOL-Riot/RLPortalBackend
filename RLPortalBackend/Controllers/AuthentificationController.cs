@@ -2,7 +2,7 @@
 using RLPortalBackend.Models.Autentification;
 using RLPortalBackend.Repositories;
 
-namespace RLPortal.Controllers
+namespace RLPortalBackend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

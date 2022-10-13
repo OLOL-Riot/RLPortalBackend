@@ -1,4 +1,4 @@
-﻿namespace RLPortal.Models.Autentification
+﻿namespace RLPortalBackend.Models.Autentification
 {
     public class AutentificationRequest
     {

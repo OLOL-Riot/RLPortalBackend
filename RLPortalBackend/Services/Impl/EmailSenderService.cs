@@ -1,8 +1,8 @@
-﻿using RLPortal.Container.Messages;
+﻿using RLPortalBackend.Container.Messages;
 using MassTransit;
 using System.Threading.Channels;
 
-namespace RLPortal.Services.Impl
+namespace RLPortalBackend.Services.Impl
 {
     public class EmailSenderService : IEmailSenderService
     {

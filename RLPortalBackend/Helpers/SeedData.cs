@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using RLPortalBackend.Models.Autentification;
 
-namespace RLPortal.Helpers
+namespace RLPortalBackend.Helpers
 {
     public static class SeedData
     {

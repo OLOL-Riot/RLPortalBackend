@@ -1,10 +1,10 @@
-﻿using RLPortal.Container.Messages;
-using RLPortal.Services;
-using RLPortal.Services.Impl;
+﻿using RLPortalBackend.Container.Messages;
+using RLPortalBackend.Services;
+using RLPortalBackend.Services.Impl;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace RLPortal.Controllers
+namespace RLPortalBackend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

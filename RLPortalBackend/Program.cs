@@ -9,8 +9,6 @@ using RLPortalBackend.Repositories.Impl;
 using RLPortalBackend.Services;
 using RLPortalBackend.Services.Impl;
 using MassTransit;
-using RLPortal.Models.Autentification;
-using RLPortal.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 //Postgres
@@ -31,7 +29,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "RLPortal API", Version = "v0.1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "RLPortalBackend API", Version = "v0.1" });
 });
 
 //Injections

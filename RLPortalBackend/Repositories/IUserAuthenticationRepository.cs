@@ -1,4 +1,5 @@
 ﻿using RLPortalBackend.Models.Autentification;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RLPortalBackend.Repositories
 {
