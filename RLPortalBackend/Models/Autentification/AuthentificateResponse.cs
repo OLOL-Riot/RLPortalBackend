@@ -9,7 +9,7 @@
         public string Email { get; set; }
         public string Token { get; set; }
 
-        public AuthentificateResponse(User user,string token)
+        public AuthentificateResponse(User user, string token)
         {
             FirstName = user.FirstName;
             LastName = user.LastName;

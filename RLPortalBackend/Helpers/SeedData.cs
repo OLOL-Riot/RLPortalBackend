@@ -1,5 +1,5 @@
-﻿using RLPortalBackend.Models.Autentification;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using RLPortalBackend.Models.Autentification;
 
 namespace RLPortalBackend.Helpers
 {

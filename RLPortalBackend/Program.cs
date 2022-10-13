@@ -1,16 +1,13 @@
-﻿using RLPortal.Repositories.Impl;
-using RLPortal.Repositories;
-using RLPortal.Services.Impl;
-using RLPortal.Services;
-using RLPortal.Models;
-using RLPortalBackend.Models;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
-using RLPortalBackend.Models.Autentification;
 using RLPortalBackend.Helpers;
-using RLPortalBackend.Repositories.Impl;
+using RLPortalBackend.Models;
+using RLPortalBackend.Models.Autentification;
 using RLPortalBackend.Repositories;
+using RLPortalBackend.Repositories.Impl;
+using RLPortalBackend.Services;
+using RLPortalBackend.Services.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
 //Postgres

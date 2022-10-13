@@ -1,7 +1,7 @@
-﻿using RLPortal.Models;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-namespace RLPortal.Repositories.Impl
+using RLPortalBackend.Models;
+namespace RLPortalBackend.Repositories.Impl
 {
     public class ExerciseRepository : IExerciseRepository
     {

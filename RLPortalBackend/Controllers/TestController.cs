@@ -1,20 +1,18 @@
-﻿using RLPortalBackend.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using RLPortalBackend.Models;
 using RLPortalBackend.Services;
-using Microsoft.AspNetCore.Mvc;
-using RLPortal.Services;
-using RLPortal.Models;
 
-namespace RLPortal.Controllers
+namespace RLPortalBackend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TestController : Controller 
+    public class TestController : Controller
     {
         private readonly ITestService _testService;
 
-        public TestController(ITestService testService) 
+        public TestController(ITestService testService)
         {
-            _testService = testService; 
+            _testService = testService;
         }
 
         [HttpGet]

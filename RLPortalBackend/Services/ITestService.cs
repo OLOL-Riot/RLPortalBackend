@@ -1,8 +1,6 @@
-﻿using RLPortal.Models;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver;
+﻿using RLPortalBackend.Models;
 
-namespace RLPortal.Services
+namespace RLPortalBackend.Services
 {
     /// <summary>
     /// Service for test

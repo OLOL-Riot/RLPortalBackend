@@ -1,6 +1,6 @@
-﻿using RLPortal.Models;
+﻿using RLPortalBackend.Models;
 
-namespace RLPortal.Services
+namespace RLPortalBackend.Services
 {
     /// <summary>
     /// Service for exercise
