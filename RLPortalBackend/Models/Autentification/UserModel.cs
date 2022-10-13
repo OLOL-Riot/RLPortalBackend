@@ -17,7 +17,7 @@ namespace RLPortalBackend.Models.Autentification
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
 
-        public string? PhoneNumber { get; init; }
+        public string PhoneNumber { get; init; }
 
         public string ConfirmPassword { get; set; }
     }
