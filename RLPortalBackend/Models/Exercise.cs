@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.IdGenerators;
 
-namespace GeographyPortal.Models
+namespace RLPortal.Models
 {
     /// <summary>
     /// Exercise Entity
@@ -12,6 +12,10 @@ namespace GeographyPortal.Models
         public Guid Id { get; set; }
 
         public string Description { get; set; }
+
+        public ICollection<string> answers { get; set; }
+
+        public int rightAnswer { get; set; }
 
     }
 }

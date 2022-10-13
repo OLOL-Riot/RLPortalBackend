@@ -1,6 +1,6 @@
-﻿using GeographyPortal.Models;
+﻿using RLPortal.Models;
 
-namespace GeographyPortal.Services
+namespace RLPortal.Services
 {
     /// <summary>
     /// Service for exercise

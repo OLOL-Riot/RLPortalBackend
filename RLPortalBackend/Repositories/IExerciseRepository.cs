@@ -1,6 +1,6 @@
-﻿using GeographyPortal.Models;
+﻿using RLPortal.Models;
 
-namespace GeographyPortal.Repositories
+namespace RLPortal.Repositories
 {
     /// <summary>
     /// The repository with exercises

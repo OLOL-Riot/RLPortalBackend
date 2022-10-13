@@ -1,7 +1,7 @@
-﻿using GeographyPortal.Models;
-using GeographyPortal.Repositories;
+﻿using RLPortal.Models;
+using RLPortal.Repositories;
 
-namespace GeographyPortal.Services.Impl
+namespace RLPortal.Services.Impl
 {
     public class TestService : ITestService
     {

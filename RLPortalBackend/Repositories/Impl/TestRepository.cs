@@ -1,8 +1,8 @@
-﻿using GeographyPortal.Models;
+﻿using RLPortal.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace GeographyPortal.Repositories.Impl
+namespace RLPortal.Repositories.Impl
 {
     public class TestRepository : ITestRepository
     {
@@ -30,7 +30,7 @@ namespace GeographyPortal.Repositories.Impl
             return await _testCollection.Find(_ => true).ToListAsync();
         }
 
-        public async Task<Test?> GetAsync(Guid id)
+        public async Task<Test> GetAsync(Guid id)
         {
             return await _testCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
         }

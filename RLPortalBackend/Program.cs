@@ -1,14 +1,8 @@
-﻿using GeographyPortal;
-using GeographyPortal.Models;
-using GeographyPortal.Models.Autentification;
-using GeographyPortal.Repositories;
-using GeographyPortal.Repositories.Impl;
-using GeographyPortal.Services;
-using GeographyPortal.Services.Impl;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-using AutoMapper;
+﻿using RLPortal.Repositories.Impl;
+using RLPortal.Repositories;
+using RLPortal.Services.Impl;
+using RLPortal.Services;
+using RLPortal.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AplicationDBContextConnection") ?? throw new InvalidOperationException("Connection string 'AplicationDBContextConnection' not found.");
@@ -23,6 +17,9 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
 // Add services to the container.
 builder.Services.Configure<PortalGeographyMongoDBSettings>(
     builder.Configuration.GetSection("PortalGeographyMongoDB"));
+// Connection to the MongoDB
+builder.Services.Configure<PortalGeographyMongoDBSettings>(
+    builder.Configuration.GetSection("RLPortalMongoDB"));
 
 builder.Services.AddControllersWithViews();
 
@@ -41,6 +38,12 @@ builder.Services.AddCors();
 
 
 
+
+// DI
+builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
+builder.Services.AddScoped<IExerciseService, ExerciseService>();
+builder.Services.AddScoped<ITestRepository, TestRepository>();
+builder.Services.AddScoped<ITestService, TestService>();
 
 var app = builder.Build();
 

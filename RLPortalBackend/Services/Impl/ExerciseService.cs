@@ -1,7 +1,8 @@
-﻿using GeographyPortal.Models;
-using GeographyPortal.Repositories;
+﻿using RLPortal.Models;
+using RLPortal.Repositories;
+using MongoDB.Driver;
 
-namespace GeographyPortal.Services.Impl
+namespace RLPortal.Services.Impl
 {
     public class ExerciseService : IExerciseService
     {
@@ -19,7 +20,7 @@ namespace GeographyPortal.Services.Impl
 
         public async Task<ICollection<Exercise>> GetAsync()
         {
-            return await _exerciseRepository.GetAsync();
+           return await _exerciseRepository.GetAsync();
         }
 
         public async Task<Exercise> GetAsync(Guid id)

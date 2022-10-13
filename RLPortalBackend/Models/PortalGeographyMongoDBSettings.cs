@@ -1,4 +1,4 @@
-﻿namespace GeographyPortal.Models
+﻿namespace RLPortal.Models
 {
     /// <summary>
     /// MongoDB settings
