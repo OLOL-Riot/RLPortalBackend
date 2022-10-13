@@ -6,16 +6,16 @@ namespace RLPortalBackend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthController : Controller
+    public class AuthentificationController : Controller
     {
         private readonly IUserAuthenticationRepository _auth;
 
-        public AuthController(IUserAuthenticationRepository auth)
+        public AuthentificationController(IUserAuthenticationRepository auth)
         {
             _auth = auth;
         }
 
-        [HttpPost(Name = "Registarion")]
+        [HttpPost("Registration")]
         public async Task<ActionResult> Registration(UserModel input)
         {
             try
