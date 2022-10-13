@@ -1,6 +1,4 @@
-﻿using RLPortalBackend.Models;
-using RLPortalBackend.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RLPortal.Services;
 using RLPortal.Models;
 
