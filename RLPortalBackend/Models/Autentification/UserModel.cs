@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RLPortalBackend.Models.Autentification
+namespace RLPortal.Models.Autentification
 {
     /// <summary>
     /// UserModel models to auth

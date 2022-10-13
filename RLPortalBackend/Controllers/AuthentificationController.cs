@@ -1,8 +1,8 @@
-﻿using RLPortalBackend.Models.Autentification;
+﻿using RLPortal.Models.Autentification;
 using Microsoft.AspNetCore.Mvc;
-using RLPortalBackend.Repositories;
+using RLPortal.Repositories;
 
-namespace RLPortalBackend.Controllers
+namespace RLPortal.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

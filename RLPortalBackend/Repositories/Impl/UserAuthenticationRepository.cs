@@ -1,9 +1,9 @@
-﻿using RLPortalBackend.Models.Autentification;
+﻿using RLPortal.Models.Autentification;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
 
-namespace RLPortalBackend.Repositories.Impl
+namespace RLPortal.Repositories.Impl
 {
     public class UserAuthenticationRepository : IUserAuthenticationRepository
     {

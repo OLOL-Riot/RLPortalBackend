@@ -1,9 +1,9 @@
-﻿using RLPortalBackend.Models.Autentification;
+﻿using RLPortal.Models.Autentification;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace RLPortalBackend.Models;
+namespace RLPortal.Models;
 
 public class AplicationDBContext : IdentityDbContext<User>
 {

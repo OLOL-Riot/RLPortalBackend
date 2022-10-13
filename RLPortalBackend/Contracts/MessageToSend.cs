@@ -1,4 +1,4 @@
-﻿namespace GeographyPortal.Container.Messages
+﻿namespace RLPortal.Container.Messages
 {
     public record MessageToSend
     {

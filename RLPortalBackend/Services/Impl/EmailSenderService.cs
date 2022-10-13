@@ -1,8 +1,8 @@
-﻿using GeographyPortal.Container.Messages;
+﻿using RLPortal.Container.Messages;
 using MassTransit;
 using System.Threading.Channels;
 
-namespace GeographyPortal.Services.Impl
+namespace RLPortal.Services.Impl
 {
     public class EmailSenderService : IEmailSenderService
     {

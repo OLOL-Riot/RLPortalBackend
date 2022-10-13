@@ -1,6 +1,6 @@
-﻿using GeographyPortal.Container.Messages;
+﻿using RLPortal.Container.Messages;
 
-namespace GeographyPortal.Services
+namespace RLPortal.Services
 {
     public interface IEmailSenderService
     {

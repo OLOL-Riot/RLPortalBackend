@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace RLPortalBackend.Migrations
+namespace RLPortal.Migrations
 {
     public partial class InitApplicationUser : Migration
     {

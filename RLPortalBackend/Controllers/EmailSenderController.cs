@@ -1,10 +1,10 @@
-﻿using GeographyPortal.Container.Messages;
-using GeographyPortal.Services;
-using GeographyPortal.Services.Impl;
+﻿using RLPortal.Container.Messages;
+using RLPortal.Services;
+using RLPortal.Services.Impl;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GeographyPortal.Controllers
+namespace RLPortal.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

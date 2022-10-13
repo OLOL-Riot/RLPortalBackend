@@ -3,17 +3,12 @@ using RLPortal.Repositories;
 using RLPortal.Services.Impl;
 using RLPortal.Services;
 using RLPortal.Models;
-using RLPortalBackend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
-using RLPortalBackend.Models.Autentification;
-using RLPortalBackend.Helpers;
-using RLPortalBackend.Repositories.Impl;
-using RLPortalBackend.Repositories;
 using MassTransit;
-using GeographyPortal.Services.Impl;
-using GeographyPortal.Services;
+using RLPortal.Models.Autentification;
+using RLPortal.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 //Postgres
@@ -34,7 +29,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "RLPortalBackend API", Version = "v0.1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "RLPortal API", Version = "v0.1" });
 });
 
 //Injections
