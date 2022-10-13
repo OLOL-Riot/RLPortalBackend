@@ -33,6 +33,10 @@ namespace RLPortalBackend.Repositories.Impl
             _emailSender = emailSender;
         }
 
+        public Task LoginAsync(AutentificationRequest request)
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task RegistrateAsync(UserModel input)
         {
