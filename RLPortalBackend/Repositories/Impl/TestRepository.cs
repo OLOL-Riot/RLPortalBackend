@@ -1,8 +1,8 @@
-﻿using RLPortal.Models;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using RLPortalBackend.Models;
 
-namespace RLPortal.Repositories.Impl
+namespace RLPortalBackend.Repositories.Impl
 {
     public class TestRepository : ITestRepository
     {

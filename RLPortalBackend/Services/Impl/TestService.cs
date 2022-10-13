@@ -1,7 +1,7 @@
-﻿using RLPortal.Models;
-using RLPortal.Repositories;
+﻿using RLPortalBackend.Models;
+using RLPortalBackend.Repositories;
 
-namespace RLPortal.Services.Impl
+namespace RLPortalBackend.Services.Impl
 {
     public class TestService : ITestService
     {

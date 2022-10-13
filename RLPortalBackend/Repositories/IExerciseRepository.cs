@@ -1,6 +1,6 @@
-﻿using RLPortal.Models;
+﻿using RLPortalBackend.Models;
 
-namespace RLPortal.Repositories
+namespace RLPortalBackend.Repositories
 {
     /// <summary>
     /// The repository with exercises

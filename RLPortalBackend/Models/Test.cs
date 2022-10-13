@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.IdGenerators;
 
-namespace RLPortal.Models
+namespace RLPortalBackend.Models
 {
     /// <summary>
     /// Test Entity

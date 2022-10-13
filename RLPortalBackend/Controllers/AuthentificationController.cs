@@ -1,6 +1,6 @@
-﻿using RLPortal.Models.Autentification;
-using Microsoft.AspNetCore.Mvc;
-using RLPortal.Repositories;
+﻿using Microsoft.AspNetCore.Mvc;
+using RLPortalBackend.Models.Autentification;
+using RLPortalBackend.Repositories;
 
 namespace RLPortal.Controllers
 {
@@ -22,12 +22,13 @@ namespace RLPortal.Controllers
             {
                 await _auth.RegistrateAsync(input);
                 return Ok();
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
-            
-            
+
+
         }
     }
 }

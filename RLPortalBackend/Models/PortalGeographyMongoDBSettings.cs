@@ -1,4 +1,4 @@
-﻿namespace RLPortal.Models
+﻿namespace RLPortalBackend.Models
 {
     /// <summary>
     /// MongoDB settings

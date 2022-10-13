@@ -1,8 +1,7 @@
-﻿using RLPortal.Models;
-using RLPortal.Repositories;
-using MongoDB.Driver;
+﻿using RLPortalBackend.Models;
+using RLPortalBackend.Repositories;
 
-namespace RLPortal.Services.Impl
+namespace RLPortalBackend.Services.Impl
 {
     public class ExerciseService : IExerciseService
     {
@@ -20,7 +19,7 @@ namespace RLPortal.Services.Impl
 
         public async Task<ICollection<Exercise>> GetAsync()
         {
-           return await _exerciseRepository.GetAsync();
+            return await _exerciseRepository.GetAsync();
         }
 
         public async Task<Exercise> GetAsync(Guid id)
