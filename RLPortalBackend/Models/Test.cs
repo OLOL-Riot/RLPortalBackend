@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.IdGenerators;
 
-namespace GeographyPortal.Models
+namespace RLPortal.Models
 {
     /// <summary>
     /// Test Entity
