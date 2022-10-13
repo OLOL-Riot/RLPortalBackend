@@ -1,11 +1,7 @@
 ﻿using GeographyPortal.Models.Autentification;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using System.Security.Claims;
-using System.Security.Policy;
-using System.Text;
+
 
 namespace GeographyPortal.Services.Impl
 {

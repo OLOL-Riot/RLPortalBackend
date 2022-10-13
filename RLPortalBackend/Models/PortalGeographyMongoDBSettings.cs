@@ -1,5 +1,8 @@
 ﻿namespace GeographyPortal.Models
 {
+    /// <summary>
+    /// MongoDB settings
+    /// </summary>
     public class PortalGeographyMongoDBSettings
     {
         public string ConnectionString { get; set; } = null!;
