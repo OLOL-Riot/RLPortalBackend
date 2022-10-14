@@ -36,8 +36,6 @@ namespace RLPortalBackend.Helpers
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
-            Console.WriteLine(jwt);
-
             return jwt;
         }
         
