@@ -59,8 +59,9 @@ namespace RLPortalBackend.Repositories.Impl
 
             user.FirstName = input.FirstName;
             user.LastName = input.LastName;
+            user.UserName = input.UserName;
 
-            await _userStore.SetUserNameAsync(user, input.Email, CancellationToken.None);
+            await _userStore.SetUserNameAsync(user, input.UserName, CancellationToken.None);
             await _emailStore.SetEmailAsync(user, input.Email, CancellationToken.None);
 
             var result = await _userManager.CreateAsync(user, input.Password);
