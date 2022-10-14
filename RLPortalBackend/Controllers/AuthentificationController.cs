@@ -33,7 +33,13 @@ namespace RLPortalBackend.Controllers
         [HttpPost("login")]
         public async Task<ActionResult> Login(AutentificationRequest autentificationRequest)
         {
-            return BadRequest("User not found");
+            var token = await _auth.LoginAsync(autentificationRequest);
+            if (token != null)
+            {
+                return Ok(token);
+            }
+            return BadRequest("User not Found");
+            
         }
     }
 }

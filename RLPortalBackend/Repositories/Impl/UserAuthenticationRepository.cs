@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
+using RLPortalBackend.Helpers;
 using RLPortalBackend.Models.Autentification;
 
 
@@ -15,8 +17,11 @@ namespace RLPortalBackend.Repositories.Impl
         private readonly ILogger<UserAuthenticationRepository> _logger;
         private readonly IEmailSender _emailSender;
         private readonly IConfiguration _configuration;
+        private readonly IJWTHelper _jwtHelper;
+        
 
         public UserAuthenticationRepository(
+            IJWTHelper jwtHelper,
             IConfiguration configuration,
             UserManager<User> userManager,
             IUserStore<User> userStore,
@@ -24,6 +29,7 @@ namespace RLPortalBackend.Repositories.Impl
             ILogger<UserAuthenticationRepository> logger,
             IEmailSender emailSender)
         {
+            _jwtHelper = jwtHelper;
             _configuration = configuration;
             _userManager = userManager;
             _userStore = userStore;
@@ -33,9 +39,18 @@ namespace RLPortalBackend.Repositories.Impl
             _emailSender = emailSender;
         }
 
-        public Task LoginAsync(AutentificationRequest request)
-        {
-            throw new NotImplementedException();
+        public async Task<string> LoginAsync(AutentificationRequest request)
+        { 
+            var result = await _signInManager.PasswordSignInAsync(request.Login, request.Password, false, lockoutOnFailure: false);
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("succeeded");
+                var user = await _userManager.FindByNameAsync(request.Login);
+                var role = await _userManager.GetRolesAsync(user);
+                string token = _jwtHelper.CreateToken(user, role[0]);
+                return token;
+            }
+            return null;
         }
 
         public async Task RegistrateAsync(UserModel input)

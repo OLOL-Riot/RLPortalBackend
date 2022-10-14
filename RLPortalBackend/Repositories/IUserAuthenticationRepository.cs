@@ -7,6 +7,6 @@ namespace RLPortalBackend.Repositories
     {
         public Task RegistrateAsync(UserModel input);
 
-        public Task LoginAsync(AutentificationRequest request);
+        public Task<string> LoginAsync(AutentificationRequest request);
     }
 }
