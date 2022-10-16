@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RLPortalBackend.Models.Autentification
 {
@@ -21,6 +22,7 @@ namespace RLPortalBackend.Models.Autentification
 
         public string PhoneNumber { get; init; }
 
+        [Required(ErrorMessage = "Confirm password is required")]
         public string ConfirmPassword { get; set; }
     }
 }
