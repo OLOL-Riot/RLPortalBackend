@@ -38,7 +38,7 @@ namespace RLPortalBackend.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(TestDto newTest)
         {
-            await _testService.CreateAsync(newTest);
+            newTest = await _testService.CreateAsync(newTest);
 
             return CreatedAtAction(nameof(Get), new { id = newTest.Id }, newTest);
         }

@@ -16,10 +16,12 @@ namespace RLPortalBackend.Services.Impl
             _mapper = mapper;
         }
 
-        public async Task CreateAsync(TestDto newExercise)
+        public async Task<TestDto> CreateAsync(TestDto newTest)
         {
-            TestEntity newTestEntity = _mapper.Map<TestEntity>(newExercise);
+            TestEntity newTestEntity = _mapper.Map<TestEntity>(newTest);
             await _testRepository.CreateAsync(newTestEntity);
+            newTest.Id = newTestEntity.Id;
+            return newTest;
         }
 
         public async Task<ICollection<TestDto>> GetAsync()
@@ -41,9 +43,9 @@ namespace RLPortalBackend.Services.Impl
             await _testRepository.RemoveAsync(id);
         }
 
-        public async Task UpdateAsync(Guid id, TestDto updatedExercise)
+        public async Task UpdateAsync(Guid id, TestDto updatedTest)
         {
-            TestEntity updatedTestEntity = _mapper.Map<TestEntity>(updatedExercise);
+            TestEntity updatedTestEntity = _mapper.Map<TestEntity>(updatedTest);
             await _testRepository.UpdateAsync(id, updatedTestEntity);
         }
     }
