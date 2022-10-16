@@ -54,7 +54,7 @@ namespace RLPortalBackend.Controllers
 
             updatedTest.Id = test.Id;
 
-            await _testService.UpdateAsync(id, test);
+            await _testService.UpdateAsync(id, updatedTest);
 
             return NoContent();
         }
