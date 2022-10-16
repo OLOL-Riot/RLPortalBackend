@@ -1,4 +1,4 @@
-﻿using RLPortalBackend.Models;
+﻿using RLPortalBackend.Entities;
 using RLPortalBackend.Repositories;
 
 namespace RLPortalBackend.Services.Impl
@@ -12,17 +12,17 @@ namespace RLPortalBackend.Services.Impl
             _testRepository = testRepository;
         }
 
-        public async Task CreateAsync(Test newExercise)
+        public async Task CreateAsync(TestEntity newExercise)
         {
             await _testRepository.CreateAsync(newExercise);
         }
 
-        public async Task<ICollection<Test>> GetAsync()
+        public async Task<ICollection<TestEntity>> GetAsync()
         {
             return await _testRepository.GetAsync();
         }
 
-        public async Task<Test> GetAsync(Guid id)
+        public async Task<TestEntity> GetAsync(Guid id)
         {
             return await GetAsync(id);
         }
@@ -32,7 +32,7 @@ namespace RLPortalBackend.Services.Impl
             await _testRepository.RemoveAsync(id);
         }
 
-        public async Task UpdateAsync(Guid id, Test updatedExercise)
+        public async Task UpdateAsync(Guid id, TestEntity updatedExercise)
         {
             await _testRepository.UpdateAsync(id, updatedExercise);
         }

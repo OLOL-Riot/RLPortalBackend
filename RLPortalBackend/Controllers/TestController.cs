@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RLPortalBackend.Models;
+using RLPortalBackend.Entities;
 using RLPortalBackend.Services;
 
 namespace RLPortalBackend.Controllers
@@ -16,13 +16,13 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpGet]
-        public async Task<ICollection<Test>> Get()
+        public async Task<ICollection<TestEntity>> Get()
         {
             return await _testService.GetAsync();
         }
 
         [HttpGet("{id:length(36)}")]
-        public async Task<ActionResult<Test>> Get(Guid id)
+        public async Task<ActionResult<TestEntity>> Get(Guid id)
         {
             var test = await _testService.GetAsync(id);
 
@@ -35,7 +35,7 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Test newTest)
+        public async Task<IActionResult> Post(TestEntity newTest)
         {
             await _testService.CreateAsync(newTest);
 
@@ -43,7 +43,7 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpPut("{id:length(36)}")]
-        public async Task<IActionResult> Update(Guid id, Test updatedTest)
+        public async Task<IActionResult> Update(Guid id, TestEntity updatedTest)
         {
             var test = await _testService.GetAsync(id);
 
