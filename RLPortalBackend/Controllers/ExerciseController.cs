@@ -38,7 +38,7 @@ namespace RLPortalBackend.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(ExerciseDto newExercise)
         {
-            await _exerciseService.CreateAsync(newExercise);
+            newExercise = await _exerciseService.CreateAsync(newExercise);
 
             return CreatedAtAction(nameof(Get), new { id = newExercise.Id }, newExercise);
         }

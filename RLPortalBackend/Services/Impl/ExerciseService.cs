@@ -16,10 +16,12 @@ namespace RLPortalBackend.Services.Impl
             _mapper = mapper;
         }
 
-        public async Task CreateAsync(ExerciseDto newExercise)
+        public async Task<ExerciseDto> CreateAsync(ExerciseDto newExercise)
         {
             ExerciseEntity newExerciseEntity = _mapper.Map<ExerciseEntity>(newExercise);
             await _exerciseRepository.CreateAsync(newExerciseEntity);
+            newExercise.Id = newExerciseEntity.Id;
+            return newExercise;
         }
 
         public async Task<ICollection<ExerciseDto>> GetAsync()
