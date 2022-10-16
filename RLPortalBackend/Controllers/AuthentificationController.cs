@@ -31,12 +31,13 @@ namespace RLPortalBackend.Controllers
 
         }
 
-        [HttpPost("registration/admin"), Authorize(Roles = "Administrator")]
-        public async Task<ActionResult> RegistrationAdmin(UserModel input)
+
+        [HttpPost("roles"), Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> GiveRole(EmailAndRole emailAndRole)
         {
             try
             {
-                await _auth.RegistrateAdminAsync(input);
+                await _auth.GiveRoleToUserAsync(emailAndRole);
                 return Ok();
             }
             catch (Exception e)
@@ -50,7 +51,7 @@ namespace RLPortalBackend.Controllers
         public async Task<ActionResult> Login(AutentificationRequest autentificationRequest)
         {
             var token = await _auth.LoginAsync(autentificationRequest);
-            if (token != null)
+            if (token.Token != null)
             {
                 return Ok(token);
             }

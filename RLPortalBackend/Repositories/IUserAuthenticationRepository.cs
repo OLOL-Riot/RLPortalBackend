@@ -9,6 +9,6 @@ namespace RLPortalBackend.Repositories
 
         public Task<JWT> LoginAsync(AutentificationRequest request);
 
-        public Task RegistrateAdminAsync(UserModel input);
+        public Task GiveRoleToUserAsync(EmailAndRole email);
     }
 }

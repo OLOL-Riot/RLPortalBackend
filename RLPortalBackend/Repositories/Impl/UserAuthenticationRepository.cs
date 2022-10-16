@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using NuGet.Common;
 using RLPortalBackend.Helpers;
 using RLPortalBackend.Models;
 using RLPortalBackend.Models.Autentification;
@@ -77,26 +75,14 @@ namespace RLPortalBackend.Repositories.Impl
 
         }
 
-        public async Task RegistrateAdminAsync(UserModel input)
+
+        public async Task GiveRoleToUserAsync(EmailAndRole email)
         {
-            var user = CreateUser();
-
-            user.FirstName = input.FirstName;
-            user.LastName = input.LastName;
-            user.UserName = input.Login;
-
-            await _userStore.SetUserNameAsync(user, input.Login, CancellationToken.None);
-            await _emailStore.SetEmailAsync(user, input.Email, CancellationToken.None);
-
-            var result = await _userManager.CreateAsync(user, input.Password);
-
-            if (result.Succeeded)
+            var user = await _userManager.FindByEmailAsync(email.UserEmail);
+            if (user != null)
             {
-                _logger.LogInformation("User created");
-                await _userManager.AddToRoleAsync(user, "Administrator");
-
+                await _userManager.AddToRoleAsync(user, email.Role);
             }
-
         }
 
 
