@@ -19,14 +19,14 @@ namespace RLPortalBackend.Services
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns>one exercise</returns>
-        public Task<ExerciseEntity> GetAsync(Guid id);
+        public Task<ExerciseDto> GetAsync(Guid id);
 
         /// <summary>
         /// Create one exerci9se
         /// </summary>
         /// <param name="newExercise">New exercise</param>
         /// <returns></returns>
-        public Task CreateAsync(ExerciseEntity newExercise);
+        public Task CreateAsync(ExerciseDto newExercise);
 
         /// <summary>
         /// Update one exercise by Id
@@ -34,7 +34,7 @@ namespace RLPortalBackend.Services
         /// <param name="id">Id</param>
         /// <param name="updatedExercise">Updated Exercise</param>
         /// <returns></returns>
-        public Task UpdateAsync(Guid id, ExerciseEntity updatedExercise);
+        public Task UpdateAsync(Guid id, ExerciseDto updatedExercise);
 
         /// <summary>
         /// Remove one exercise

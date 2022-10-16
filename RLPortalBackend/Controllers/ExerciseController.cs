@@ -23,7 +23,7 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpGet("{id:length(36)}")]
-        public async Task<ActionResult<ExerciseEntity>> Get(Guid id)
+        public async Task<ActionResult<ExerciseDto>> Get(Guid id)
         {
             var exercise = await _exerciseService.GetAsync(id);
 
@@ -36,7 +36,7 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(ExerciseEntity newExercise)
+        public async Task<IActionResult> Post(ExerciseDto newExercise)
         {
             await _exerciseService.CreateAsync(newExercise);
 
@@ -45,7 +45,7 @@ namespace RLPortalBackend.Controllers
 
 
         [HttpPut("{id:length(36)}")]
-        public async Task<IActionResult> Update(Guid id, ExerciseEntity updatedExercise)
+        public async Task<IActionResult> Update(Guid id, ExerciseDto updatedExercise)
         {
             var exercise = await _exerciseService.GetAsync(id);
 
@@ -56,7 +56,7 @@ namespace RLPortalBackend.Controllers
 
             updatedExercise.Id = exercise.Id;
 
-            await _exerciseService.UpdateAsync(id, exercise);
+            await _exerciseService.UpdateAsync(id, updatedExercise);
 
             return NoContent();
         }
