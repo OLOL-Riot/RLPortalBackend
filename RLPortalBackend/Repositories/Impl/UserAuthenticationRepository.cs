@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
 using RLPortalBackend.Helpers;
+using RLPortalBackend.Models;
 using RLPortalBackend.Models.Autentification;
 
 
@@ -39,7 +41,7 @@ namespace RLPortalBackend.Repositories.Impl
             _emailSender = emailSender;
         }
 
-        public async Task<string> LoginAsync(AutentificationRequest request)
+        public async Task<JWT> LoginAsync(AutentificationRequest request)
         { 
             var result = await _signInManager.PasswordSignInAsync(request.Login, request.Password, false, lockoutOnFailure: false);
             if (result.Succeeded)
@@ -48,9 +50,9 @@ namespace RLPortalBackend.Repositories.Impl
                 var user = await _userManager.FindByNameAsync(request.Login);
                 var role = await _userManager.GetRolesAsync(user);
                 string token = _jwtHelper.CreateToken(user, role[0]);
-                return token;
+                return new JWT(token);
             }
-            return null;
+            return new JWT(null);
         }
 
         public async Task RegistrateAsync(UserModel input)

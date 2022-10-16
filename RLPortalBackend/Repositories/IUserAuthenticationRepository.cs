@@ -1,5 +1,5 @@
-﻿using RLPortalBackend.Models.Autentification;
-using Microsoft.AspNetCore.Mvc;
+﻿using RLPortalBackend.Models;
+using RLPortalBackend.Models.Autentification;
 
 namespace RLPortalBackend.Repositories
 {
@@ -7,6 +7,6 @@ namespace RLPortalBackend.Repositories
     {
         public Task RegistrateAsync(UserModel input);
 
-        public Task<string> LoginAsync(AutentificationRequest request);
+        public Task<JWT> LoginAsync(AutentificationRequest request);
     }
 }
