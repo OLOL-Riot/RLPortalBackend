@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using RLPortalBackend.Dto;
 using RLPortalBackend.Entities;
-using System;
 
 namespace RLPortalBackend.Mappers
 {
@@ -9,7 +8,11 @@ namespace RLPortalBackend.Mappers
     {
         public AppMappingProfile()
         {
-            CreateMap<ExerciseDto, ExerciseEntity>().ReverseMap();//.IgnoreAllSourcePropertiesWithAnInaccessibleSetter();
+            // ExerciseDto, ExerciseEntity
+            CreateMap<ExerciseDto, ExerciseEntity>().ReverseMap();
+
+            // TestEntity, TestDto
+            CreateMap<TestDto, TestEntity>().ReverseMap();
         }
     }
 }
