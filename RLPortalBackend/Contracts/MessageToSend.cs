@@ -1,12 +1,41 @@
 ﻿namespace RLPortalBackend.Container.Messages
+
 {
-    public record MessageToSend
+    /// <summary>
+    /// Message
+    /// </summary>
+    public class MessageToSend
     {
-        public string EmailAdress { get; init; }
+        /// <summary>
+        /// Message constuctor
+        /// </summary>
+        /// <param name="emailAdress"></param>
+        /// <param name="textOfEmail"></param>
+        /// <param name="article"></param>
+        public MessageToSend(string emailAdress, string article, string textOfEmail)
+        {
+            EmailAdress = emailAdress;
+            Article = article;
+            TextOfEmail = textOfEmail;
+        }
 
-        public string TextOfEmail { get; init; }
+        /// <summary>
+        /// Mail adress
+        /// </summary>
+        public string EmailAdress { get; set; }
 
-        public string Subject { get; init; }
+        /// <summary>
+        /// Article
+        /// </summary>
+        public string Article { get; set; }
+
+        /// <summary>
+        /// Text
+        /// </summary>
+        public string TextOfEmail { get; set; }
+
+
+
 
 
     }
