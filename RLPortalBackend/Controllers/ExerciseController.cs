@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RLPortalBackend.Models;
+using RLPortalBackend.Dto;
+using RLPortalBackend.Entities;
 using RLPortalBackend.Services;
 
 namespace RLPortalBackend.Controllers
@@ -16,13 +17,13 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpGet]
-        public async Task<ICollection<Exercise>> Get()
+        public async Task<ICollection<ExerciseDto>> Get()
         {
             return await _exerciseService.GetAsync();
         }
 
         [HttpGet("{id:length(36)}")]
-        public async Task<ActionResult<Exercise>> Get(Guid id)
+        public async Task<ActionResult<ExerciseEntity>> Get(Guid id)
         {
             var exercise = await _exerciseService.GetAsync(id);
 
@@ -35,7 +36,7 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Exercise newExercise)
+        public async Task<IActionResult> Post(ExerciseEntity newExercise)
         {
             await _exerciseService.CreateAsync(newExercise);
 
@@ -44,7 +45,7 @@ namespace RLPortalBackend.Controllers
 
 
         [HttpPut("{id:length(36)}")]
-        public async Task<IActionResult> Update(Guid id, Exercise updatedExercise)
+        public async Task<IActionResult> Update(Guid id, ExerciseEntity updatedExercise)
         {
             var exercise = await _exerciseService.GetAsync(id);
 
