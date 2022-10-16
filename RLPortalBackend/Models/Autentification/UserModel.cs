@@ -12,7 +12,8 @@ namespace RLPortalBackend.Models.Autentification
 
         public string LastName { get; set; }
 
-        public string UserName { get; set; }
+        [Required(ErrorMessage = "Login is required")]
+        public string Login { get; set; }
 
         [Required(ErrorMessage = "Email is required")]
         public string Email { get; set; }

@@ -16,13 +16,13 @@ namespace RLPortalBackend.Controllers
             _exerciseService = exerciseService;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(Roles = "User")]
         public async Task<ICollection<Exercise>> Get()
         {
             return await _exerciseService.GetAsync();
         }
 
-        [HttpGet("{id:length(36)}")]
+        [HttpGet("{id:length(36)}"), Authorize(Roles = "User")]
         public async Task<ActionResult<Exercise>> Get(Guid id)
         {
             var exercise = await _exerciseService.GetAsync(id);

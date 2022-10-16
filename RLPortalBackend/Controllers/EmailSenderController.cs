@@ -1,9 +1,6 @@
-﻿using RLPortalBackend.Container.Messages;
+﻿using Microsoft.AspNetCore.Mvc;
+using RLPortalBackend.Container.Messages;
 using RLPortalBackend.Services;
-using RLPortalBackend.Services.Impl;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 
 namespace RLPortalBackend.Controllers
 {
@@ -25,7 +22,7 @@ namespace RLPortalBackend.Controllers
         [HttpPost]
         public void SendEmail(MessageToSend data)
         {
-            _emailSenderService.SendEmail(data);   
+            _emailSenderService.SendEmail(data);
         }
 
     }

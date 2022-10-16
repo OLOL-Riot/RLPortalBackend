@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RLPortalBackend.Models.Autentification;
 using RLPortalBackend.Repositories;
 
@@ -30,6 +31,21 @@ namespace RLPortalBackend.Controllers
 
         }
 
+        [HttpPost("registration/admin"), Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> RegistrationAdmin(UserModel input)
+        {
+            try
+            {
+                await _auth.RegistrateAdminAsync(input);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+        }
+
         [HttpPost("login")]
         public async Task<ActionResult> Login(AutentificationRequest autentificationRequest)
         {
@@ -41,5 +57,7 @@ namespace RLPortalBackend.Controllers
             return BadRequest("User not Found");
             
         }
+
+
     }
 }

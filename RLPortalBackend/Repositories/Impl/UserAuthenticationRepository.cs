@@ -61,9 +61,9 @@ namespace RLPortalBackend.Repositories.Impl
 
             user.FirstName = input.FirstName;
             user.LastName = input.LastName;
-            user.UserName = input.UserName;
+            user.UserName = input.Login;
 
-            await _userStore.SetUserNameAsync(user, input.UserName, CancellationToken.None);
+            await _userStore.SetUserNameAsync(user, input.Login, CancellationToken.None);
             await _emailStore.SetEmailAsync(user, input.Email, CancellationToken.None);
 
             var result = await _userManager.CreateAsync(user, input.Password);
@@ -72,6 +72,28 @@ namespace RLPortalBackend.Repositories.Impl
             {
                 _logger.LogInformation("User created");
                 await _userManager.AddToRoleAsync(user, "User");
+
+            }
+
+        }
+
+        public async Task RegistrateAdminAsync(UserModel input)
+        {
+            var user = CreateUser();
+
+            user.FirstName = input.FirstName;
+            user.LastName = input.LastName;
+            user.UserName = input.Login;
+
+            await _userStore.SetUserNameAsync(user, input.Login, CancellationToken.None);
+            await _emailStore.SetEmailAsync(user, input.Email, CancellationToken.None);
+
+            var result = await _userManager.CreateAsync(user, input.Password);
+
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("User created");
+                await _userManager.AddToRoleAsync(user, "Administrator");
 
             }
 
