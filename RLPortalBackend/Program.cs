@@ -9,6 +9,7 @@ using RLPortalBackend.Repositories.Impl;
 using RLPortalBackend.Services;
 using RLPortalBackend.Services.Impl;
 using MassTransit;
+using RLPortalBackend.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 //Postgres
@@ -40,6 +41,7 @@ builder.Services.AddScoped<ITestService, TestService>();
 builder.Services.AddScoped<IUserAuthenticationRepository, UserAuthenticationRepository>();
 builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
 builder.Services.AddCors();
+builder.Services.AddAutoMapper(typeof(AppMappingProfile));
 
 initRabbitMQ();
 
