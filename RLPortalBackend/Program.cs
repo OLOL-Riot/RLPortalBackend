@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Swashbuckle.AspNetCore.Filters;
+using RLPortalBackend.Helpers.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
 //Postgres

@@ -3,7 +3,7 @@ using RLPortalBackend.Models.Autentification;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace RLPortalBackend.Helpers
+namespace RLPortalBackend.Helpers.Impl
 {
     public class JWTHelper : IJWTHelper
     {
@@ -38,6 +38,6 @@ namespace RLPortalBackend.Helpers
 
             return jwt;
         }
-        
+
     }
 }

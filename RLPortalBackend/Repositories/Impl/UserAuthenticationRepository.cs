@@ -39,12 +39,17 @@ namespace RLPortalBackend.Repositories.Impl
             _emailSender = emailSender;
         }
 
+        /// <summary>
+        /// Async login in account
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>JWT</returns>
         public async Task<JWT> LoginAsync(AutentificationRequest request)
         { 
             var result = await _signInManager.PasswordSignInAsync(request.Login, request.Password, false, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                _logger.LogInformation("succeeded");
+                _logger.LogInformation("User login in account: {0}", request.Login);
                 var user = await _userManager.FindByNameAsync(request.Login);
                 var role = await _userManager.GetRolesAsync(user);
                 string token = _jwtHelper.CreateToken(user, role[0]);
@@ -53,6 +58,11 @@ namespace RLPortalBackend.Repositories.Impl
             return new JWT(null);
         }
 
+        /// <summary>
+        /// Async registration
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task RegistrateAsync(UserModel input)
         {
             var user = CreateUser();
@@ -75,17 +85,27 @@ namespace RLPortalBackend.Repositories.Impl
 
         }
 
-
+        /// <summary>
+        /// Async give role to user
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public async Task GiveRoleToUserAsync(EmailAndRole email)
         {
             var user = await _userManager.FindByEmailAsync(email.UserEmail);
             if (user != null)
             {
                 await _userManager.AddToRoleAsync(user, email.Role);
+                if (email.Role.Equals("Administrator")) await _userManager.RemoveFromRoleAsync(user, "User");
+                if (email.Role.Equals("User")) await _userManager.RemoveFromRoleAsync(user, "Administrator");
             }
         }
 
-
+        /// <summary>
+        /// Create instance of User
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         private User CreateUser()
         {
             try
