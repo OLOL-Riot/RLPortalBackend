@@ -22,7 +22,7 @@ namespace RLPortalBackend.Controllers
             try
             {
                 await _auth.RegistrateAsync(input);
-                return Ok();
+                return Created("user", input);
             }
             catch (Exception e)
             {
