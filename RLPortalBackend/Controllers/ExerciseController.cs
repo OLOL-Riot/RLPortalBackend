@@ -16,13 +16,13 @@ namespace RLPortalBackend.Controllers
             _exerciseService = exerciseService;
         }
 
-        [HttpGet, Authorize(Roles = "User")]
+        [HttpGet, Authorize(Roles = "User, Administrator")]
         public async Task<ICollection<Exercise>> Get()
         {
             return await _exerciseService.GetAsync();
         }
 
-        [HttpGet("{id:length(36)}"), Authorize(Roles = "User")]
+        [HttpGet("{id:length(36)}"), Authorize(Roles = "User, Administrator")]
         public async Task<ActionResult<Exercise>> Get(Guid id)
         {
             var exercise = await _exerciseService.GetAsync(id);
@@ -35,7 +35,7 @@ namespace RLPortalBackend.Controllers
             return exercise;
         }
 
-        [HttpPost, Authorize(Roles = "Administrator")]
+        [HttpPost, Authorize(Roles = "Administrator, User")]
 
         public async Task<IActionResult> Post(Exercise newExercise)
         {
@@ -45,7 +45,7 @@ namespace RLPortalBackend.Controllers
         }
 
 
-        [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
+        [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator, User")]
         public async Task<IActionResult> Update(Guid id, Exercise updatedExercise)
         {
             var exercise = await _exerciseService.GetAsync(id);
@@ -62,7 +62,7 @@ namespace RLPortalBackend.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id:length(36)}"), Authorize(Roles = "Administrator")]
+        [HttpDelete("{id:length(36)}"), Authorize(Roles = "Administrator, User")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var exercise = await _exerciseService.GetAsync(id);
