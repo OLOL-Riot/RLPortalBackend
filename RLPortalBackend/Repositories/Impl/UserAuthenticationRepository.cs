@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using RLPortalBackend.Helpers;
+using RLPortalBackend.Models;
 using RLPortalBackend.Models.Autentification;
 
 
@@ -15,8 +17,11 @@ namespace RLPortalBackend.Repositories.Impl
         private readonly ILogger<UserAuthenticationRepository> _logger;
         private readonly IEmailSender _emailSender;
         private readonly IConfiguration _configuration;
+        private readonly IJWTHelper _jwtHelper;
+        
 
         public UserAuthenticationRepository(
+            IJWTHelper jwtHelper,
             IConfiguration configuration,
             UserManager<User> userManager,
             IUserStore<User> userStore,
@@ -24,6 +29,7 @@ namespace RLPortalBackend.Repositories.Impl
             ILogger<UserAuthenticationRepository> logger,
             IEmailSender emailSender)
         {
+            _jwtHelper = jwtHelper;
             _configuration = configuration;
             _userManager = userManager;
             _userStore = userStore;
@@ -33,15 +39,39 @@ namespace RLPortalBackend.Repositories.Impl
             _emailSender = emailSender;
         }
 
+        /// <summary>
+        /// Async login in account
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>JWT</returns>
+        public async Task<JWT> LoginAsync(AutentificationRequest request)
+        { 
+            var result = await _signInManager.PasswordSignInAsync(request.Login, request.Password, false, lockoutOnFailure: false);
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("User login in account: {0}", request.Login);
+                var user = await _userManager.FindByNameAsync(request.Login);
+                var role = await _userManager.GetRolesAsync(user);
+                string token = _jwtHelper.CreateToken(user, role[0]);
+                return new JWT(token);
+            }
+            return new JWT(null);
+        }
 
+        /// <summary>
+        /// Async registration
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task RegistrateAsync(UserModel input)
         {
             var user = CreateUser();
 
             user.FirstName = input.FirstName;
             user.LastName = input.LastName;
+            user.UserName = input.Login;
 
-            await _userStore.SetUserNameAsync(user, input.Email, CancellationToken.None);
+            await _userStore.SetUserNameAsync(user, input.Login, CancellationToken.None);
             await _emailStore.SetEmailAsync(user, input.Email, CancellationToken.None);
 
             var result = await _userManager.CreateAsync(user, input.Password);
@@ -55,7 +85,27 @@ namespace RLPortalBackend.Repositories.Impl
 
         }
 
+        /// <summary>
+        /// Async give role to user
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public async Task GiveRoleToUserAsync(EmailAndRole email)
+        {
+            var user = await _userManager.FindByEmailAsync(email.UserEmail);
+            if (user != null)
+            {
+                await _userManager.AddToRoleAsync(user, email.Role);
+                if (email.Role.Equals("Administrator")) await _userManager.RemoveFromRoleAsync(user, "User");
+                if (email.Role.Equals("User")) await _userManager.RemoveFromRoleAsync(user, "Administrator");
+            }
+        }
 
+        /// <summary>
+        /// Create instance of User
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         private User CreateUser()
         {
             try

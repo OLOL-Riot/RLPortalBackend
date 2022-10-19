@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RLPortalBackend.Models.Autentification;
 using RLPortalBackend.Repositories;
 
@@ -21,6 +22,22 @@ namespace RLPortalBackend.Controllers
             try
             {
                 await _auth.RegistrateAsync(input);
+                return Created("user", input);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+        }
+
+
+        [HttpPost("roles"), Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> GiveRole(EmailAndRole emailAndRole)
+        {
+            try
+            {
+                await _auth.GiveRoleToUserAsync(emailAndRole);
                 return Ok();
             }
             catch (Exception e)
@@ -33,7 +50,15 @@ namespace RLPortalBackend.Controllers
         [HttpPost("login")]
         public async Task<ActionResult> Login(AutentificationRequest autentificationRequest)
         {
-            return BadRequest("User not found");
+            var token = await _auth.LoginAsync(autentificationRequest);
+            if (token.Token != null)
+            {
+                return Ok(token);
+            }
+            return BadRequest("User not Found");
+            
         }
+
+
     }
 }

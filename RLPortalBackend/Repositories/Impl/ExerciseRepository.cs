@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using RLPortalBackend.Entities;
 using RLPortalBackend.Models;

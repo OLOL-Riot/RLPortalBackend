@@ -1,8 +1,7 @@
-﻿using RLPortalBackend.Container.Messages;
-using RLPortalBackend.Services;
-using RLPortalBackend.Services.Impl;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RLPortalBackend.Container.Messages;
+using RLPortalBackend.Services;
 
 namespace RLPortalBackend.Controllers
 {
@@ -17,14 +16,14 @@ namespace RLPortalBackend.Controllers
             _emailSenderService = emailSenderService;
         }
 
-       /// <summary>
-       /// Sendig email
-       /// </summary>
-       /// <param name="data"></param>
-        [HttpPost]
+        /// <summary>
+        /// Sendig email
+        /// </summary>
+        /// <param name="data"></param>
+        [HttpPost, Authorize(Roles = "Administrator")]
         public void SendEmail(MessageToSend data)
         {
-            _emailSenderService.SendEmail(data);   
+            _emailSenderService.SendEmail(data);
         }
 
     }
