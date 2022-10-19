@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿ using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RLPortalBackend.Models;
 using RLPortalBackend.Services;
+using System.Data;
 
 namespace RLPortalBackend.Controllers
 {
@@ -15,13 +17,13 @@ namespace RLPortalBackend.Controllers
             _testService = testService;
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(Roles = "User, Administrator")]
         public async Task<ICollection<Test>> Get()
         {
             return await _testService.GetAsync();
         }
 
-        [HttpGet("{id:length(36)}")]
+        [HttpGet("{id:length(36)}"), Authorize(Roles = "User, Administrator")]
         public async Task<ActionResult<Test>> Get(Guid id)
         {
             var test = await _testService.GetAsync(id);
@@ -34,7 +36,7 @@ namespace RLPortalBackend.Controllers
             return test;
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Post(Test newTest)
         {
             await _testService.CreateAsync(newTest);
@@ -42,7 +44,7 @@ namespace RLPortalBackend.Controllers
             return CreatedAtAction(nameof(Get), new { id = newTest.Id }, newTest);
         }
 
-        [HttpPut("{id:length(36)}")]
+        [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Update(Guid id, Test updatedTest)
         {
             var test = await _testService.GetAsync(id);
@@ -59,7 +61,7 @@ namespace RLPortalBackend.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id:length(36)}")]
+        [HttpDelete("{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var test = await _testService.GetAsync(id);

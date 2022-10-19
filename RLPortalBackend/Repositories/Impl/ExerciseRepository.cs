@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using RLPortalBackend.Models;
 namespace RLPortalBackend.Repositories.Impl
@@ -28,7 +29,7 @@ namespace RLPortalBackend.Repositories.Impl
         {
             return await _exerciseCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
         }
-
+     
         public async Task CreateAsync(Exercise newExercise)
         {
             await _exerciseCollection.InsertOneAsync(newExercise);

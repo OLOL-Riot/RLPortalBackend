@@ -1,18 +1,18 @@
 ﻿namespace RLPortalBackend.Models.Autentification
 {
     /// <summary>
-    /// Auth data
+    /// Mail and role
     /// </summary>
-    public class AutentificationRequest
+    public class EmailAndRole
     {
         /// <summary>
-        /// Login
+        /// Email
         /// </summary>
-        public string Login { get; set; }
+        public string UserEmail { get; set; }
 
         /// <summary>
-        /// Password
+        /// Role
         /// </summary>
-        public string Password { get; set; }
+        public string Role { get; set; }
     }
 }
