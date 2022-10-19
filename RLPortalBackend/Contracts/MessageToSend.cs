@@ -11,11 +11,11 @@
         /// </summary>
         /// <param name="emailAdress"></param>
         /// <param name="textOfEmail"></param>
-        /// <param name="article"></param>
-        public MessageToSend(string emailAdress, string article, string textOfEmail)
+        /// <param name="topic"></param>
+        public MessageToSend(string emailAdress, string topic, string textOfEmail)
         {
             EmailAdress = emailAdress;
-            Article = article;
+            Topic = topic;
             TextOfEmail = textOfEmail;
         }
 
@@ -25,9 +25,9 @@
         public string EmailAdress { get; set; }
 
         /// <summary>
-        /// Article
+        /// Topic
         /// </summary>
-        public string Article { get; set; }
+        public string Topic { get; set; }
 
         /// <summary>
         /// Text
