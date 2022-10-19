@@ -36,7 +36,7 @@ namespace RLPortalBackend.Controllers
             return test;
         }
 
-        [HttpPost, Authorize(Roles = "Administrator, User")]
+        [HttpPost, Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Post(Test newTest)
         {
             await _testService.CreateAsync(newTest);
@@ -44,7 +44,7 @@ namespace RLPortalBackend.Controllers
             return CreatedAtAction(nameof(Get), new { id = newTest.Id }, newTest);
         }
 
-        [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator, User")]
+        [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Update(Guid id, Test updatedTest)
         {
             var test = await _testService.GetAsync(id);
@@ -61,7 +61,7 @@ namespace RLPortalBackend.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id:length(36)}"), Authorize(Roles = "Administrator, User")]
+        [HttpDelete("{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var test = await _testService.GetAsync(id);

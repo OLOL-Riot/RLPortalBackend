@@ -20,7 +20,7 @@ namespace RLPortalBackend.Controllers
         /// Sendig email
         /// </summary>
         /// <param name="data"></param>
-        [HttpPost, Authorize(Roles = "User, Administrator")]
+        [HttpPost, Authorize(Roles = "Administrator")]
         public void SendEmail(MessageToSend data)
         {
             _emailSenderService.SendEmail(data);
