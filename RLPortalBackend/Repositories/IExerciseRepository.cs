@@ -1,4 +1,4 @@
-﻿using RLPortalBackend.Models;
+﻿using RLPortalBackend.Entities;
 
 namespace RLPortalBackend.Repositories
 {
@@ -11,14 +11,14 @@ namespace RLPortalBackend.Repositories
         /// Get all exercises
         /// </summary>
         /// <returns>Collection of exercises</returns>
-        public Task<ICollection<Exercise>> GetAsync();
+        public Task<ICollection<ExerciseEntity>> GetAsync();
 
         /// <summary>
         /// Get one exercise by Id
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns>One exercise</returns>
-        public Task<Exercise> GetAsync(Guid id);
+        public Task<ExerciseEntity> GetAsync(Guid id);
 
         /// <summary>
         /// Create one Exercise
@@ -26,7 +26,7 @@ namespace RLPortalBackend.Repositories
         /// <param name="newExercise">New Exercise</param>
         /// <returns>
         /// </returns>
-        public Task CreateAsync(Exercise newExercise);
+        public Task CreateAsync(ExerciseEntity newExercise);
 
         /// <summary>
         /// Update one Exercise by Id
@@ -34,7 +34,7 @@ namespace RLPortalBackend.Repositories
         /// <param name="id">Id</param>
         /// <param name="updatedExercise">Updated Exercise</param>
         /// <returns></returns>
-        public Task UpdateAsync(Guid id, Exercise updatedExercise);
+        public Task UpdateAsync(Guid id, ExerciseEntity updatedExercise);
 
         /// <summary>
         /// Remove one exercise by Id

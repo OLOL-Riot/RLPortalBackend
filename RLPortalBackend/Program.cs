@@ -9,6 +9,7 @@ using RLPortalBackend.Repositories.Impl;
 using RLPortalBackend.Services;
 using RLPortalBackend.Services.Impl;
 using MassTransit;
+using RLPortalBackend.Mappers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -72,6 +73,7 @@ builder.Services.AddAuthentication(x =>
     });
 
 builder.Services.AddCors();
+builder.Services.AddAutoMapper(typeof(AppMappingProfile));
 
 initRabbitMQ();
 

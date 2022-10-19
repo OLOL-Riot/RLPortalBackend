@@ -1,6 +1,7 @@
-﻿ using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using RLPortalBackend.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using RLPortalBackend.Dto;
+using RLPortalBackend.Entities;
 using RLPortalBackend.Services;
 using System.Data;
 
@@ -18,13 +19,13 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpGet, Authorize(Roles = "User, Administrator")]
-        public async Task<ICollection<Test>> Get()
+        public async Task<ICollection<TestDto>> Get()
         {
             return await _testService.GetAsync();
         }
 
         [HttpGet("{id:length(36)}"), Authorize(Roles = "User, Administrator")]
-        public async Task<ActionResult<Test>> Get(Guid id)
+        public async Task<ActionResult<TestDto>> Get(Guid id)
         {
             var test = await _testService.GetAsync(id);
 
@@ -37,15 +38,15 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpPost, Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Post(Test newTest)
+        public async Task<IActionResult> Post(TestDto newTest)
         {
-            await _testService.CreateAsync(newTest);
+            newTest = await _testService.CreateAsync(newTest);
 
             return CreatedAtAction(nameof(Get), new { id = newTest.Id }, newTest);
         }
 
         [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Update(Guid id, Test updatedTest)
+        public async Task<IActionResult> Update(Guid id, TestDto updatedTest)
         {
             var test = await _testService.GetAsync(id);
 
@@ -56,7 +57,7 @@ namespace RLPortalBackend.Controllers
 
             updatedTest.Id = test.Id;
 
-            await _testService.UpdateAsync(id, test);
+            await _testService.UpdateAsync(id, updatedTest);
 
             return NoContent();
         }

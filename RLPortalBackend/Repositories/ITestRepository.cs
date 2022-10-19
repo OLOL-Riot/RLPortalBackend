@@ -1,4 +1,4 @@
-﻿using RLPortalBackend.Models;
+﻿using RLPortalBackend.Entities;
 
 namespace RLPortalBackend.Repositories
 {
@@ -11,21 +11,21 @@ namespace RLPortalBackend.Repositories
         /// Get all of tests
         /// </summary>
         /// <returns>Collection of tests</returns>
-        public Task<ICollection<Test>> GetAsync();
+        public Task<ICollection<TestEntity>> GetAsync();
 
         /// <summary>
         /// Get one test by Id
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns>One test</returns>
-        public Task<Test> GetAsync(Guid id);
+        public Task<TestEntity> GetAsync(Guid id);
 
         /// <summary>
         /// Create one test
         /// </summary>
         /// <param name="newTest">New test</param>
         /// <returns></returns>
-        public Task CreateAsync(Test newTest);
+        public Task CreateAsync(TestEntity newTest);
 
         /// <summary>
         /// Update one test by id
@@ -33,7 +33,7 @@ namespace RLPortalBackend.Repositories
         /// <param name="id">Id</param>
         /// <param name="updatedTest">Updated test</param>
         /// <returns></returns>
-        public Task UpdateAsync(Guid id, Test updatedTest);
+        public Task UpdateAsync(Guid id, TestEntity updatedTest);
 
         /// <summary>
         /// Remove one test by id

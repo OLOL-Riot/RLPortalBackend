@@ -1,4 +1,6 @@
-﻿using RLPortalBackend.Models;
+﻿using AutoMapper;
+using RLPortalBackend.Dto;
+using RLPortalBackend.Entities;
 using RLPortalBackend.Repositories;
 
 namespace RLPortalBackend.Services.Impl
@@ -6,25 +8,34 @@ namespace RLPortalBackend.Services.Impl
     public class TestService : ITestService
     {
         private readonly ITestRepository _testRepository;
+        private readonly IMapper _mapper;
 
-        public TestService(ITestRepository testRepository)
+        public TestService(ITestRepository testRepository, IMapper mapper)
         {
             _testRepository = testRepository;
+            _mapper = mapper;
         }
 
-        public async Task CreateAsync(Test newExercise)
+        public async Task<TestDto> CreateAsync(TestDto newTest)
         {
-            await _testRepository.CreateAsync(newExercise);
+            TestEntity newTestEntity = _mapper.Map<TestEntity>(newTest);
+            await _testRepository.CreateAsync(newTestEntity);
+            newTest.Id = newTestEntity.Id;
+            return newTest;
         }
 
-        public async Task<ICollection<Test>> GetAsync()
+        public async Task<ICollection<TestDto>> GetAsync()
         {
-            return await _testRepository.GetAsync();
+            ICollection<TestEntity> testEntities = await _testRepository.GetAsync();
+            ICollection<TestDto> testDtos = _mapper.Map<ICollection<TestEntity>, ICollection<TestDto>>(testEntities);
+            return testDtos;
         }
 
-        public async Task<Test> GetAsync(Guid id)
+        public async Task<TestDto> GetAsync(Guid id)
         {
-            return await GetAsync(id);
+            TestEntity testEntity = await _testRepository.GetAsync(id);
+            TestDto testDto = _mapper.Map<TestDto>(testEntity);
+            return testDto;
         }
 
         public async Task RemoveAsync(Guid id)
@@ -32,9 +43,10 @@ namespace RLPortalBackend.Services.Impl
             await _testRepository.RemoveAsync(id);
         }
 
-        public async Task UpdateAsync(Guid id, Test updatedExercise)
+        public async Task UpdateAsync(Guid id, TestDto updatedTest)
         {
-            await _testRepository.UpdateAsync(id, updatedExercise);
+            TestEntity updatedTestEntity = _mapper.Map<TestEntity>(updatedTest);
+            await _testRepository.UpdateAsync(id, updatedTestEntity);
         }
     }
 }

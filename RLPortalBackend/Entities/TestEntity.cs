@@ -1,18 +1,17 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.IdGenerators;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RLPortalBackend.Models
+namespace RLPortalBackend.Entities
 {
     /// <summary>
     /// Test Entity
     /// </summary>
-    public class Test
+    public class TestEntity
     {
         [BsonId(IdGenerator = typeof(GuidGenerator))]
         public Guid Id { get; set; }
 
-        public Guid UserId { get; set; }
-
-        public IEnumerable<Exercise> Exercises { get; set; }
+        public IEnumerable<Guid> ExerciseIds { get; set; }
     }
 }

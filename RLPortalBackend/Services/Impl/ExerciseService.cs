@@ -1,31 +1,41 @@
-﻿using RLPortalBackend.Models;
+﻿using AutoMapper;
+using RLPortalBackend.Dto;
+using RLPortalBackend.Entities;
 using RLPortalBackend.Repositories;
-using MongoDB.Driver;
 
 namespace RLPortalBackend.Services.Impl
 {
     public class ExerciseService : IExerciseService
     {
         private readonly IExerciseRepository _exerciseRepository;
+        private readonly IMapper _mapper;
 
-        public ExerciseService(IExerciseRepository exerciseRepository)
+        public ExerciseService(IExerciseRepository exerciseRepository, IMapper mapper)
         {
             _exerciseRepository = exerciseRepository;
+            _mapper = mapper;
         }
 
-        public async Task CreateAsync(Exercise newExercise)
+        public async Task<ExerciseDto> CreateAsync(ExerciseDto newExercise)
         {
-            await _exerciseRepository.CreateAsync(newExercise);
+            ExerciseEntity newExerciseEntity = _mapper.Map<ExerciseEntity>(newExercise);
+            await _exerciseRepository.CreateAsync(newExerciseEntity);
+            newExercise.Id = newExerciseEntity.Id;
+            return newExercise;
         }
 
-        public async Task<ICollection<Exercise>> GetAsync()
+        public async Task<ICollection<ExerciseDto>> GetAsync()
         {
-           return await _exerciseRepository.GetAsync();
+            ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync();
+            ICollection<ExerciseDto> exerciseDtos = _mapper.Map<ICollection<ExerciseEntity>, ICollection<ExerciseDto>>(exerciseEntities);
+            return exerciseDtos;
         }
 
-        public async Task<Exercise> GetAsync(Guid id)
+        public async Task<ExerciseDto> GetAsync(Guid id)
         {
-            return await _exerciseRepository.GetAsync(id);
+            ExerciseEntity exerciseEntity = await _exerciseRepository.GetAsync(id);
+            ExerciseDto exerciseDto = _mapper.Map<ExerciseDto>(exerciseEntity);
+            return exerciseDto;
         }
 
         public async Task RemoveAsync(Guid id)
@@ -33,9 +43,10 @@ namespace RLPortalBackend.Services.Impl
             await _exerciseRepository.RemoveAsync(id);
         }
 
-        public async Task UpdateAsync(Guid id, Exercise updatedExercise)
+        public async Task UpdateAsync(Guid id, ExerciseDto updatedExercise)
         {
-            await _exerciseRepository.UpdateAsync(id, updatedExercise);
+            ExerciseEntity updatedExerciseEntity = _mapper.Map<ExerciseEntity>(updatedExercise);
+            await _exerciseRepository.UpdateAsync(id, updatedExerciseEntity);
         }
     }
 }

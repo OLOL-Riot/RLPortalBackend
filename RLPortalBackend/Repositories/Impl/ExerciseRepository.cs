@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using RLPortalBackend.Entities;
 using RLPortalBackend.Models;
 namespace RLPortalBackend.Repositories.Impl
 {
     public class ExerciseRepository : IExerciseRepository
     {
-        private readonly IMongoCollection<Exercise> _exerciseCollection;
+        private readonly IMongoCollection<ExerciseEntity> _exerciseCollection;
 
         public ExerciseRepository(IOptions<PortalGeographyMongoDBSettings> portalGeographyMongoDBSettings)
         {
@@ -16,26 +17,26 @@ namespace RLPortalBackend.Repositories.Impl
             var mongoDatabase = mongoClient.GetDatabase(
                 portalGeographyMongoDBSettings.Value.DatabaseName);
 
-            _exerciseCollection = mongoDatabase.GetCollection<Exercise>(
+            _exerciseCollection = mongoDatabase.GetCollection<ExerciseEntity>(
                 portalGeographyMongoDBSettings.Value.ExerciseCollectionName);
         }
 
-        public async Task<ICollection<Exercise>> GetAsync()
+        public async Task<ICollection<ExerciseEntity>> GetAsync()
         {
             return await _exerciseCollection.Find(_ => true).ToListAsync();
         }
 
-        public async Task<Exercise> GetAsync(Guid id)
+        public async Task<ExerciseEntity> GetAsync(Guid id)
         {
             return await _exerciseCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
         }
-     
-        public async Task CreateAsync(Exercise newExercise)
+
+        public async Task CreateAsync(ExerciseEntity newExercise)
         {
             await _exerciseCollection.InsertOneAsync(newExercise);
         }
 
-        public async Task UpdateAsync(Guid id, Exercise updatedExercise)
+        public async Task UpdateAsync(Guid id, ExerciseEntity updatedExercise)
         {
             await _exerciseCollection.ReplaceOneAsync(x => x.Id == id, updatedExercise);
         }
