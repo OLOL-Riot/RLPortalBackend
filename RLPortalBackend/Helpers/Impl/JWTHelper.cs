@@ -20,7 +20,8 @@ namespace RLPortalBackend.Helpers.Impl
             {
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, role)
+                new Claim(ClaimTypes.Role, role),
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
 
 
             };
