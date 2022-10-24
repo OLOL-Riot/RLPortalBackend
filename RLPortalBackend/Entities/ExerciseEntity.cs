@@ -15,7 +15,7 @@ namespace RLPortalBackend.Entities
 
         public ICollection<string> Answers { get; set; }
 
-        public int RightAnswer { get; set; }
+        public string RightAnswer { get; set; }
 
     }
 }
