@@ -16,12 +16,12 @@ namespace RLPortalBackend.Services.Impl
             _mapper = mapper;
         }
 
-        public async Task<Exercise> CreateAsync(Exercise newExercise)
+        public async Task<Exercise> CreateAsync(NewExercise newExercise)
         {
             ExerciseEntity newExerciseEntity = _mapper.Map<ExerciseEntity>(newExercise);
             await _exerciseRepository.CreateAsync(newExerciseEntity);
-            newExercise.Id = newExerciseEntity.Id;
-            return newExercise;
+            Exercise createdExercise = _mapper.Map<Exercise>(newExerciseEntity);
+            return createdExercise;
         }
 
         public async Task<ICollection<Exercise>> GetAsync()
@@ -43,9 +43,10 @@ namespace RLPortalBackend.Services.Impl
             await _exerciseRepository.RemoveAsync(id);
         }
 
-        public async Task UpdateAsync(Guid id, Exercise updatedExercise)
+        public async Task UpdateAsync(Guid id, NewExercise updatedExercise)
         {
             ExerciseEntity updatedExerciseEntity = _mapper.Map<ExerciseEntity>(updatedExercise);
+            updatedExerciseEntity.Id = id;
             await _exerciseRepository.UpdateAsync(id, updatedExerciseEntity);
         }
     }

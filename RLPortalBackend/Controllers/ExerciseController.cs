@@ -37,16 +37,16 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpPost, Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Post(Exercise newExercise)
+        public async Task<IActionResult> Post(NewExercise newExercise)
         {
-            newExercise = await _exerciseService.CreateAsync(newExercise);
+            Exercise createdExercise = await _exerciseService.CreateAsync(newExercise);
 
-            return CreatedAtAction(nameof(Get), new { id = newExercise.Id }, newExercise);
+            return CreatedAtAction(nameof(Get), new { id = createdExercise.Id }, createdExercise);
         }
 
 
         [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Update(Guid id, Exercise updatedExercise)
+        public async Task<IActionResult> Update(Guid id, NewExercise updatedExercise)
         {
             var exercise = await _exerciseService.GetAsync(id);
 
@@ -54,8 +54,6 @@ namespace RLPortalBackend.Controllers
             {
                 return NotFound();
             }
-
-            updatedExercise.Id = exercise.Id;
 
             await _exerciseService.UpdateAsync(id, updatedExercise);
 
