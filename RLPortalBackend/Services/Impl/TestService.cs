@@ -16,12 +16,12 @@ namespace RLPortalBackend.Services.Impl
             _mapper = mapper;
         }
 
-        public async Task<Test> CreateAsync(Test newTest)
+        public async Task<Test> CreateAsync(NewTest newTest)
         {
             TestEntity newTestEntity = _mapper.Map<TestEntity>(newTest);
             await _testRepository.CreateAsync(newTestEntity);
-            newTest.Id = newTestEntity.Id;
-            return newTest;
+            Test createdTest = _mapper.Map<Test>(newTestEntity);
+            return createdTest;
         }
 
         public async Task<ICollection<Test>> GetAsync()
@@ -43,9 +43,10 @@ namespace RLPortalBackend.Services.Impl
             await _testRepository.RemoveAsync(id);
         }
 
-        public async Task UpdateAsync(Guid id, Test updatedTest)
+        public async Task UpdateAsync(Guid id, NewTest updatedTest)
         {
             TestEntity updatedTestEntity = _mapper.Map<TestEntity>(updatedTest);
+            updatedTestEntity.Id = id;
             await _testRepository.UpdateAsync(id, updatedTestEntity);
         }
     }

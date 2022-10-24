@@ -38,15 +38,15 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpPost, Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Post(Test newTest)
+        public async Task<IActionResult> Post(NewTest newTest)
         {
-            newTest = await _testService.CreateAsync(newTest);
+            Test createdTest = await _testService.CreateAsync(newTest);
 
-            return CreatedAtAction(nameof(Get), new { id = newTest.Id }, newTest);
+            return CreatedAtAction(nameof(Get), new { id = createdTest.Id }, createdTest);
         }
 
         [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Update(Guid id, Test updatedTest)
+        public async Task<IActionResult> Update(Guid id, NewTest updatedTest)
         {
             var test = await _testService.GetAsync(id);
 
@@ -54,8 +54,6 @@ namespace RLPortalBackend.Controllers
             {
                 return NotFound();
             }
-
-            updatedTest.Id = test.Id;
 
             await _testService.UpdateAsync(id, updatedTest);
 
