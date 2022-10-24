@@ -7,7 +7,5 @@
         public string Description { get; set; }
 
         public ICollection<string> Answers { get; set; }
-
-        public int RightAnswer { get; set; }
     }
 }
