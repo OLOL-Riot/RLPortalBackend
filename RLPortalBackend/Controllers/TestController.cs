@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using RLPortalBackend.Dto;
 using RLPortalBackend.Entities;
 using RLPortalBackend.Services;
 using System.Data;
+using RLPortalBackend.Models.Test;
 
 namespace RLPortalBackend.Controllers
 {
@@ -19,13 +19,13 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpGet, Authorize(Roles = "User, Administrator")]
-        public async Task<ICollection<TestDto>> Get()
+        public async Task<ICollection<Test>> Get()
         {
             return await _testService.GetAsync();
         }
 
         [HttpGet("{id:length(36)}"), Authorize(Roles = "User, Administrator")]
-        public async Task<ActionResult<TestDto>> Get(Guid id)
+        public async Task<ActionResult<Test>> Get(Guid id)
         {
             var test = await _testService.GetAsync(id);
 
@@ -38,7 +38,7 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpPost, Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Post(TestDto newTest)
+        public async Task<IActionResult> Post(Test newTest)
         {
             newTest = await _testService.CreateAsync(newTest);
 
@@ -46,7 +46,7 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Update(Guid id, TestDto updatedTest)
+        public async Task<IActionResult> Update(Guid id, Test updatedTest)
         {
             var test = await _testService.GetAsync(id);
 

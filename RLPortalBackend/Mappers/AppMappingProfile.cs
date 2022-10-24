@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using RLPortalBackend.Dto;
 using RLPortalBackend.Entities;
+using RLPortalBackend.Models.Exercise;
+using RLPortalBackend.Models.Test;
 
 namespace RLPortalBackend.Mappers
 {
@@ -9,10 +10,10 @@ namespace RLPortalBackend.Mappers
         public AppMappingProfile()
         {
             // ExerciseDto, ExerciseEntity
-            CreateMap<ExerciseDto, ExerciseEntity>().ReverseMap();
+            CreateMap<Exercise, ExerciseEntity>().ReverseMap();
 
             // TestEntity, TestDto
-            CreateMap<TestDto, TestEntity>().ReverseMap();
+            CreateMap<Test, TestEntity>().ReverseMap();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using RLPortalBackend.Dto;
 using RLPortalBackend.Entities;
+using RLPortalBackend.Models.Test;
 
 namespace RLPortalBackend.Services
 {
@@ -14,21 +14,21 @@ namespace RLPortalBackend.Services
         /// Get all tests
         /// </summary>
         /// <returns>Collection of tests</returns>
-        public Task<ICollection<TestDto>> GetAsync();
+        public Task<ICollection<Test>> GetAsync();
 
         /// <summary>
         /// Get one test by Id
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns>One test</returns>
-        public Task<TestDto> GetAsync(Guid id);
+        public Task<Test> GetAsync(Guid id);
 
         /// <summary>
         /// Create one exercise
         /// </summary>
         /// <param name="newTest">New exercise</param>
         /// <returns></returns>
-        public Task<TestDto> CreateAsync(TestDto newTest);
+        public Task<Test> CreateAsync(Test newTest);
 
         /// <summary>
         /// Update one test by Id
@@ -36,7 +36,7 @@ namespace RLPortalBackend.Services
         /// <param name="id">Id</param>
         /// <param name="updatedTest">Updated Exercise</param>
         /// <returns></returns>
-        public Task UpdateAsync(Guid id, TestDto updatedTest);
+        public Task UpdateAsync(Guid id, Test updatedTest);
 
         /// <summary>
         /// Remove one test by Id

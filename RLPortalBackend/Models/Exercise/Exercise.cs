@@ -1,6 +1,6 @@
-﻿namespace RLPortalBackend.Dto
+﻿namespace RLPortalBackend.Models.Exercise
 {
-    public class ExerciseDto
+    public class Exercise
     {
         public Guid? Id { get; set; }
 

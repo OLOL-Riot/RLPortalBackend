@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using RLPortalBackend.Dto;
 using RLPortalBackend.Entities;
 using RLPortalBackend.Services;
+using RLPortalBackend.Models.Exercise;
 
 namespace RLPortalBackend.Controllers
 {
@@ -18,13 +18,13 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpGet, Authorize(Roles = "User, Administrator")]
-        public async Task<ICollection<ExerciseDto>> Get()
+        public async Task<ICollection<Exercise>> Get()
         {
             return await _exerciseService.GetAsync();
         }
 
         [HttpGet("{id:length(36)}"), Authorize(Roles = "User, Administrator")]
-        public async Task<ActionResult<ExerciseDto>> Get(Guid id)
+        public async Task<ActionResult<Exercise>> Get(Guid id)
         {
             var exercise = await _exerciseService.GetAsync(id);
 
@@ -37,7 +37,7 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpPost, Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Post(ExerciseDto newExercise)
+        public async Task<IActionResult> Post(Exercise newExercise)
         {
             newExercise = await _exerciseService.CreateAsync(newExercise);
 
@@ -46,7 +46,7 @@ namespace RLPortalBackend.Controllers
 
 
         [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Update(Guid id, ExerciseDto updatedExercise)
+        public async Task<IActionResult> Update(Guid id, Exercise updatedExercise)
         {
             var exercise = await _exerciseService.GetAsync(id);
 

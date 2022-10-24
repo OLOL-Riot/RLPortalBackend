@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using RLPortalBackend.Dto;
 using RLPortalBackend.Entities;
+using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Repositories;
 
 namespace RLPortalBackend.Services.Impl
@@ -16,7 +16,7 @@ namespace RLPortalBackend.Services.Impl
             _mapper = mapper;
         }
 
-        public async Task<ExerciseDto> CreateAsync(ExerciseDto newExercise)
+        public async Task<Exercise> CreateAsync(Exercise newExercise)
         {
             ExerciseEntity newExerciseEntity = _mapper.Map<ExerciseEntity>(newExercise);
             await _exerciseRepository.CreateAsync(newExerciseEntity);
@@ -24,17 +24,17 @@ namespace RLPortalBackend.Services.Impl
             return newExercise;
         }
 
-        public async Task<ICollection<ExerciseDto>> GetAsync()
+        public async Task<ICollection<Exercise>> GetAsync()
         {
             ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync();
-            ICollection<ExerciseDto> exerciseDtos = _mapper.Map<ICollection<ExerciseEntity>, ICollection<ExerciseDto>>(exerciseEntities);
+            ICollection<Exercise> exerciseDtos = _mapper.Map<ICollection<ExerciseEntity>, ICollection<Exercise>>(exerciseEntities);
             return exerciseDtos;
         }
 
-        public async Task<ExerciseDto> GetAsync(Guid id)
+        public async Task<Exercise> GetAsync(Guid id)
         {
             ExerciseEntity exerciseEntity = await _exerciseRepository.GetAsync(id);
-            ExerciseDto exerciseDto = _mapper.Map<ExerciseDto>(exerciseEntity);
+            Exercise exerciseDto = _mapper.Map<Exercise>(exerciseEntity);
             return exerciseDto;
         }
 
@@ -43,7 +43,7 @@ namespace RLPortalBackend.Services.Impl
             await _exerciseRepository.RemoveAsync(id);
         }
 
-        public async Task UpdateAsync(Guid id, ExerciseDto updatedExercise)
+        public async Task UpdateAsync(Guid id, Exercise updatedExercise)
         {
             ExerciseEntity updatedExerciseEntity = _mapper.Map<ExerciseEntity>(updatedExercise);
             await _exerciseRepository.UpdateAsync(id, updatedExerciseEntity);
