@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Swashbuckle.AspNetCore.Filters;
 using RLPortalBackend.Helpers.Impl;
+using RLPortalBackend;
 
 var builder = WebApplication.CreateBuilder(args);
 //Postgres
@@ -99,6 +100,8 @@ using (var scope = scopeFactory.CreateScope())
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
     SeedData.Seed(userManager, roleManager);
 }
+
+app.UseMiddleware();
 
 app.UseCors(x => x
                 .AllowAnyOrigin()
