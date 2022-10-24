@@ -9,10 +9,13 @@ namespace RLPortalBackend.Mappers
     {
         public AppMappingProfile()
         {
-            // ExerciseDto, ExerciseEntity
+            // Exercise, ExerciseEntity
             CreateMap<Exercise, ExerciseEntity>().ReverseMap();
 
-            // TestEntity, TestDto
+            // NewExercise, ExerciseEntity
+            CreateMap<NewExercise, ExerciseEntity>().ReverseMap();
+
+            // TestEntity, Test
             CreateMap<Test, TestEntity>().ReverseMap();
         }
     }
