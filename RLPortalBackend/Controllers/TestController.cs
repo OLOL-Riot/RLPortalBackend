@@ -38,7 +38,7 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpPost, Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Post(NewTest newTest)
+        public async Task<IActionResult> Post(CreateTest newTest)
         {
             Test createdTest = await _testService.CreateAsync(newTest);
 
@@ -46,7 +46,7 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Update(Guid id, NewTest updatedTest)
+        public async Task<IActionResult> Update(Guid id, UpdateTest updatedTest)
         {
             var test = await _testService.GetAsync(id);
 

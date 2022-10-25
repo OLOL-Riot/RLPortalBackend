@@ -29,7 +29,7 @@ namespace RLPortalBackend.Services.Impl
 
         }
 
-        public async Task<Test> CreateAsync(NewTest newTest)
+        public async Task<Test> CreateAsync(CreateTest newTest)
         {
             TestEntity newTestEntity = _mapper.Map<TestEntity>(newTest);
 
@@ -86,10 +86,21 @@ namespace RLPortalBackend.Services.Impl
             await _testRepository.RemoveAsync(id);
         }
 
-        public async Task UpdateAsync(Guid id, NewTest updatedTest)
+        public async Task UpdateAsync(Guid id, UpdateTest updatedTest)
         {
+            ICollection<Exercise> updatedExercises = updatedTest.Exercises;
+            ICollection<ExerciseEntity> exerciseEntities = _mapper.Map<ICollection<ExerciseEntity>>(updatedExercises);
+
+            foreach (var exerciseEntity in exerciseEntities)
+            {
+                Guid exerciseId = exerciseEntity.Id;
+                await _exerciseRepository.UpdateAsync(exerciseId, exerciseEntity);
+            }
+
             TestEntity updatedTestEntity = _mapper.Map<TestEntity>(updatedTest);
             updatedTestEntity.Id = id;
+            updatedTestEntity.ExerciseIds = updatedExercises.Select(el => el.Id).ToList();
+
             await _testRepository.UpdateAsync(id, updatedTestEntity);
         }
     }

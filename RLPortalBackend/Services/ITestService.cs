@@ -28,7 +28,7 @@ namespace RLPortalBackend.Services
         /// </summary>
         /// <param name="newTest">New exercise</param>
         /// <returns></returns>
-        public Task<Test> CreateAsync(NewTest newTest);
+        public Task<Test> CreateAsync(CreateTest newTest);
 
         /// <summary>
         /// Update one test by Id
@@ -36,7 +36,7 @@ namespace RLPortalBackend.Services
         /// <param name="id">Id</param>
         /// <param name="updatedTest">Updated Exercise</param>
         /// <returns></returns>
-        public Task UpdateAsync(Guid id, NewTest updatedTest);
+        public Task UpdateAsync(Guid id, UpdateTest updatedTest);
 
         /// <summary>
         /// Remove one test by Id
