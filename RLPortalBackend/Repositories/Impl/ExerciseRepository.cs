@@ -36,6 +36,12 @@ namespace RLPortalBackend.Repositories.Impl
             await _exerciseCollection.InsertOneAsync(newExercise);
         }
 
+        public async Task CreateManyAsync(IEnumerable<ExerciseEntity> exerciseEntities)
+        {
+            await _exerciseCollection.InsertManyAsync(exerciseEntities);
+        }
+
+
         public async Task UpdateAsync(Guid id, ExerciseEntity updatedExercise)
         {
             await _exerciseCollection.ReplaceOneAsync(x => x.Id == id, updatedExercise);
@@ -45,6 +51,6 @@ namespace RLPortalBackend.Repositories.Impl
         {
             await _exerciseCollection.DeleteOneAsync(x => x.Id == id);
         }
-
+        
     }
 }

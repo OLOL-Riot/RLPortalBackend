@@ -29,6 +29,13 @@ namespace RLPortalBackend.Repositories
         public Task CreateAsync(ExerciseEntity newExercise);
 
         /// <summary>
+        /// Create many exercises
+        /// </summary>
+        /// <param name="exerciseEntities"></param>
+        /// <returns></returns>
+        public Task CreateManyAsync(IEnumerable<ExerciseEntity> exerciseEntities);
+
+        /// <summary>
         /// Update one Exercise by Id
         /// </summary>
         /// <param name="id">Id</param>
