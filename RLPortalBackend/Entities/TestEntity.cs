@@ -14,6 +14,6 @@ namespace RLPortalBackend.Entities
 
         public string Name { get; set; }
 
-        public IEnumerable<Guid> ExerciseIds { get; set; }
+        public ICollection<Guid> ExerciseIds { get; set; }
     }
 }
