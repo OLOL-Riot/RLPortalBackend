@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RLPortalBackend.Entities;
+using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
 using RLPortalBackend.Repositories;
 
@@ -8,33 +9,48 @@ namespace RLPortalBackend.Services.Impl
     public class TestService : ITestService
     {
         private readonly ITestRepository _testRepository;
+        private readonly IExerciseRepository _exerciseRepository;
         private readonly IMapper _mapper;
 
-        public TestService(ITestRepository testRepository, IMapper mapper)
+        public TestService(ITestRepository testRepository, IExerciseRepository exerciseRepository,IMapper mapper)
         {
             _testRepository = testRepository;
+            _exerciseRepository = exerciseRepository;
             _mapper = mapper;
         }
 
         public async Task<Test> CreateAsync(NewTest newTest)
         {
             TestEntity newTestEntity = _mapper.Map<TestEntity>(newTest);
+
+            IEnumerable<NewExercise> newExercises = newTest.Exercises;
+            IEnumerable<ExerciseEntity> newExerciseEntities = _mapper.Map<IEnumerable<ExerciseEntity>>(newExercises);
+
+            await _exerciseRepository.CreateManyAsync(newExerciseEntities);
+
+            IEnumerable<Guid> guids = newExerciseEntities.Select(e => e.Id).ToList();
+            newTestEntity.ExerciseIds = guids;
+
             await _testRepository.CreateAsync(newTestEntity);
+            
             Test createdTest = _mapper.Map<Test>(newTestEntity);
+            IEnumerable<Exercise> createdExercise = _mapper.Map<IEnumerable<Exercise>>(newExerciseEntities);
+            createdTest.Exercises = createdExercise;
+
             return createdTest;
         }
 
-        public async Task<ICollection<Test>> GetAsync()
+        public async Task<ICollection<NoRightAnswersTest>> GetAsync()
         {
             ICollection<TestEntity> testEntities = await _testRepository.GetAsync();
-            ICollection<Test> testDtos = _mapper.Map<ICollection<TestEntity>, ICollection<Test>>(testEntities);
+            ICollection<NoRightAnswersTest> testDtos = _mapper.Map<ICollection<TestEntity>, ICollection<NoRightAnswersTest>>(testEntities);
             return testDtos;
         }
 
-        public async Task<Test> GetAsync(Guid id)
+        public async Task<NoRightAnswersTest> GetAsync(Guid id)
         {
             TestEntity testEntity = await _testRepository.GetAsync(id);
-            Test testDto = _mapper.Map<Test>(testEntity);
+            NoRightAnswersTest testDto = _mapper.Map<NoRightAnswersTest>(testEntity);
             return testDto;
         }
 

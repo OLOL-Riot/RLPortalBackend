@@ -14,14 +14,14 @@ namespace RLPortalBackend.Services
         /// Get all tests
         /// </summary>
         /// <returns>Collection of tests</returns>
-        public Task<ICollection<Test>> GetAsync();
+        public Task<ICollection<NoRightAnswersTest>> GetAsync();
 
         /// <summary>
         /// Get one test by Id
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns>One test</returns>
-        public Task<Test> GetAsync(Guid id);
+        public Task<NoRightAnswersTest> GetAsync(Guid id);
 
         /// <summary>
         /// Create one exercise

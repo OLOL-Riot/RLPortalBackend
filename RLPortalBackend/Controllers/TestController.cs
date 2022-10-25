@@ -19,13 +19,13 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpGet, Authorize(Roles = "User, Administrator")]
-        public async Task<ICollection<Test>> Get()
+        public async Task<ICollection<NoRightAnswersTest>> Get()
         {
             return await _testService.GetAsync();
         }
 
         [HttpGet("{id:length(36)}"), Authorize(Roles = "User, Administrator")]
-        public async Task<ActionResult<Test>> Get(Guid id)
+        public async Task<ActionResult<NoRightAnswersTest>> Get(Guid id)
         {
             var test = await _testService.GetAsync(id);
 
