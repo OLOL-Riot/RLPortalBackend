@@ -8,6 +8,6 @@ namespace RLPortalBackend.Models.Test
 
         public string Name { get; set; }
 
-        public IEnumerable<NoRightAnswerExercise> Exercises { get; set; }
+        public IEnumerable<Exercise.Exercise> Exercises { get; set; }
     }
 }
