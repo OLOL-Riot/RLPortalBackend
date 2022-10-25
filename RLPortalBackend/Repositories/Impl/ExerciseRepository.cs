@@ -26,6 +26,11 @@ namespace RLPortalBackend.Repositories.Impl
             return await _exerciseCollection.Find(_ => true).ToListAsync();
         }
 
+        public async Task<ICollection<ExerciseEntity>> GetAsync(ICollection<Guid> ids)
+        {
+            return await _exerciseCollection.Find(el => ids.Contains(el.Id)).ToListAsync();
+        }
+
         public async Task<ExerciseEntity> GetAsync(Guid id)
         {
             return await _exerciseCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
@@ -51,6 +56,7 @@ namespace RLPortalBackend.Repositories.Impl
         {
             await _exerciseCollection.DeleteOneAsync(x => x.Id == id);
         }
+
         
     }
 }
