@@ -24,8 +24,11 @@ namespace RLPortalBackend.Mappers
             // NoRightAnswerTest, TestEntity
             CreateMap<NoRightAnswersTest, TestEntity>().ReverseMap();
 
-            // NewTest, TestEntity
-            CreateMap<NewTest, TestEntity>().ReverseMap();
+            // CreateTest, TestEntity
+            CreateMap<CreateTest, TestEntity>().ReverseMap();
+
+            // UpdateTest, TestEntity
+            CreateMap<UpdateTest, TestEntity>().ReverseMap();
         }
     }
 }
