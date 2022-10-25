@@ -15,6 +15,9 @@ namespace RLPortalBackend.Mappers
             // NewExercise, ExerciseEntity
             CreateMap<NewExercise, ExerciseEntity>().ReverseMap();
 
+            // NoRightAnswerExercise, ExerciseEntity
+            CreateMap<NoRightAnswerExercise, ExerciseEntity>().ReverseMap();
+
             // Test, TestEntity
             CreateMap<Test, TestEntity>().ReverseMap();
 
