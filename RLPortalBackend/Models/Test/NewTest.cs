@@ -6,6 +6,6 @@ namespace RLPortalBackend.Models.Test
     {
         public string Name { get; set; }
 
-        public IEnumerable<NewExercise> Exercises { get; set; }
+        public ICollection<NewExercise> Exercises { get; set; }
     }
 }
