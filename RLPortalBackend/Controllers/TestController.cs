@@ -40,7 +40,7 @@ namespace RLPortalBackend.Controllers
         [HttpPost, Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Post(CreateTest newTest)
         {
-            Test createdTest = await _testService.CreateAsync(newTest);
+            TestDto createdTest = await _testService.CreateAsync(newTest);
 
             return CreatedAtAction(nameof(Get), new { id = createdTest.Id }, createdTest);
         }

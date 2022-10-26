@@ -29,7 +29,7 @@ namespace RLPortalBackend.Services.Impl
 
         }
 
-        public async Task<Test> CreateAsync(CreateTest newTest)
+        public async Task<TestDto> CreateAsync(CreateTest newTest)
         {
             TestEntity newTestEntity = _mapper.Map<TestEntity>(newTest);
 
@@ -43,8 +43,8 @@ namespace RLPortalBackend.Services.Impl
 
             await _testRepository.CreateAsync(newTestEntity);
             
-            Test createdTest = _mapper.Map<Test>(newTestEntity);
-            ICollection<Exercise> createdExercise = _mapper.Map<ICollection<Exercise>>(newExerciseEntities);
+            TestDto createdTest = _mapper.Map<TestDto>(newTestEntity);
+            ICollection<ExerciseDto> createdExercise = _mapper.Map<ICollection<ExerciseDto>>(newExerciseEntities);
             createdTest.Exercises = createdExercise;
 
             return createdTest;
@@ -88,7 +88,7 @@ namespace RLPortalBackend.Services.Impl
 
         public async Task UpdateAsync(Guid id, UpdateTest updatedTest)
         {
-            ICollection<Exercise> updatedExercises = updatedTest.Exercises;
+            ICollection<ExerciseDto> updatedExercises = updatedTest.Exercises;
             ICollection<ExerciseEntity> exerciseEntities = _mapper.Map<ICollection<ExerciseEntity>>(updatedExercises);
 
             foreach (var exerciseEntity in exerciseEntities)

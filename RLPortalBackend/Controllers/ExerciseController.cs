@@ -18,13 +18,13 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpGet, Authorize(Roles = "User, Administrator")]
-        public async Task<ICollection<Exercise>> Get()
+        public async Task<ICollection<ExerciseDto>> Get()
         {
             return await _exerciseService.GetAsync();
         }
 
         [HttpGet("{id:length(36)}"), Authorize(Roles = "User, Administrator")]
-        public async Task<ActionResult<Exercise>> Get(Guid id)
+        public async Task<ActionResult<ExerciseDto>> Get(Guid id)
         {
             var exercise = await _exerciseService.GetAsync(id);
 
@@ -39,7 +39,7 @@ namespace RLPortalBackend.Controllers
         [HttpPost, Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Post(NewExercise newExercise)
         {
-            Exercise createdExercise = await _exerciseService.CreateAsync(newExercise);
+            ExerciseDto createdExercise = await _exerciseService.CreateAsync(newExercise);
 
             return CreatedAtAction(nameof(Get), new { id = createdExercise.Id }, createdExercise);
         }

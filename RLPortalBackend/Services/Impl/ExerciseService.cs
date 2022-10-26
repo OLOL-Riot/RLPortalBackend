@@ -16,25 +16,25 @@ namespace RLPortalBackend.Services.Impl
             _mapper = mapper;
         }
 
-        public async Task<Exercise> CreateAsync(NewExercise newExercise)
+        public async Task<ExerciseDto> CreateAsync(NewExercise newExercise)
         {
             ExerciseEntity newExerciseEntity = _mapper.Map<ExerciseEntity>(newExercise);
             await _exerciseRepository.CreateAsync(newExerciseEntity);
-            Exercise createdExercise = _mapper.Map<Exercise>(newExerciseEntity);
+            ExerciseDto createdExercise = _mapper.Map<ExerciseDto>(newExerciseEntity);
             return createdExercise;
         }
 
-        public async Task<ICollection<Exercise>> GetAsync()
+        public async Task<ICollection<ExerciseDto>> GetAsync()
         {
             ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync();
-            ICollection<Exercise> exerciseDtos = _mapper.Map<ICollection<ExerciseEntity>, ICollection<Exercise>>(exerciseEntities);
+            ICollection<ExerciseDto> exerciseDtos = _mapper.Map<ICollection<ExerciseEntity>, ICollection<ExerciseDto>>(exerciseEntities);
             return exerciseDtos;
         }
 
-        public async Task<Exercise> GetAsync(Guid id)
+        public async Task<ExerciseDto> GetAsync(Guid id)
         {
             ExerciseEntity exerciseEntity = await _exerciseRepository.GetAsync(id);
-            Exercise exerciseDto = _mapper.Map<Exercise>(exerciseEntity);
+            ExerciseDto exerciseDto = _mapper.Map<ExerciseDto>(exerciseEntity);
             return exerciseDto;
         }
 

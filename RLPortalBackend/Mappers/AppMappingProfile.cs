@@ -10,7 +10,7 @@ namespace RLPortalBackend.Mappers
         public AppMappingProfile()
         {
             // Exercise, ExerciseEntity
-            CreateMap<Exercise, ExerciseEntity>().ReverseMap();
+            CreateMap<ExerciseDto, ExerciseEntity>().ReverseMap();
 
             // NewExercise, ExerciseEntity
             CreateMap<NewExercise, ExerciseEntity>().ReverseMap();
@@ -19,7 +19,7 @@ namespace RLPortalBackend.Mappers
             CreateMap<NoRightAnswerExercise, ExerciseEntity>().ReverseMap();
 
             // Test, TestEntity
-            CreateMap<Test, TestEntity>().ReverseMap();
+            CreateMap<TestDto, TestEntity>().ReverseMap();
 
             // NoRightAnswerTest, TestEntity
             CreateMap<NoRightAnswersTest, TestEntity>().ReverseMap();

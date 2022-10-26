@@ -12,21 +12,21 @@ namespace RLPortalBackend.Services
         /// Get all exercises
         /// </summary>
         /// <returns>Collection of exercises</returns>
-        public Task<ICollection<Exercise>> GetAsync();
+        public Task<ICollection<ExerciseDto>> GetAsync();
 
         /// <summary>
         /// Get one exercise by Id
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns>one exercise</returns>
-        public Task<Exercise> GetAsync(Guid id);
+        public Task<ExerciseDto> GetAsync(Guid id);
 
         /// <summary>
         /// Create one exerci9se
         /// </summary>
         /// <param name="newExercise">New exercise</param>
         /// <returns></returns>
-        public Task<Exercise> CreateAsync(NewExercise newExercise);
+        public Task<ExerciseDto> CreateAsync(NewExercise newExercise);
 
         /// <summary>
         /// Update one exercise by Id
