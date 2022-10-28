@@ -27,7 +27,7 @@ namespace RLPortalBackend.Services.Impl
         public async Task<ICollection<ExerciseDto>> GetAsyncAllExercisesToEdit()
         {
             ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync();
-            ICollection<ExerciseDto> exerciseDtos = _mapper.Map<ICollection<ExerciseEntity>, ICollection<ExerciseDto>>(exerciseEntities);
+            ICollection<ExerciseDto> exerciseDtos = _mapper.Map<ICollection<ExerciseDto>>(exerciseEntities);
             return exerciseDtos;
         }
 
@@ -41,7 +41,7 @@ namespace RLPortalBackend.Services.Impl
         public async Task<ICollection<NoRightAnswerExercise>> GetAsyncAllExercisesToSolve()
         {
             ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync();
-            ICollection<NoRightAnswerExercise> noRightAnswerExercises = _mapper.Map<ICollection<ExerciseEntity>, ICollection<NoRightAnswerExercise>>(exerciseEntities);
+            ICollection<NoRightAnswerExercise> noRightAnswerExercises = _mapper.Map<ICollection<NoRightAnswerExercise>>(exerciseEntities);
             return noRightAnswerExercises;
         }
 
