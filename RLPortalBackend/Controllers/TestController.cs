@@ -62,7 +62,7 @@ namespace RLPortalBackend.Controllers
         {
             TestDto createdTest = await _testService.CreateAsync(newTest);
 
-            return CreatedAtAction(nameof(GetTestToSolveById), new { id = createdTest.Id }, createdTest);
+            return CreatedAtAction(nameof(GetTestToEditById), new { id = createdTest.Id }, createdTest);
         }
 
         [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
