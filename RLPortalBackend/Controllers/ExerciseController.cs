@@ -17,16 +17,16 @@ namespace RLPortalBackend.Controllers
             _exerciseService = exerciseService;
         }
 
-        [HttpGet, Authorize(Roles = "User, Administrator")]
-        public async Task<ICollection<ExerciseDto>> Get()
+        [HttpGet("edit"), Authorize(Roles = "Administrator")]
+        public async Task<ICollection<ExerciseDto>> GetAllExercisesToEdit()
         {
-            return await _exerciseService.GetAsync();
+            return await _exerciseService.GetAsyncAllExercisesToEdit();
         }
 
-        [HttpGet("{id:length(36)}"), Authorize(Roles = "User, Administrator")]
-        public async Task<ActionResult<ExerciseDto>> Get(Guid id)
+        [HttpGet("edit/{id:length(36)}"), Authorize(Roles = "Administrator")]
+        public async Task<ActionResult<ExerciseDto>> GetExerciseToEditById(Guid id)
         {
-            var exercise = await _exerciseService.GetAsync(id);
+            var exercise = await _exerciseService.GetAsyncExerciseToEditById(id);
 
             if (exercise is null)
             {
@@ -41,14 +41,14 @@ namespace RLPortalBackend.Controllers
         {
             ExerciseDto createdExercise = await _exerciseService.CreateAsync(newExercise);
 
-            return CreatedAtAction(nameof(Get), new { id = createdExercise.Id }, createdExercise);
+            return CreatedAtAction(nameof(GetAllExercisesToEdit), new { id = createdExercise.Id }, createdExercise);
         }
 
 
         [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Update(Guid id, NewExercise updatedExercise)
         {
-            var exercise = await _exerciseService.GetAsync(id);
+            var exercise = await _exerciseService.GetAsyncExerciseToEditById(id);
 
             if (exercise is null)
             {
@@ -63,7 +63,7 @@ namespace RLPortalBackend.Controllers
         [HttpDelete("{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var exercise = await _exerciseService.GetAsync(id);
+            var exercise = await _exerciseService.GetAsyncExerciseToEditById(id);
 
             if (exercise is null)
             {

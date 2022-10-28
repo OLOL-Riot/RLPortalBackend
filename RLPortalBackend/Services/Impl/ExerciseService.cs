@@ -24,14 +24,14 @@ namespace RLPortalBackend.Services.Impl
             return createdExercise;
         }
 
-        public async Task<ICollection<ExerciseDto>> GetAsync()
+        public async Task<ICollection<ExerciseDto>> GetAsyncAllExercisesToEdit()
         {
             ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync();
             ICollection<ExerciseDto> exerciseDtos = _mapper.Map<ICollection<ExerciseEntity>, ICollection<ExerciseDto>>(exerciseEntities);
             return exerciseDtos;
         }
 
-        public async Task<ExerciseDto> GetAsync(Guid id)
+        public async Task<ExerciseDto> GetAsyncExerciseToEditById(Guid id)
         {
             ExerciseEntity exerciseEntity = await _exerciseRepository.GetAsync(id);
             ExerciseDto exerciseDto = _mapper.Map<ExerciseDto>(exerciseEntity);

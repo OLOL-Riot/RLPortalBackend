@@ -9,17 +9,17 @@ namespace RLPortalBackend.Services
     public interface IExerciseService
     {
         /// <summary>
-        /// Get all exercises
+        /// Get all exercises to edit
         /// </summary>
         /// <returns>Collection of exercises</returns>
-        public Task<ICollection<ExerciseDto>> GetAsync();
+        public Task<ICollection<ExerciseDto>> GetAsyncAllExercisesToEdit();
 
         /// <summary>
-        /// Get one exercise by Id
+        /// Get one exercise to edit by Id
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns>one exercise</returns>
-        public Task<ExerciseDto> GetAsync(Guid id);
+        public Task<ExerciseDto> GetAsyncExerciseToEditById(Guid id);
 
         /// <summary>
         /// Create one exerci9se
