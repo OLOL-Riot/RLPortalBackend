@@ -38,6 +38,20 @@ namespace RLPortalBackend.Services.Impl
             return exerciseDto;
         }
 
+        public async Task<ICollection<NoRightAnswerExercise>> GetAsyncAllExercisesToSolve()
+        {
+            ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync();
+            ICollection<NoRightAnswerExercise> noRightAnswerExercises = _mapper.Map<ICollection<ExerciseEntity>, ICollection<NoRightAnswerExercise>>(exerciseEntities);
+            return noRightAnswerExercises;
+        }
+
+        public async Task<NoRightAnswerExercise> GetAsyncExerciseToSolveById(Guid id)
+        {
+            ExerciseEntity exerciseEntity = await _exerciseRepository.GetAsync(id);
+            NoRightAnswerExercise noRightAnswerExercises = _mapper.Map<NoRightAnswerExercise>(exerciseEntity);
+            return noRightAnswerExercises;
+        }
+
         public async Task RemoveAsync(Guid id)
         {
             await _exerciseRepository.RemoveAsync(id);

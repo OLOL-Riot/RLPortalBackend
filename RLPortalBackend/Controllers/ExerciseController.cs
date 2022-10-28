@@ -36,6 +36,25 @@ namespace RLPortalBackend.Controllers
             return exercise;
         }
 
+        [HttpGet("solve"), Authorize(Roles = "User, Administrator")]
+        public async Task<ICollection<NoRightAnswerExercise>> GetAllExercisesToSolve()
+        {
+            return await _exerciseService.GetAsyncAllExercisesToSolve();
+        }
+
+        [HttpGet("solve/{id:length(36)}"), Authorize(Roles = "User, Administrator")]
+        public async Task<ActionResult<NoRightAnswerExercise>> GetExerciseToSolveById(Guid id)
+        {
+            var exercise = await _exerciseService.GetAsyncExerciseToSolveById(id);
+
+            if (exercise is null)
+            {
+                return NotFound();
+            }
+
+            return exercise;
+        }
+
         [HttpPost, Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Post(NewExercise newExercise)
         {
