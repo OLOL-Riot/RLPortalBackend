@@ -19,13 +19,13 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpGet("solve"), Authorize(Roles = "User, Administrator")]
-        public async Task<ICollection<NoRightAnswersTest>> Get()
+        public async Task<ICollection<NoRightAnswersTest>> GetAllTestsToSolve()
         {
             return await _testService.GetAsync();
         }
 
         [HttpGet("solve/{id:length(36)}"), Authorize(Roles = "User, Administrator")]
-        public async Task<ActionResult<NoRightAnswersTest>> Get(Guid id)
+        public async Task<ActionResult<NoRightAnswersTest>> GetTestToSolveById(Guid id)
         {
             var test = await _testService.GetAsync(id);
 
@@ -42,7 +42,7 @@ namespace RLPortalBackend.Controllers
         {
             TestDto createdTest = await _testService.CreateAsync(newTest);
 
-            return CreatedAtAction(nameof(Get), new { id = createdTest.Id }, createdTest);
+            return CreatedAtAction(nameof(GetTestToSolveById), new { id = createdTest.Id }, createdTest);
         }
 
         [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
