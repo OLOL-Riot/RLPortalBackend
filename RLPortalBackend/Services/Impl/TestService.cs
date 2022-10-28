@@ -89,17 +89,28 @@ namespace RLPortalBackend.Services.Impl
         public async Task UpdateAsync(Guid id, UpdateTest updatedTest)
         {
             ICollection<ExerciseDto> updatedExercises = updatedTest.Exercises;
-            ICollection<ExerciseEntity> exerciseEntities = _mapper.Map<ICollection<ExerciseEntity>>(updatedExercises);
+            ICollection<Guid> updatedExerciseIds = new HashSet<Guid>();
 
-            foreach (var exerciseEntity in exerciseEntities)
+            foreach (var exerciseDto in updatedExercises)
             {
-                Guid exerciseId = exerciseEntity.Id;
-                await _exerciseRepository.UpdateAsync(exerciseId, exerciseEntity);
+                if (exerciseDto.Id == null)
+                {
+                    ExerciseEntity newExerciseEntity = _mapper.Map<ExerciseEntity>(exerciseDto);
+                    await _exerciseRepository.CreateAsync(newExerciseEntity);
+                    updatedExerciseIds.Add(newExerciseEntity.Id);
+
+                } else
+                {
+                    ExerciseEntity updatedExerciseEntity = _mapper.Map<ExerciseEntity>(exerciseDto);
+                    Guid exerciseId = updatedExerciseEntity.Id;
+                    await _exerciseRepository.UpdateAsync(exerciseId, updatedExerciseEntity);
+                    updatedExerciseIds.Add(updatedExerciseEntity.Id);
+                }
             }
 
             TestEntity updatedTestEntity = _mapper.Map<TestEntity>(updatedTest);
             updatedTestEntity.Id = id;
-            updatedTestEntity.ExerciseIds = updatedExercises.Select(el => el.Id).ToList();
+            updatedTestEntity.ExerciseIds = updatedExerciseIds;
 
             await _testRepository.UpdateAsync(id, updatedTestEntity);
         }
