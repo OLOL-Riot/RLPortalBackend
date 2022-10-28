@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using RLPortalBackend.Dto;
 using RLPortalBackend.Entities;
 using RLPortalBackend.Services;
+using RLPortalBackend.Models.Exercise;
 
 namespace RLPortalBackend.Controllers
 {
@@ -17,16 +17,35 @@ namespace RLPortalBackend.Controllers
             _exerciseService = exerciseService;
         }
 
-        [HttpGet, Authorize(Roles = "User, Administrator")]
-        public async Task<ICollection<ExerciseDto>> Get()
+        [HttpGet("edit"), Authorize(Roles = "Administrator")]
+        public async Task<ICollection<ExerciseDto>> GetAllExercisesToEdit()
         {
-            return await _exerciseService.GetAsync();
+            return await _exerciseService.GetAsyncAllExercisesToEdit();
         }
 
-        [HttpGet("{id:length(36)}"), Authorize(Roles = "User, Administrator")]
-        public async Task<ActionResult<ExerciseDto>> Get(Guid id)
+        [HttpGet("edit/{id:length(36)}"), Authorize(Roles = "Administrator")]
+        public async Task<ActionResult<ExerciseDto>> GetExerciseToEditById(Guid id)
         {
-            var exercise = await _exerciseService.GetAsync(id);
+            var exercise = await _exerciseService.GetAsyncExerciseToEditById(id);
+
+            if (exercise is null)
+            {
+                return NotFound();
+            }
+
+            return exercise;
+        }
+
+        [HttpGet("solve"), Authorize(Roles = "User, Administrator")]
+        public async Task<ICollection<NoRightAnswerExercise>> GetAllExercisesToSolve()
+        {
+            return await _exerciseService.GetAsyncAllExercisesToSolve();
+        }
+
+        [HttpGet("solve/{id:length(36)}"), Authorize(Roles = "User, Administrator")]
+        public async Task<ActionResult<NoRightAnswerExercise>> GetExerciseToSolveById(Guid id)
+        {
+            var exercise = await _exerciseService.GetAsyncExerciseToSolveById(id);
 
             if (exercise is null)
             {
@@ -37,25 +56,23 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpPost, Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Post(ExerciseDto newExercise)
+        public async Task<IActionResult> Post(NewExercise newExercise)
         {
-            newExercise = await _exerciseService.CreateAsync(newExercise);
+            ExerciseDto createdExercise = await _exerciseService.CreateAsync(newExercise);
 
-            return CreatedAtAction(nameof(Get), new { id = newExercise.Id }, newExercise);
+            return CreatedAtAction(nameof(GetAllExercisesToEdit), new { id = createdExercise.Id }, createdExercise);
         }
 
 
         [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Update(Guid id, ExerciseDto updatedExercise)
+        public async Task<IActionResult> Update(Guid id, NewExercise updatedExercise)
         {
-            var exercise = await _exerciseService.GetAsync(id);
+            var exercise = await _exerciseService.GetAsyncExerciseToEditById(id);
 
             if (exercise is null)
             {
                 return NotFound();
             }
-
-            updatedExercise.Id = exercise.Id;
 
             await _exerciseService.UpdateAsync(id, updatedExercise);
 
@@ -65,7 +82,7 @@ namespace RLPortalBackend.Controllers
         [HttpDelete("{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var exercise = await _exerciseService.GetAsync(id);
+            var exercise = await _exerciseService.GetAsyncExerciseToEditById(id);
 
             if (exercise is null)
             {

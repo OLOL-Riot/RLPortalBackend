@@ -12,6 +12,8 @@ namespace RLPortalBackend.Entities
         [BsonId(IdGenerator = typeof(GuidGenerator))]
         public Guid Id { get; set; }
 
-        public IEnumerable<Guid> ExerciseIds { get; set; }
+        public string Name { get; set; }
+
+        public ICollection<Guid> ExerciseIds { get; set; }
     }
 }

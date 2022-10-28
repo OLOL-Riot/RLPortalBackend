@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using RLPortalBackend.Dto;
 using RLPortalBackend.Entities;
 using RLPortalBackend.Services;
 using System.Data;
+using RLPortalBackend.Models.Test;
 
 namespace RLPortalBackend.Controllers
 {
@@ -18,16 +18,16 @@ namespace RLPortalBackend.Controllers
             _testService = testService;
         }
 
-        [HttpGet, Authorize(Roles = "User, Administrator")]
-        public async Task<ICollection<TestDto>> Get()
+        [HttpGet("solve"), Authorize(Roles = "User, Administrator")]
+        public async Task<ICollection<NoRightAnswersTest>> GetAllTestsToSolve()
         {
-            return await _testService.GetAsync();
+            return await _testService.GetAsyncAllTestsToSolve();
         }
 
-        [HttpGet("{id:length(36)}"), Authorize(Roles = "User, Administrator")]
-        public async Task<ActionResult<TestDto>> Get(Guid id)
+        [HttpGet("solve/{id:length(36)}"), Authorize(Roles = "User, Administrator")]
+        public async Task<ActionResult<NoRightAnswersTest>> GetTestToSolveById(Guid id)
         {
-            var test = await _testService.GetAsync(id);
+            var test = await _testService.GetAsyncTestToSolveById(id);
 
             if (test is null)
             {
@@ -37,25 +37,43 @@ namespace RLPortalBackend.Controllers
             return test;
         }
 
-        [HttpPost, Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Post(TestDto newTest)
+        [HttpGet("edit"), Authorize(Roles = "Administrator")]
+        public async Task<ICollection<TestDto>> GetAllTestsToEdit()
         {
-            newTest = await _testService.CreateAsync(newTest);
-
-            return CreatedAtAction(nameof(Get), new { id = newTest.Id }, newTest);
+            return await _testService.GetAsyncAllTestsToEdit();
         }
 
-        [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Update(Guid id, TestDto updatedTest)
+        [HttpGet("edit/{id:length(36)}"), Authorize(Roles = "Administrator")]
+        public async Task<ActionResult<TestDto>> GetTestToEditById(Guid id)
         {
-            var test = await _testService.GetAsync(id);
+            var test = await _testService.GetAsyncTestToEditById(id);
 
             if (test is null)
             {
                 return NotFound();
             }
 
-            updatedTest.Id = test.Id;
+            return test;
+        }
+
+
+        [HttpPost, Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Post(CreateTest newTest)
+        {
+            TestDto createdTest = await _testService.CreateAsync(newTest);
+
+            return CreatedAtAction(nameof(GetTestToEditById), new { id = createdTest.Id }, createdTest);
+        }
+
+        [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Update(Guid id, UpdateTest updatedTest)
+        {
+            var test = await _testService.GetAsyncTestToSolveById(id);
+
+            if (test is null)
+            {
+                return NotFound();
+            }
 
             await _testService.UpdateAsync(id, updatedTest);
 
@@ -65,7 +83,7 @@ namespace RLPortalBackend.Controllers
         [HttpDelete("{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var test = await _testService.GetAsync(id);
+            var test = await _testService.GetAsyncTestToSolveById(id);
 
             if (test is null)
             {

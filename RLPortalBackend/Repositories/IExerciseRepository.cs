@@ -14,6 +14,13 @@ namespace RLPortalBackend.Repositories
         public Task<ICollection<ExerciseEntity>> GetAsync();
 
         /// <summary>
+        /// Get all exercises by ids
+        /// </summary>
+        /// <param name="ids">ids of exercises</param>
+        /// <returns></returns>
+        public Task<ICollection<ExerciseEntity>> GetAsync(ICollection<Guid> ids);
+
+        /// <summary>
         /// Get one exercise by Id
         /// </summary>
         /// <param name="id">Id</param>
@@ -27,6 +34,13 @@ namespace RLPortalBackend.Repositories
         /// <returns>
         /// </returns>
         public Task CreateAsync(ExerciseEntity newExercise);
+
+        /// <summary>
+        /// Create many exercises
+        /// </summary>
+        /// <param name="exerciseEntities"></param>
+        /// <returns></returns>
+        public Task CreateManyAsync(IEnumerable<ExerciseEntity> exerciseEntities);
 
         /// <summary>
         /// Update one Exercise by Id
