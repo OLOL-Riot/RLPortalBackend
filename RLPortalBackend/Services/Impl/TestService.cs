@@ -88,6 +88,7 @@ namespace RLPortalBackend.Services.Impl
             {
                 TestEntity testEntity = testEntities.ElementAt(i);
                 ICollection<Guid> exerciseIds = testEntity.ExerciseIds;
+
                 ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync(exerciseIds);
                 ICollection<ExerciseDto> exerciseDtos = _mapper.Map<ICollection<ExerciseDto>>(exerciseEntities);
 
@@ -105,6 +106,7 @@ namespace RLPortalBackend.Services.Impl
 
             ICollection<Guid> exercisesId = testEntity.ExerciseIds;
             ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync(exercisesId);
+
             ICollection<ExerciseDto> exerciseDtos = _mapper.Map<ICollection<ExerciseDto>>(exerciseEntities);
 
             testDto.Exercises = exerciseDtos;
@@ -140,6 +142,7 @@ namespace RLPortalBackend.Services.Impl
             }
 
             TestEntity updatedTestEntity = _mapper.Map<TestEntity>(updatedTest);
+
             updatedTestEntity.Id = id;
             updatedTestEntity.ExerciseIds = updatedExerciseIds;
 
