@@ -20,15 +20,6 @@ namespace RLPortalBackend.Services.Impl
             _mapper = mapper;
         }
 
-        private async Task<ICollection<NoRightAnswerExercise>> GetNoRightAnswerExercisesAsync(ICollection<Guid> exerciseIds)
-        {
-            ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync(exerciseIds);
-            ICollection<NoRightAnswerExercise> noRightAnswerExercises = _mapper.Map<ICollection<NoRightAnswerExercise>>(exerciseEntities);
-
-            return noRightAnswerExercises;
-
-        }
-
         public async Task<TestDto> CreateAsync(CreateTest newTest)
         {
             TestEntity newTestEntity = _mapper.Map<TestEntity>(newTest);
@@ -60,7 +51,9 @@ namespace RLPortalBackend.Services.Impl
             {
                 TestEntity testEntity = testEntities.ElementAt(i);
                 ICollection<Guid> exercisesIds = testEntity.ExerciseIds;
-                ICollection<NoRightAnswerExercise> noRightAnswerExercises = await GetNoRightAnswerExercisesAsync(exercisesIds);
+
+                ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync(exercisesIds);
+                ICollection<NoRightAnswerExercise> noRightAnswerExercises = _mapper.Map<ICollection<NoRightAnswerExercise>>(exerciseEntities);
 
                 NoRightAnswersTest noRightAnswersTest = noRightAnswersTests.ElementAt(i);
                 noRightAnswersTest.Exercises = noRightAnswerExercises;
@@ -76,7 +69,10 @@ namespace RLPortalBackend.Services.Impl
             NoRightAnswersTest noRightAnswersTest = _mapper.Map<NoRightAnswersTest>(testEntity);
 
             ICollection<Guid> exercisesIds = testEntity.ExerciseIds;
-            ICollection<NoRightAnswerExercise> noRightAnswerExercises = await GetNoRightAnswerExercisesAsync(exercisesIds);
+
+            ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync(exercisesIds);
+            ICollection<NoRightAnswerExercise> noRightAnswerExercises = _mapper.Map<ICollection<NoRightAnswerExercise>>(exerciseEntities);
+
             noRightAnswersTest.Exercises = noRightAnswerExercises;
 
             return noRightAnswersTest;
