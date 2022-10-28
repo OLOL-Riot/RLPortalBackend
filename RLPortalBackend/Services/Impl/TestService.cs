@@ -50,7 +50,7 @@ namespace RLPortalBackend.Services.Impl
             return createdTest;
         }
 
-        public async Task<ICollection<NoRightAnswersTest>> GetAsync()
+        public async Task<ICollection<NoRightAnswersTest>> GetAsyncAllTestsToSolve()
         {
             ICollection<TestEntity> testEntities = await _testRepository.GetAsync();
 
@@ -68,8 +68,9 @@ namespace RLPortalBackend.Services.Impl
 
             return noRightAnswersTests;
         }
+        
 
-        public async Task<NoRightAnswersTest> GetAsync(Guid id)
+        public async Task<NoRightAnswersTest> GetAsyncTestToSolveById(Guid id)
         {
             TestEntity testEntity = await _testRepository.GetAsync(id);
             NoRightAnswersTest noRightAnswersTest = _mapper.Map<NoRightAnswersTest>(testEntity);
@@ -79,6 +80,40 @@ namespace RLPortalBackend.Services.Impl
             noRightAnswersTest.Exercises = noRightAnswerExercises;
 
             return noRightAnswersTest;
+        }
+
+        public async Task<ICollection<TestDto>> GetAsyncAllTestsToEdit()
+        {
+            ICollection<TestEntity> testEntities = await _testRepository.GetAsync();
+
+            ICollection<TestDto> testDtos = _mapper.Map<ICollection<TestEntity>, ICollection<TestDto>>(testEntities);
+
+            for (int i = 0; i < testEntities.Count; i++)
+            {
+                TestEntity testEntity = testEntities.ElementAt(i);
+                ICollection<Guid> exerciseIds = testEntity.ExerciseIds;
+                ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync(exerciseIds);
+                ICollection<ExerciseDto> exerciseDtos = _mapper.Map<ICollection<ExerciseDto>>(exerciseEntities);
+
+                TestDto testDto = testDtos.ElementAt(i);
+                testDto.Exercises = exerciseDtos;
+            }
+
+            return testDtos;
+        }
+
+        public async Task<TestDto> GetAsyncTestToEditById(Guid id)
+        {
+            TestEntity testEntity = await _testRepository.GetAsync(id);
+            TestDto testDto = _mapper.Map<TestDto>(testEntity);
+
+            ICollection<Guid> exercisesId = testEntity.ExerciseIds;
+            ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync(exercisesId);
+            ICollection<ExerciseDto> exerciseDtos = _mapper.Map<ICollection<ExerciseDto>>(exerciseEntities);
+
+            testDto.Exercises = exerciseDtos;
+
+            return testDto;
         }
 
         public async Task RemoveAsync(Guid id)
