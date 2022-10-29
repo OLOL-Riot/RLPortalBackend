@@ -148,5 +148,43 @@ namespace RLPortalBackend.Services.Impl
 
             await _testRepository.UpdateAsync(id, updatedTestEntity);
         }
+
+        public async Task<CompletedTestResult> CheckSolvedTest(SolvedTest solvedTest)
+        {
+            TestEntity testEntity = await _testRepository.GetAsync(solvedTest.TestId);
+            ICollection<Guid> exercisesIds = testEntity.ExerciseIds;
+            ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync(exercisesIds);
+
+            CompletedTestResult completedTestResult = new CompletedTestResult();
+            completedTestResult.MaxPoints = exerciseEntities.Count;
+            completedTestResult.Points = 0;
+            completedTestResult.VerifiedAnswers = new List<VerifiedExercise>();
+
+            for (int i = 0; i < exerciseEntities.Count; i++)
+            {
+                if (exercisesIds.ElementAt(i) == exerciseEntities.ElementAt(i).Id)
+                {
+                    if (solvedTest.UserAnswers.ElementAt(i).ChosenAnswer.Equals(exerciseEntities.ElementAt(i).RightAnswer)){
+                        completedTestResult.Points++;
+                        VerifiedExercise verifiedExercise = new VerifiedExercise();
+                        verifiedExercise.Guid = exerciseEntities.ElementAt(i).Id;
+                        verifiedExercise.RightAnswer = exerciseEntities.ElementAt(i).RightAnswer;
+                        verifiedExercise.IsRight = true;
+                  
+                        completedTestResult.VerifiedAnswers.Add(verifiedExercise);
+                    }
+                    else
+                    {
+                        VerifiedExercise verifiedExercise = new VerifiedExercise();
+                        verifiedExercise.Guid = exerciseEntities.ElementAt(i).Id;
+                        verifiedExercise.RightAnswer = exerciseEntities.ElementAt(i).RightAnswer;
+                        verifiedExercise.IsRight = false;
+                        completedTestResult.VerifiedAnswers.Add(verifiedExercise);
+                    }
+                }
+            }
+            return completedTestResult;
+
+        }
     }
 }
