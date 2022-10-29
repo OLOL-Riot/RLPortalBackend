@@ -1,5 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using RLPortalBackend.Models.Autentification;
+using RLPortalBackend.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
