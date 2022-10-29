@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using RLPortalBackend.Entities;
 using RLPortalBackend.Exeption;
 using RLPortalBackend.Helpers;
 using RLPortalBackend.Models;
@@ -51,7 +52,7 @@ namespace RLPortalBackend.Repositories.Impl
             var resultLogin = await _userManager.FindByNameAsync(request.Login);
             if(resultLogin == null)
             {
-                throw new HttpException(HttpStatusCode.NotFound, "User not found");
+                throw new HttpException(HttpStatusCode.NotFound, $"{request.Login} not found");
             }
 
 
@@ -87,11 +88,11 @@ namespace RLPortalBackend.Repositories.Impl
             }
             if (_userManager.FindByNameAsync(input.Login).Result != null)
             {
-                throw new HttpException(HttpStatusCode.Conflict, "User alredy exists");
+                throw new HttpException(HttpStatusCode.Conflict, $"{input.Login} alredy exists");
             }
             if (_userManager.FindByEmailAsync(input.Email).Result != null)
             {
-                throw new HttpException(HttpStatusCode.Conflict, "Email alredy exists");
+                throw new HttpException(HttpStatusCode.Conflict, $"{input.Email} alredy exists");
             }
             var user = CreateUser();
 
@@ -106,7 +107,7 @@ namespace RLPortalBackend.Repositories.Impl
 
             if (result.Succeeded)
             {
-                _logger.LogInformation("User created");
+                _logger.LogInformation($"User {input.Login} created");
                 await _userManager.AddToRoleAsync(user, "User");
 
             }
@@ -127,7 +128,7 @@ namespace RLPortalBackend.Repositories.Impl
                 if (email.Role.Equals("Administrator")) await _userManager.RemoveFromRoleAsync(user, "User");
                 if (email.Role.Equals("User")) await _userManager.RemoveFromRoleAsync(user, "Administrator");
             }
-            throw new HttpException(HttpStatusCode.BadRequest, "Email not found");
+            throw new HttpException(HttpStatusCode.BadRequest, $"Email {email.UserEmail} not found");
         }
 
         /// <summary>
