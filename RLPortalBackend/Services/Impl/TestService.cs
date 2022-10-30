@@ -158,13 +158,13 @@ namespace RLPortalBackend.Services.Impl
             CompletedTestResult completedTestResult = new CompletedTestResult();
             completedTestResult.MaxPoints = exerciseEntities.Count;
             completedTestResult.VerifiedAnswers = exerciseEntities
-                    .SelectMany(nonsolved => solvedTest.UserAnswers
-                    .Where(solvedEx => nonsolved.Id.Equals(solvedEx.Id))
-                    .Select(verans => new VerifiedExercise
+                    .SelectMany(exEntity => solvedTest.UserAnswers
+                    .Where(solvedEx => exEntity.Id.Equals(solvedEx.Id))
+                    .Select(solvEx => new VerifiedExercise
                     {
-                        Id = nonsolved.Id,
-                        RightAnswer = nonsolved.RightAnswer,
-                        IsRight = nonsolved.RightAnswer.Equals(verans.ChosenAnswer)
+                        Id = exEntity.Id,
+                        RightAnswer = exEntity.RightAnswer,
+                        IsRight = exEntity.RightAnswer.Equals(solvEx.ChosenAnswer)
                     })).ToList();
             completedTestResult.Points = completedTestResult.VerifiedAnswers.Count(n => n.IsRight);
             return completedTestResult;
