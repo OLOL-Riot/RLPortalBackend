@@ -63,11 +63,11 @@ namespace RLPortalBackend.Controllers
             return CreatedAtAction(nameof(GetTestToEditById), new { id = createdTest.Id }, createdTest);
         }
 
-        [HttpPost("solved")]
+        [HttpPost("check")]
         [Authorize(Roles = "User, Administrator")]
         public async Task<ActionResult<CompletedTestResult>> SendSolvedTest([FromBody] SolvedTest solvedTest)
         {
-            var completedTestResult = await _testService.CheckSolvedTest(solvedTest);
+            CompletedTestResult completedTestResult = await _testService.CheckSolvedTest(solvedTest);
             return completedTestResult;
         }
 

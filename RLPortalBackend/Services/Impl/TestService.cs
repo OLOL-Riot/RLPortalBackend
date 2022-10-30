@@ -3,7 +3,6 @@ using RLPortalBackend.Entities;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
 using RLPortalBackend.Repositories;
-using System.Collections;
 
 namespace RLPortalBackend.Services.Impl
 {
@@ -13,7 +12,7 @@ namespace RLPortalBackend.Services.Impl
         private readonly IExerciseRepository _exerciseRepository;
         private readonly IMapper _mapper;
 
-        public TestService(ITestRepository testRepository, IExerciseRepository exerciseRepository,IMapper mapper)
+        public TestService(ITestRepository testRepository, IExerciseRepository exerciseRepository, IMapper mapper)
         {
             _testRepository = testRepository;
             _exerciseRepository = exerciseRepository;
@@ -33,7 +32,7 @@ namespace RLPortalBackend.Services.Impl
             newTestEntity.ExerciseIds = guids;
 
             await _testRepository.CreateAsync(newTestEntity);
-            
+
             TestDto createdTest = _mapper.Map<TestDto>(newTestEntity);
             ICollection<ExerciseDto> createdExercise = _mapper.Map<ICollection<ExerciseDto>>(newExerciseEntities);
             createdTest.Exercises = createdExercise;
@@ -61,7 +60,7 @@ namespace RLPortalBackend.Services.Impl
 
             return noRightAnswersTests;
         }
-        
+
 
         public async Task<NoRightAnswersTest> GetAsyncTestToSolveById(Guid id)
         {
@@ -132,7 +131,8 @@ namespace RLPortalBackend.Services.Impl
                     await _exerciseRepository.CreateAsync(newExerciseEntity);
                     updatedExerciseIds.Add(newExerciseEntity.Id);
 
-                } else
+                }
+                else
                 {
                     ExerciseEntity updatedExerciseEntity = _mapper.Map<ExerciseEntity>(exerciseDto);
                     Guid exerciseId = updatedExerciseEntity.Id;
@@ -157,32 +157,16 @@ namespace RLPortalBackend.Services.Impl
 
             CompletedTestResult completedTestResult = new CompletedTestResult();
             completedTestResult.MaxPoints = exerciseEntities.Count;
-            completedTestResult.Points = 0;
-            completedTestResult.VerifiedAnswers = new List<VerifiedExercise>();
-
-            for (int i = 0; i < exerciseEntities.Count; i++)
-            {
-                if (exercisesIds.ElementAt(i) == exerciseEntities.ElementAt(i).Id)
-                {
-                    if (solvedTest.UserAnswers.ElementAt(i).ChosenAnswer.Equals(exerciseEntities.ElementAt(i).RightAnswer)){
-                        completedTestResult.Points++;
-                        VerifiedExercise verifiedExercise = new VerifiedExercise();
-                        verifiedExercise.Guid = exerciseEntities.ElementAt(i).Id;
-                        verifiedExercise.RightAnswer = exerciseEntities.ElementAt(i).RightAnswer;
-                        verifiedExercise.IsRight = true;
-                  
-                        completedTestResult.VerifiedAnswers.Add(verifiedExercise);
-                    }
-                    else
+            completedTestResult.VerifiedAnswers = exerciseEntities
+                    .SelectMany(nonsolved => solvedTest.UserAnswers
+                    .Where(solvedEx => nonsolved.Id.Equals(solvedEx.Id))
+                    .Select(verans => new VerifiedExercise
                     {
-                        VerifiedExercise verifiedExercise = new VerifiedExercise();
-                        verifiedExercise.Guid = exerciseEntities.ElementAt(i).Id;
-                        verifiedExercise.RightAnswer = exerciseEntities.ElementAt(i).RightAnswer;
-                        verifiedExercise.IsRight = false;
-                        completedTestResult.VerifiedAnswers.Add(verifiedExercise);
-                    }
-                }
-            }
+                        Id = nonsolved.Id,
+                        RightAnswer = nonsolved.RightAnswer,
+                        IsRight = nonsolved.RightAnswer.Equals(verans.ChosenAnswer)
+                    })).ToList();
+            completedTestResult.Points = completedTestResult.VerifiedAnswers.Count(n => n.IsRight);
             return completedTestResult;
 
         }

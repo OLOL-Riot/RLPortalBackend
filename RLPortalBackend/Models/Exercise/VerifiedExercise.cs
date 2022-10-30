@@ -2,7 +2,7 @@
 {
     public class VerifiedExercise
     {
-        public Guid Guid { get; set; }
+        public Guid Id { get; set; }
 
         public string RightAnswer { get; set; }
 
