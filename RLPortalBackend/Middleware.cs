@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using RLPortalBackend.Exeption;
-using System.Net;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using RLPortalBackend.Exeption;
 
 namespace RLPortalBackend
 {
@@ -20,11 +14,11 @@ namespace RLPortalBackend
 
         public async Task InvokeAsync(HttpContext context)
         {
-            
+
             try
             {
                 await _next(context);
-            } 
+            }
             catch (HttpException ex)
             {
                 await HandleExceptionAsync(context, ex);
@@ -48,7 +42,7 @@ namespace RLPortalBackend
         }
 
         // Extension method used to add the middleware to the HTTP request pipeline.
-        
+
     }
     public static class MiddlewareExtensions
     {
