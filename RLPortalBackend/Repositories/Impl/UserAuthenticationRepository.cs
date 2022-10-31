@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using RLPortalBackend.Entities;
+using RLPortalBackend.Exeption;
 using RLPortalBackend.Helpers;
 using RLPortalBackend.Models;
 using RLPortalBackend.Models.Autentification;
-
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace RLPortalBackend.Repositories.Impl
 {
@@ -45,17 +48,24 @@ namespace RLPortalBackend.Repositories.Impl
         /// <param name="request"></param>
         /// <returns>JWT</returns>
         public async Task<JWT> LoginAsync(AutentificationRequest request)
-        { 
+        {
+            var resultLogin = await _userManager.FindByNameAsync(request.Login);
+            if(resultLogin == null)
+            {
+                throw new HttpException(HttpStatusCode.NotFound, $"Login {request.Login} not found");
+            }
+
+
             var result = await _signInManager.PasswordSignInAsync(request.Login, request.Password, false, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                _logger.LogInformation("User login in account: {0}", request.Login);
+                _logger.LogInformation($"User login in account: {request.Login}");
                 var user = await _userManager.FindByNameAsync(request.Login);
                 var role = await _userManager.GetRolesAsync(user);
                 string token = _jwtHelper.CreateToken(user, role[0]);
                 return new JWT(token);
             }
-            return new JWT(null);
+            throw new HttpException(HttpStatusCode.BadRequest, "Invalid password");
         }
 
         /// <summary>
@@ -65,6 +75,25 @@ namespace RLPortalBackend.Repositories.Impl
         /// <returns></returns>
         public async Task RegistrateAsync(UserModel input)
         {
+            string pattern = @"^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,}$";
+            string patternEmail = @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
+                @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$";
+
+            if (!Regex.IsMatch(input.Email, patternEmail, RegexOptions.IgnoreCase))
+                throw new HttpException(HttpStatusCode.BadRequest, "Invalid email");
+
+            if (!Regex.IsMatch(input.Password, pattern))
+            {
+                throw new HttpException(HttpStatusCode.BadRequest, "Invalid password");
+            }
+            if (_userManager.FindByNameAsync(input.Login).Result != null)
+            {
+                throw new HttpException(HttpStatusCode.Conflict, $"Login {input.Login} alredy exists");
+            }
+            if (_userManager.FindByEmailAsync(input.Email).Result != null)
+            {
+                throw new HttpException(HttpStatusCode.Conflict, $"Email {input.Email} alredy exists");
+            }
             var user = CreateUser();
 
             user.FirstName = input.FirstName;
@@ -78,7 +107,7 @@ namespace RLPortalBackend.Repositories.Impl
 
             if (result.Succeeded)
             {
-                _logger.LogInformation("User created");
+                _logger.LogInformation($"User {input.Login} created");
                 await _userManager.AddToRoleAsync(user, "User");
 
             }
@@ -99,6 +128,7 @@ namespace RLPortalBackend.Repositories.Impl
                 if (email.Role.Equals("Administrator")) await _userManager.RemoveFromRoleAsync(user, "User");
                 if (email.Role.Equals("User")) await _userManager.RemoveFromRoleAsync(user, "Administrator");
             }
+            throw new HttpException(HttpStatusCode.BadRequest, $"Email {email.UserEmail} not found");
         }
 
         /// <summary>

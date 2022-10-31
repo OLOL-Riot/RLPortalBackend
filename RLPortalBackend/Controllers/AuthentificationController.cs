@@ -19,32 +19,16 @@ namespace RLPortalBackend.Controllers
         [HttpPost("registration")]
         public async Task<ActionResult> Registration(UserModel input)
         {
-            try
-            {
-                await _auth.RegistrateAsync(input);
-                return Created("user", input);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-
+            await _auth.RegistrateAsync(input);
+            return Created("user", input);
         }
 
 
         [HttpPost("roles"), Authorize(Roles = "Administrator")]
         public async Task<ActionResult> GiveRole(EmailAndRole emailAndRole)
         {
-            try
-            {
-                await _auth.GiveRoleToUserAsync(emailAndRole);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-
+            await _auth.GiveRoleToUserAsync(emailAndRole);
+            return Ok();
         }
 
         [HttpPost("login")]
@@ -56,7 +40,7 @@ namespace RLPortalBackend.Controllers
                 return Ok(token);
             }
             return BadRequest("User not Found");
-            
+
         }
 
 

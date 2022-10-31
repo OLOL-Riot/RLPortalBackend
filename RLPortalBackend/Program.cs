@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using RLPortalBackend.Helpers;
 using RLPortalBackend.Models;
-using RLPortalBackend.Models.Autentification;
 using RLPortalBackend.Repositories;
 using RLPortalBackend.Repositories.Impl;
 using RLPortalBackend.Services;
@@ -15,6 +14,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Swashbuckle.AspNetCore.Filters;
 using RLPortalBackend.Helpers.Impl;
+using RLPortalBackend;
+using RLPortalBackend.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 //Postgres
@@ -99,6 +100,8 @@ using (var scope = scopeFactory.CreateScope())
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
     SeedData.Seed(userManager, roleManager);
 }
+
+app.UseMiddleware();
 
 app.UseCors(x => x
                 .AllowAnyOrigin()

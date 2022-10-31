@@ -1,4 +1,4 @@
-﻿using RLPortalBackend.Models.Autentification;
+﻿using RLPortalBackend.Entities;
 
 namespace RLPortalBackend.Helpers
 {

@@ -1,7 +1,7 @@
-﻿using RLPortalBackend.Models.Autentification;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using RLPortalBackend.Entities;
 
 namespace RLPortalBackend.Models;
 
