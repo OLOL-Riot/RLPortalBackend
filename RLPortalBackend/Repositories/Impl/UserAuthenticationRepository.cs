@@ -52,7 +52,7 @@ namespace RLPortalBackend.Repositories.Impl
             var resultLogin = await _userManager.FindByNameAsync(request.Login);
             if(resultLogin == null)
             {
-                throw new HttpException(HttpStatusCode.NotFound, $" Login: {request.Login} not found");
+                throw new HttpException(HttpStatusCode.NotFound, $"Login {request.Login} not found");
             }
 
 
@@ -88,11 +88,11 @@ namespace RLPortalBackend.Repositories.Impl
             }
             if (_userManager.FindByNameAsync(input.Login).Result != null)
             {
-                throw new HttpException(HttpStatusCode.Conflict, $"Login: {input.Login} alredy exists");
+                throw new HttpException(HttpStatusCode.Conflict, $"Login {input.Login} alredy exists");
             }
             if (_userManager.FindByEmailAsync(input.Email).Result != null)
             {
-                throw new HttpException(HttpStatusCode.Conflict, $"Email: {input.Email} alredy exists");
+                throw new HttpException(HttpStatusCode.Conflict, $"Email {input.Email} alredy exists");
             }
             var user = CreateUser();
 
