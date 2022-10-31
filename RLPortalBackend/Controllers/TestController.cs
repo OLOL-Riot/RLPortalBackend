@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using RLPortalBackend.Models.Test;
 using RLPortalBackend.Services;
-using System;
-using System.Text.Json;
 
 namespace RLPortalBackend.Controllers
 {
@@ -68,12 +65,11 @@ namespace RLPortalBackend.Controllers
 
         [HttpPost("check")]
         [Authorize(Roles = "User, Administrator")]
-        public async Task<ActionResult<string>> SendSolvedTest([FromBody] SolvedTest solvedTest)
+        public async Task<IActionResult> SendSolvedTest([FromBody] SolvedTest solvedTest)
         {
-            
+
             CompletedTestResult completedTestResult = await _testService.CheckSolvedTest(solvedTest);
-            string json = JsonConvert.SerializeObject(completedTestResult);
-            return json;
+            return Ok(completedTestResult);
         }
 
         [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
