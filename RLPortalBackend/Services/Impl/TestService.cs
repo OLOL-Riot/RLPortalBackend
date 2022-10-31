@@ -3,7 +3,6 @@ using RLPortalBackend.Entities;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
 using RLPortalBackend.Repositories;
-using System.Collections;
 
 namespace RLPortalBackend.Services.Impl
 {
@@ -13,7 +12,7 @@ namespace RLPortalBackend.Services.Impl
         private readonly IExerciseRepository _exerciseRepository;
         private readonly IMapper _mapper;
 
-        public TestService(ITestRepository testRepository, IExerciseRepository exerciseRepository,IMapper mapper)
+        public TestService(ITestRepository testRepository, IExerciseRepository exerciseRepository, IMapper mapper)
         {
             _testRepository = testRepository;
             _exerciseRepository = exerciseRepository;
@@ -33,7 +32,7 @@ namespace RLPortalBackend.Services.Impl
             newTestEntity.ExerciseIds = guids;
 
             await _testRepository.CreateAsync(newTestEntity);
-            
+
             TestDto createdTest = _mapper.Map<TestDto>(newTestEntity);
             ICollection<ExerciseDto> createdExercise = _mapper.Map<ICollection<ExerciseDto>>(newExerciseEntities);
             createdTest.Exercises = createdExercise;
@@ -61,7 +60,7 @@ namespace RLPortalBackend.Services.Impl
 
             return noRightAnswersTests;
         }
-        
+
 
         public async Task<NoRightAnswersTest> GetAsyncTestToSolveById(Guid id)
         {
@@ -132,7 +131,8 @@ namespace RLPortalBackend.Services.Impl
                     await _exerciseRepository.CreateAsync(newExerciseEntity);
                     updatedExerciseIds.Add(newExerciseEntity.Id);
 
-                } else
+                }
+                else
                 {
                     ExerciseEntity updatedExerciseEntity = _mapper.Map<ExerciseEntity>(exerciseDto);
                     Guid exerciseId = updatedExerciseEntity.Id;
@@ -147,6 +147,28 @@ namespace RLPortalBackend.Services.Impl
             updatedTestEntity.ExerciseIds = updatedExerciseIds;
 
             await _testRepository.UpdateAsync(id, updatedTestEntity);
+        }
+
+        public async Task<CompletedTestResult> CheckSolvedTest(SolvedTest solvedTest)
+        {
+            TestEntity testEntity = await _testRepository.GetAsync(solvedTest.TestId);
+            ICollection<Guid> exercisesIds = testEntity.ExerciseIds;
+            ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync(exercisesIds);
+
+            CompletedTestResult completedTestResult = new CompletedTestResult();
+            completedTestResult.MaxPoints = exerciseEntities.Count;
+            completedTestResult.VerifiedAnswers = exerciseEntities
+                    .SelectMany(exEntity => solvedTest.UserAnswers
+                    .Where(solvedEx => exEntity.Id.Equals(solvedEx.Id))
+                    .Select(solvEx => new VerifiedExercise
+                    {
+                        Id = exEntity.Id,
+                        RightAnswer = exEntity.RightAnswer,
+                        IsRight = exEntity.RightAnswer.Equals(solvEx.ChosenAnswer)
+                    })).ToList();
+            completedTestResult.Points = completedTestResult.VerifiedAnswers.Count(n => n.IsRight);
+            return completedTestResult;
+
         }
     }
 }

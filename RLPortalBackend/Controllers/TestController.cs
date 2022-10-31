@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using RLPortalBackend.Entities;
-using RLPortalBackend.Services;
-using System.Data;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RLPortalBackend.Models.Test;
+using RLPortalBackend.Services;
 
 namespace RLPortalBackend.Controllers
 {
@@ -65,6 +63,15 @@ namespace RLPortalBackend.Controllers
             return CreatedAtAction(nameof(GetTestToEditById), new { id = createdTest.Id }, createdTest);
         }
 
+        [HttpPost("verify")]
+        [Authorize(Roles = "User, Administrator")]
+        public async Task<IActionResult> SendSolvedTest([FromBody] SolvedTest solvedTest)
+        {
+
+            CompletedTestResult completedTestResult = await _testService.CheckSolvedTest(solvedTest);
+            return Ok(completedTestResult);
+        }
+
         [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Update(Guid id, UpdateTest updatedTest)
         {
@@ -94,6 +101,8 @@ namespace RLPortalBackend.Controllers
 
             return NoContent();
         }
+
+
 
 
 
