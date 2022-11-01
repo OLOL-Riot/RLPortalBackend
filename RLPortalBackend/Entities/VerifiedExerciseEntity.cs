@@ -1,6 +1,6 @@
 ﻿namespace RLPortalBackend.Entities
 {
-    public class UserAnswerEntity
+    public class VerifiedExerciseEntity
     {
         public Guid ExerciseId { get; set; }
 

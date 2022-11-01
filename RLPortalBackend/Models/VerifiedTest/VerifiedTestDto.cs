@@ -14,6 +14,6 @@ namespace RLPortalBackend.Models.VerifiedTest
 
         public int MaxPoints { get; set; }
 
-        public ICollection<UserAnswerDto> UserAnswers { get; set; }
+        public ICollection<VerifiedExerciseDto> UserAnswers { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace RLPortalBackend.Models.VerifiedTest
 {
-    public class UserAnswerDto
+    public class VerifiedExerciseDto
     {
         public Guid ExerciseId { get; set; }
 
