@@ -64,15 +64,6 @@ namespace RLPortalBackend.Controllers
             return CreatedAtAction(nameof(GetTestToEditById), new { id = createdTest.Id }, createdTest);
         }
 
-        [HttpPost("verify")]
-        [Authorize(Roles = "User, Administrator")]
-        public async Task<IActionResult> SendSolvedTest([FromBody] SolvedTestDto solvedTest)
-        {
-
-            CompletedTestResult completedTestResult = await _testService.CheckSolvedTest(solvedTest);
-            return Ok(completedTestResult);
-        }
-
         [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Update(Guid id, UpdateTest updatedTest)
         {

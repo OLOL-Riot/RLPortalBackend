@@ -149,27 +149,5 @@ namespace RLPortalBackend.Services.Impl
 
             await _testRepository.UpdateAsync(id, updatedTestEntity);
         }
-
-        public async Task<CompletedTestResult> CheckSolvedTest(SolvedTestDto solvedTest)
-        {
-            TestEntity testEntity = await _testRepository.GetAsync(solvedTest.TestId);
-            ICollection<Guid> exercisesIds = testEntity.ExerciseIds;
-            ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync(exercisesIds);
-
-            CompletedTestResult completedTestResult = new CompletedTestResult();
-            completedTestResult.MaxPoints = exerciseEntities.Count;
-            completedTestResult.VerifiedAnswers = exerciseEntities
-                    .SelectMany(exEntity => solvedTest.UserAnswers
-                    .Where(solvedEx => exEntity.Id.Equals(solvedEx.Id))
-                    .Select(solvEx => new VerifiedExercise
-                    {
-                        Id = exEntity.Id,
-                        RightAnswer = exEntity.RightAnswer,
-                        IsRight = exEntity.RightAnswer.Equals(solvEx.ChosenAnswer)
-                    })).ToList();
-            completedTestResult.Points = completedTestResult.VerifiedAnswers.Count(n => n.IsRight);
-            return completedTestResult;
-
-        }
     }
 }
