@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using RLPortalBackend.Entities;
 using RLPortalBackend.Models.VerifiedTest;
 using RLPortalBackend.Repositories;
 
@@ -20,19 +21,22 @@ namespace RLPortalBackend.Services.Impl
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<VerifiedTestDto>> GetAsync()
+        public async Task<ICollection<VerifiedTestDto>> GetAsync()
         {
-            throw new NotImplementedException();
+            ICollection<VerifiedTestEntity> verifiedTestEntities = await _verifiedTestRepository.GetAsync();
+            return _mapper.Map<ICollection<VerifiedTestDto>>(verifiedTestEntities);
         }
 
-        public Task<VerifiedTestDto> GetByIdAsync(Guid id)
+        public async Task<VerifiedTestDto> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            VerifiedTestEntity verifiedTestEntity = await _verifiedTestRepository.GetByIdAsync(id);
+            return _mapper.Map<VerifiedTestDto>(verifiedTestEntity);
         }
 
-        public Task<ICollection<VerifiedTestDto>> GetByUserIdAsync(Guid userId)
+        public async Task<ICollection<VerifiedTestDto>> GetByUserIdAsync(Guid userId)
         {
-            throw new NotImplementedException();
+            ICollection<VerifiedTestEntity> verifiedTestEntities = await _verifiedTestRepository.GetByUserIdAsync(userId);
+            return _mapper.Map<ICollection<VerifiedTestDto>>(verifiedTestEntities);
         }
 
         public Task RemoveAsync(Guid id)
