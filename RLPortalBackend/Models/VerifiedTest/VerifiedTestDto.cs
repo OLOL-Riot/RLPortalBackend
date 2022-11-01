@@ -4,7 +4,7 @@ namespace RLPortalBackend.Models.VerifiedTest
 {
     public class VerifiedTestDto
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
 
         public Guid UserId { get; set; }
 
@@ -14,6 +14,6 @@ namespace RLPortalBackend.Models.VerifiedTest
 
         public int MaxPoints { get; set; }
 
-        public ICollection<VerifiedExerciseDto> UserAnswers { get; set; }
+        public ICollection<VerifiedExerciseDto> VerifiedExercises { get; set; }
     }
 }
