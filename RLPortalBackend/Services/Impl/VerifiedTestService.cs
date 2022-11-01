@@ -1,30 +1,50 @@
 ﻿using AutoMapper;
 using RLPortalBackend.Entities;
+using RLPortalBackend.Models.Exercise;
+using RLPortalBackend.Models.Test;
 using RLPortalBackend.Models.VerifiedTest;
 using RLPortalBackend.Repositories;
-using RLPortalBackend.Repositories.Impl;
 
 namespace RLPortalBackend.Services.Impl
 {
     public class VerifiedTestService : IVerifiedTestService
     {
         private readonly IVerifiedTestRepository _verifiedTestRepository;
-        private readonly ITestRepository _testRepository;
-        private readonly IExerciseRepository _exerciseRepository;
+        private readonly ITestService _testService;
         private readonly IMapper _mapper;
 
-        public VerifiedTestService(IVerifiedTestRepository verifiedTestRepository, ITestRepository testRepository,
-            IExerciseRepository exerciseRepository, IMapper mapper)
+        public VerifiedTestService(IVerifiedTestRepository verifiedTestRepository, ITestService testService, IMapper mapper)
         {
             _verifiedTestRepository = verifiedTestRepository;
-            _testRepository = testRepository;
-            _exerciseRepository = exerciseRepository;
+            _testService = testService;
             _mapper = mapper;
         }
 
-        public Task CreateAsync(SolvedTestDto solvedTest, Guid userId)
+        public async Task CreateAsync(SolvedTestDto solvedTest, Guid userId)
         {
-            throw new NotImplementedException();
+            // Add Exceptions Handling: test not found, incorrect exercises
+
+            TestDto test = await _testService.GetAsyncTestToEditById(solvedTest.TestId);
+            ICollection<ExerciseDto> exercises = test.Exercises;
+
+            VerifiedTestDto verifiedTest = _mapper.Map<VerifiedTestDto>(solvedTest);
+
+            verifiedTest.MaxPoints = exercises.Count;
+
+            for (int i = 0; i < verifiedTest.VerifiedExercises.Count; i++)
+            {
+                VerifiedExerciseDto verifiedExercise = verifiedTest.VerifiedExercises.ElementAtOrDefault(i);
+
+                var chosendAnswer = verifiedExercise.ChosenAnswer;
+
+                verifiedExercise.IsRight = (chosendAnswer == exercises.ElementAtOrDefault(i).RightAnswer);
+            }
+
+            verifiedTest.Points = verifiedTest.VerifiedExercises.Count(verifiedExercise => verifiedExercise.IsRight);
+
+            VerifiedTestEntity verifiedTestEntity = _mapper.Map<VerifiedTestEntity>(verifiedTest);
+            await _verifiedTestRepository.CreateAsync(verifiedTestEntity);
+
         }
 
         public async Task<ICollection<VerifiedTestDto>> GetAsync()
