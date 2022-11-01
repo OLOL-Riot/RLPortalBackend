@@ -9,11 +9,16 @@ namespace RLPortalBackend.Services.Impl
     public class VerifiedTestService : IVerifiedTestService
     {
         private readonly IVerifiedTestRepository _verifiedTestRepository;
+        private readonly ITestRepository _testRepository;
+        private readonly IExerciseRepository _exerciseRepository;
         private readonly IMapper _mapper;
 
-        public VerifiedTestService(IVerifiedTestRepository verifiedTestRepository, IMapper mapper)
+        public VerifiedTestService(IVerifiedTestRepository verifiedTestRepository, ITestRepository testRepository,
+            IExerciseRepository exerciseRepository, IMapper mapper)
         {
             _verifiedTestRepository = verifiedTestRepository;
+            _testRepository = testRepository;
+            _exerciseRepository = exerciseRepository;
             _mapper = mapper;
         }
 
