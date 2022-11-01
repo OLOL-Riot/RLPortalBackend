@@ -1,9 +1,20 @@
-﻿using RLPortalBackend.Models.VerifiedTest;
+﻿using AutoMapper;
+using RLPortalBackend.Models.VerifiedTest;
+using RLPortalBackend.Repositories;
 
 namespace RLPortalBackend.Services.Impl
 {
     public class VerifiedTestService : IVerifiedTestService
     {
+        private readonly IVerifiedTestRepository _verifiedTestRepository;
+        private readonly IMapper _mapper;
+
+        public VerifiedTestService(IVerifiedTestRepository verifiedTestRepository, IMapper mapper)
+        {
+            _verifiedTestRepository = verifiedTestRepository;
+            _mapper = mapper;
+        }
+
         public Task CreateAsync(SolvedTestDto solvedTest, Guid userId)
         {
             throw new NotImplementedException();
