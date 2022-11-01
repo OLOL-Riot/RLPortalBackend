@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using RLPortalBackend.Models.Test;
+using RLPortalBackend.Models.VerifiedTest;
 using RLPortalBackend.Services;
 
 namespace RLPortalBackend.Controllers
@@ -13,5 +16,13 @@ namespace RLPortalBackend.Controllers
         {
             _verifiedTestService = verifiedTestService;
         }
+
+        //[HttpPost]
+        //[Authorize(Roles = "User, Administrator")]
+        //public async Task<IActionResult> Post(SolvedTestDto solvedTest)
+        //{
+            
+        //}
+
     }
 }
