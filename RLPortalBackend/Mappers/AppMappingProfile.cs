@@ -39,6 +39,12 @@ namespace RLPortalBackend.Mappers
 
             // VerifiedTestEntity, UpdateVerifiedTestDto
             CreateMap<VerifiedTestEntity, UpdateVerifiedTestDto>().ReverseMap();
+
+            // SolvedTestDto, VerifiedTestDto
+            CreateMap<SolvedTestDto, VerifiedTestDto>();
+
+            // SolvedExercise, VerifiedExerciseDto
+            CreateMap<SolvedExercise, VerifiedExerciseDto>();
         }
     }
 }
