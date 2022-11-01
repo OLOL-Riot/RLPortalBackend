@@ -1,4 +1,4 @@
-﻿namespace RLPortalBackend.Models.Exercise
+﻿namespace RLPortalBackend.Models.VerifiedTest
 {
     public class SolvedExercise
     {

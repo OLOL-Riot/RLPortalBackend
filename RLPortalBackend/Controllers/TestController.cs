@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RLPortalBackend.Models.Test;
+using RLPortalBackend.Models.VerifiedTest;
 using RLPortalBackend.Services;
 
 namespace RLPortalBackend.Controllers
@@ -65,7 +66,7 @@ namespace RLPortalBackend.Controllers
 
         [HttpPost("verify")]
         [Authorize(Roles = "User, Administrator")]
-        public async Task<IActionResult> SendSolvedTest([FromBody] SolvedTest solvedTest)
+        public async Task<IActionResult> SendSolvedTest([FromBody] SolvedTestDto solvedTest)
         {
 
             CompletedTestResult completedTestResult = await _testService.CheckSolvedTest(solvedTest);

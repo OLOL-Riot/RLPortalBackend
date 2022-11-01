@@ -2,6 +2,7 @@
 using RLPortalBackend.Entities;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
+using RLPortalBackend.Models.VerifiedTest;
 using RLPortalBackend.Repositories;
 
 namespace RLPortalBackend.Services.Impl
@@ -149,7 +150,7 @@ namespace RLPortalBackend.Services.Impl
             await _testRepository.UpdateAsync(id, updatedTestEntity);
         }
 
-        public async Task<CompletedTestResult> CheckSolvedTest(SolvedTest solvedTest)
+        public async Task<CompletedTestResult> CheckSolvedTest(SolvedTestDto solvedTest)
         {
             TestEntity testEntity = await _testRepository.GetAsync(solvedTest.TestId);
             ICollection<Guid> exercisesIds = testEntity.ExerciseIds;

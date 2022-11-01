@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using RLPortalBackend.Entities;
 using RLPortalBackend.Models.Test;
+using RLPortalBackend.Models.VerifiedTest;
 
 namespace RLPortalBackend.Services
 {
@@ -63,6 +64,6 @@ namespace RLPortalBackend.Services
         /// </summary>
         /// <param name="solvedTest"></param>
         /// <returns>CompletedTestResult</returns>
-        public Task<CompletedTestResult> CheckSolvedTest(SolvedTest solvedTest);
+        public Task<CompletedTestResult> CheckSolvedTest(SolvedTestDto solvedTest);
     }
 }

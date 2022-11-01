@@ -1,5 +1,4 @@
 ﻿using RLPortalBackend.Entities;
-using RLPortalBackend.Models.Test;
 using RLPortalBackend.Models.VerifiedTest;
 
 namespace RLPortalBackend.Services
@@ -14,7 +13,7 @@ namespace RLPortalBackend.Services
         /// </summary>
         /// <param name="solvedTest">Solved test with user answers</param>
         /// <returns></returns>
-        public Task CreateAsync(SolvedTest solvedTest);
+        public Task CreateAsync(SolvedTestDto solvedTest, Guid userId);
 
         /// <summary>
         /// Get all of VerifiedTests
