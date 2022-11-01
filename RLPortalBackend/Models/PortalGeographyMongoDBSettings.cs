@@ -12,5 +12,7 @@
         public string ExerciseCollectionName { get; set; } = null!;
 
         public string TestCollectionName { get; set; } = null!;
+
+        public string VerifiedTestCollectionName { get; set; } = null!;
     }
 }
