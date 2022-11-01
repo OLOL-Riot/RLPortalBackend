@@ -17,28 +17,28 @@ namespace RLPortalBackend.Repositories
         /// <summary>
         /// Get all of VerifiedTests
         /// </summary>
-        /// <returns>Collection of tests</returns>
+        /// <returns>Collection of Verified Tests</returns>
         public Task<ICollection<VerifiedTestEntity>> GetAsync();
 
         /// <summary>
         /// Get one VerifiedTest by id
         /// </summary>
         /// <param name="id">Id</param>
-        /// <returns></returns>
+        /// <returns>Verified Test</returns>
         public Task<VerifiedTestEntity> GetByIdAsync(Guid id);
 
         /// <summary>
         /// Get all VerifiedTests by userId
         /// </summary>
         /// <param name="userId">User id</param>
-        /// <returns></returns>
+        /// <returns>collection of Verified Test</returns>
         public Task<ICollection<VerifiedTestEntity>> GetByUserIdAsync(Guid userId);
 
         /// <summary>
         /// Update one VerifiedTest by id
         /// </summary>
         /// <param name="id">Id</param>
-        /// <param name="updatedVerifiedTest">Updated test</param>
+        /// <param name="updatedVerifiedTest">Updated Verified Test</param>
         /// <returns></returns>
         public Task UpdateAsync(Guid id, VerifiedTestEntity updatedVerifiedTestEntity);
 
