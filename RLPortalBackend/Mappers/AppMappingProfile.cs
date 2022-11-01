@@ -2,6 +2,7 @@
 using RLPortalBackend.Entities;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
+using RLPortalBackend.Models.VerifiedTest;
 
 namespace RLPortalBackend.Mappers
 {
@@ -29,6 +30,15 @@ namespace RLPortalBackend.Mappers
 
             // UpdateTest, TestEntity
             CreateMap<UpdateTest, TestEntity>().ReverseMap();
+
+            // VerifiedTestEntity, VerifiedTestDto
+            CreateMap<VerifiedTestEntity, VerifiedTestDto>().ReverseMap();
+
+            // UserAnswerEntity, UserAnswerDto
+            CreateMap<UserAnswerEntity, UserAnswerDto>().ReverseMap();
+
+            // VerifiedTestEntity, UpdateVerifiedTestDto
+            CreateMap<VerifiedTestEntity, UpdateVerifiedTestDto>().ReverseMap();
         }
     }
 }
