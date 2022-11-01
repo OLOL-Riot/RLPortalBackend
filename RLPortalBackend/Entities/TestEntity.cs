@@ -9,11 +9,20 @@ namespace RLPortalBackend.Entities
     /// </summary>
     public class TestEntity
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         [BsonId(IdGenerator = typeof(GuidGenerator))]
         public Guid Id { get; set; }
 
+        /// <summary>
+        /// Name
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Collection of Execise Id
+        /// </summary>
         public ICollection<Guid> ExerciseIds { get; set; }
     }
 }

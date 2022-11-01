@@ -5,6 +5,9 @@ using System.Security.Claims;
 
 namespace RLPortalBackend.Helpers.Impl
 {
+    /// <summary>
+    /// JWT Helper
+    /// </summary>
     public class JWTHelper : IJWTHelper
     {
         private readonly IConfiguration _configuration;
@@ -14,6 +17,12 @@ namespace RLPortalBackend.Helpers.Impl
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Create JWT
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="role"></param>
+        /// <returns>string</returns>
         public string CreateToken(User user, string role)
         {
             List<Claim> claims = new List<Claim>()

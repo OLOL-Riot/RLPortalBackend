@@ -2,11 +2,19 @@
 
 namespace RLPortalBackend.Entities;
 
-// Add profile data for application users by adding properties to the User class
+/// <summary>
+/// User Entity class for IdentityFraemwork
+/// </summary>
 public class User : IdentityUser
 {
+    /// <summary>
+    /// Firstname
+    /// </summary>
     public string FirstName { get; set; }
 
+    /// <summary>
+    /// Lastname
+    /// </summary>
     public string LastName { get; set; }
 }
 

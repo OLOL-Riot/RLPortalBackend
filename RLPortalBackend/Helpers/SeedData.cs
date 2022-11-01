@@ -3,6 +3,9 @@ using RLPortalBackend.Entities;
 
 namespace RLPortalBackend.Helpers
 {
+    /// <summary>
+    /// SeedData - make roles and admin account in postgres database
+    /// </summary>
     public static class SeedData
     {
 

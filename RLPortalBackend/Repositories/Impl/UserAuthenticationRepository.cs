@@ -42,11 +42,7 @@ namespace RLPortalBackend.Repositories.Impl
             _emailSender = emailSender;
         }
 
-        /// <summary>
-        /// Async login in account
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns>JWT</returns>
+
         public async Task<JWT> LoginAsync(AutentificationRequest request)
         {
             var resultLogin = await _userManager.FindByNameAsync(request.Login);
@@ -68,11 +64,7 @@ namespace RLPortalBackend.Repositories.Impl
             throw new HttpException(HttpStatusCode.BadRequest, "Invalid password");
         }
 
-        /// <summary>
-        /// Async registration
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
+ 
         public async Task RegistrateAsync(UserModel input)
         {
             string pattern = @"^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,}$";
@@ -114,11 +106,7 @@ namespace RLPortalBackend.Repositories.Impl
 
         }
 
-        /// <summary>
-        /// Async give role to user
-        /// </summary>
-        /// <param name="email"></param>
-        /// <returns></returns>
+     
         public async Task GiveRoleToUserAsync(EmailAndRole email)
         {
             var user = await _userManager.FindByEmailAsync(email.UserEmail);
