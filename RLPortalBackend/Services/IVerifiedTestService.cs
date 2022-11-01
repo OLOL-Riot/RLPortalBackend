@@ -12,6 +12,7 @@ namespace RLPortalBackend.Services
         /// Create one VerifiedTest
         /// </summary>
         /// <param name="solvedTest">Solved test with user answers</param>
+        /// <param name="userId">User id</param>
         /// <returns></returns>
         public Task CreateAsync(SolvedTestDto solvedTest, Guid userId);
 
