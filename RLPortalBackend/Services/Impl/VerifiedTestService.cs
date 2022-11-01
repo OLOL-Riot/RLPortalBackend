@@ -39,9 +39,9 @@ namespace RLPortalBackend.Services.Impl
             return _mapper.Map<ICollection<VerifiedTestDto>>(verifiedTestEntities);
         }
 
-        public Task RemoveAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
-            throw new NotImplementedException();
+            await _verifiedTestRepository.RemoveAsync(id);
         }
 
         public Task UpdateAsync(Guid id, VerifiedTestDto updatedVerifiedTestDto)
