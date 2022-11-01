@@ -27,7 +27,9 @@ namespace RLPortalBackend.Services.Impl
             TestDto test = await _testService.GetAsyncTestToEditById(solvedTest.TestId);
             ICollection<ExerciseDto> exercises = test.Exercises;
 
-            VerifiedTestDto verifiedTest = _mapper.Map<VerifiedTestDto>(solvedTest);
+            CreateVerifiedTestDto verifiedTest = _mapper.Map<CreateVerifiedTestDto>(solvedTest);
+
+            verifiedTest.UserId = userId;
 
             verifiedTest.MaxPoints = exercises.Count;
 
