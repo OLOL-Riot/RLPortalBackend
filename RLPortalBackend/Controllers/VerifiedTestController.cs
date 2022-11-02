@@ -28,7 +28,7 @@ namespace RLPortalBackend.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "User, Administrator")]
+        [Authorize(Roles = "Administrator")]
         public async Task<ICollection<VerifiedTestDto>> GetAllVerifiedTests()
         {
             return await _verifiedTestService.GetAsync();
