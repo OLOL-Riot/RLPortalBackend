@@ -44,10 +44,13 @@ namespace RLPortalBackend.Mappers
             CreateMap<CreateVerifiedTestDto, VerifiedTestDto>();
 
             // SolvedTestDto, VerifiedTestDto
-            CreateMap<SolvedTestDto, VerifiedTestDto>();
+            CreateMap<SolvedTestDto, CreateVerifiedTestDto>();
 
             // SolvedExercise, VerifiedExerciseDto
             CreateMap<SolvedExercise, VerifiedExerciseDto>();
+
+            // CreateVerifiedTestDto, VerifiedTestDto
+            CreateMap<CreateVerifiedTestDto, VerifiedTestDto>().ReverseMap();
         }
     }
 }
