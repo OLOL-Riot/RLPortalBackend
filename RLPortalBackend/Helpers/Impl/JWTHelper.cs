@@ -12,6 +12,10 @@ namespace RLPortalBackend.Helpers.Impl
     {
         private readonly IConfiguration _configuration;
 
+        /// <summary>
+        /// JWTHelper constructor
+        /// </summary>
+        /// <param name="configuration"></param>
         public JWTHelper(IConfiguration configuration)
         {
             _configuration = configuration;

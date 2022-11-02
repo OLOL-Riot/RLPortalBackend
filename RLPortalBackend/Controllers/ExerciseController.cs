@@ -15,6 +15,10 @@ namespace RLPortalBackend.Controllers
     {
         private readonly IExerciseService _exerciseService;
 
+        /// <summary>
+        /// ExerciseController constructor
+        /// </summary>
+        /// <param name="exerciseService"></param>
         public ExerciseController(IExerciseService exerciseService)
         {
             _exerciseService = exerciseService;

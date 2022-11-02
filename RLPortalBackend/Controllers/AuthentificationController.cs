@@ -15,7 +15,10 @@ namespace RLPortalBackend.Controllers
     public class AuthentificationController : Controller
     {
         private readonly IUserAuthenticationRepository _auth;
-
+        /// <summary>
+        /// AuthentificationController constructor
+        /// </summary>
+        /// <param name="auth"></param>
         public AuthentificationController(IUserAuthenticationRepository auth)
         {
             _auth = auth;
@@ -61,6 +64,9 @@ namespace RLPortalBackend.Controllers
         /// <param name="autentificationRequest"></param>
         /// <returns><see cref="JWT"/></returns>
         /// <exception cref="HttpException"></exception>
+        /// <response code="200">Registration completed successfully</response>
+        /// <response code="400">Wrong password</response> 
+        /// <response code="404">Login not found</response>
         [HttpPost("login")]
         [ProducesResponseType(typeof(JWT), 200)]
         [ProducesResponseType(400)]

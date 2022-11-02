@@ -13,7 +13,7 @@ namespace RLPortalBackend.Models.Test
         public string Name { get; set; }
 
         /// <summary>
-        /// Exercises
+        /// Exercises <see cref="ExerciseDto"/>
         /// </summary>
         public ICollection<ExerciseDto> Exercises { get; set; }
     }

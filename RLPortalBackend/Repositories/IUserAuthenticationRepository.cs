@@ -9,17 +9,17 @@ namespace RLPortalBackend.Repositories
     public interface IUserAuthenticationRepository
     {
         /// <summary>
-        /// Async login in account
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns>JWT</returns>
-        public Task RegistrateAsync(UserModel input);
-
-        /// <summary>
-        /// Async registration
+        /// Async user registration
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        public Task RegistrateAsync(UserModel input);
+
+        /// <summary>
+        /// Async login in account
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns><see cref="JWT"/></returns>
         public Task<JWT> LoginAsync(AutentificationRequest request);
 
         /// <summary>

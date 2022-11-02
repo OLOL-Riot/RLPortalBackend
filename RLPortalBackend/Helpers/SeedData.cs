@@ -9,6 +9,11 @@ namespace RLPortalBackend.Helpers
     public static class SeedData
     {
 
+        /// <summary>
+        /// Seed roles and user in database
+        /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="roleManager"></param>
         public static void Seed(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             SeedRoles(roleManager);

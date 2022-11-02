@@ -5,12 +5,19 @@ using RLPortalBackend.Services;
 
 namespace RLPortalBackend.Controllers
 {
+    /// <summary>
+    /// EmailSenderController
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class EmailSenderController : Controller
     {
         private readonly IEmailSenderService _emailSenderService;
 
+        /// <summary>
+        /// EmailSenderController constructor
+        /// </summary>
+        /// <param name="emailSenderService"></param>
         public EmailSenderController(IEmailSenderService emailSenderService)
         {
             _emailSenderService = emailSenderService;

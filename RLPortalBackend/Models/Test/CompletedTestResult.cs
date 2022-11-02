@@ -19,7 +19,7 @@ namespace RLPortalBackend.Models.Test
         public int MaxPoints { get; set; }
 
         /// <summary>
-        /// VerifiedAnswers
+        /// VerifiedAnswers <see cref="VerifiedExercise"/>
         /// </summary>
         public ICollection<VerifiedExercise> VerifiedAnswers { get; set; }
     }

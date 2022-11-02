@@ -18,7 +18,7 @@ namespace RLPortalBackend.Models.Test
         public Guid TestId { get; set; }
 
         /// <summary>
-        /// UserAnswers
+        /// UserAnswers <see cref="SolvedExercise"/>
         /// </summary>
         public ICollection<SolvedExercise> UserAnswers { get; set; }
     }

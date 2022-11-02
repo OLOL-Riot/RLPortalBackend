@@ -5,12 +5,19 @@ using RLPortalBackend.Services;
 
 namespace RLPortalBackend.Controllers
 {
+    /// <summary>
+    /// TestController
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class TestController : Controller
     {
         private readonly ITestService _testService;
 
+        /// <summary>
+        /// TestController constructor
+        /// </summary>
+        /// <param name="testService"></param>
         public TestController(ITestService testService)
         {
             _testService = testService;

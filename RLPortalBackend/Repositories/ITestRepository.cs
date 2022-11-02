@@ -10,14 +10,14 @@ namespace RLPortalBackend.Repositories
         /// <summary>
         /// Get all of tests
         /// </summary>
-        /// <returns>Collection of tests</returns>
+        /// <returns>Collection of <see cref="TestEntity"/></returns>
         public Task<ICollection<TestEntity>> GetAsync();
 
         /// <summary>
         /// Get one test by Id
         /// </summary>
         /// <param name="id">Id</param>
-        /// <returns>One test</returns>
+        /// <returns><see cref="TestEntity"/></returns>
         public Task<TestEntity> GetAsync(Guid id);
 
         /// <summary>
