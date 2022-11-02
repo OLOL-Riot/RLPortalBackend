@@ -42,6 +42,7 @@ namespace RLPortalBackend.Services.Impl
             }
 
             verifiedTest.Points = verifiedTest.VerifiedAnswers.Count(verifiedExercise => verifiedExercise.IsRight);
+            verifiedTest.VerifyTestDateTime = DateTimeOffset.Now;
 
             VerifiedTestEntity verifiedTestEntity = _mapper.Map<VerifiedTestEntity>(verifiedTest);
             verifiedTestEntity.Username = username;

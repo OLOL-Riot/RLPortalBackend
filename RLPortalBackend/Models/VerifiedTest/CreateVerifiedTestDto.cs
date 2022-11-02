@@ -6,6 +6,8 @@
 
         public Guid TestId { get; set; }
 
+        public DateTimeOffset VerifyTestDateTime { get; set; }
+
         public int Points { get; set; }
 
         public int MaxPoints { get; set; }
