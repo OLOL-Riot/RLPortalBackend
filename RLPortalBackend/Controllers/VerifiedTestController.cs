@@ -34,7 +34,7 @@ namespace RLPortalBackend.Controllers
             return await _verifiedTestService.GetAsync();
         }
 
-        [HttpGet("{id:length(36)}")]
+        [HttpGet("{verifiedTestId:length(36)}")]
         [Authorize(Roles = "User, Administrator")]
         public async Task<VerifiedTestDto> GetVerifiedTestById(Guid verifiedTestId)
         {
