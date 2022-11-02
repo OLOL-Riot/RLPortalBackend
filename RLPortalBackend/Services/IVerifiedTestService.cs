@@ -42,7 +42,7 @@ namespace RLPortalBackend.Services
         /// <param name="id">Id</param>
         /// <param name="updatedVerifiedTest">Updated test</param>
         /// <returns></returns>
-        public Task UpdateAsync(Guid id, VerifiedTestDto updatedVerifiedTestDto);
+        public Task UpdateAsync(Guid id, UpdateVerifiedTestDto updatedVerifiedTestDto);
 
         /// <summary>
         /// Remove one VerifiedTest by id
