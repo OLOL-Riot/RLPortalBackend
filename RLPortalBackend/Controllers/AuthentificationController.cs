@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RLPortalBackend.Exeption;
 using RLPortalBackend.Models;
 using RLPortalBackend.Models.Autentification;
 using RLPortalBackend.Repositories;
@@ -25,7 +26,9 @@ namespace RLPortalBackend.Controllers
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        /// <response code="400">Invalid email</response>
+        /// <response code="200">Registration completed successfully</response>
+        /// <response code="400">Invalid email or password</response>
+        /// <response code="409">Email or Username alredy exists</response>
         [HttpPost("registration")]
         [ProducesResponseType(typeof(UserModel), 200)]
         [ProducesResponseType(400)]
@@ -56,7 +59,8 @@ namespace RLPortalBackend.Controllers
         /// User login method
         /// </summary>
         /// <param name="autentificationRequest"></param>
-        /// <returns>JWT</returns>
+        /// <returns><see cref="JWT"/></returns>
+        /// <exception cref="HttpException"></exception>
         [HttpPost("login")]
         [ProducesResponseType(typeof(JWT), 200)]
         [ProducesResponseType(400)]
