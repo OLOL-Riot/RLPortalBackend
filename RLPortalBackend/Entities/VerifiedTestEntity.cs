@@ -16,7 +16,7 @@ namespace RLPortalBackend.Entities
 
         public int MaxPoints { get; set; }
 
-        public ICollection<VerifiedExerciseEntity> UserAnswers { get; set; }
+        public ICollection<VerifiedExerciseEntity> VerifiedAnswers { get; set; }
 
     }
 }

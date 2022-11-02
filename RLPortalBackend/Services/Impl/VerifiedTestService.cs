@@ -32,16 +32,16 @@ namespace RLPortalBackend.Services.Impl
             verifiedTest.MaxPoints = exercises.Count;
             verifiedTest.Username = username;
 
-            for (int i = 0; i < verifiedTest.VerifiedExercises.Count; i++)
+            for (int i = 0; i < verifiedTest.VerifiedAnswers.Count; i++)
             {
-                VerifiedExerciseDto verifiedExercise = verifiedTest.VerifiedExercises.ElementAtOrDefault(i);
+                VerifiedExerciseDto verifiedExercise = verifiedTest.VerifiedAnswers.ElementAtOrDefault(i);
 
                 var chosendAnswer = verifiedExercise.ChosenAnswer;
 
                 verifiedExercise.IsRight = (chosendAnswer == exercises.ElementAtOrDefault(i).RightAnswer);
             }
 
-            verifiedTest.Points = verifiedTest.VerifiedExercises.Count(verifiedExercise => verifiedExercise.IsRight);
+            verifiedTest.Points = verifiedTest.VerifiedAnswers.Count(verifiedExercise => verifiedExercise.IsRight);
 
             VerifiedTestEntity verifiedTestEntity = _mapper.Map<VerifiedTestEntity>(verifiedTest);
             verifiedTestEntity.Username = username;

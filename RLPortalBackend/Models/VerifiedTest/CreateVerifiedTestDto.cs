@@ -10,7 +10,7 @@
 
         public int MaxPoints { get; set; }
 
-        public ICollection<VerifiedExerciseDto> VerifiedExercises { get; set; }
+        public ICollection<VerifiedExerciseDto> VerifiedAnswers { get; set; }
 
     }
 }
