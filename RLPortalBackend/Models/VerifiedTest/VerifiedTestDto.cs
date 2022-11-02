@@ -6,7 +6,7 @@ namespace RLPortalBackend.Models.VerifiedTest
     {
         public Guid Id { get; set; }    
 
-        public Guid UserId { get; set; }
+        public string Username { get; set; }
 
         public Guid TestId { get; set; }
 

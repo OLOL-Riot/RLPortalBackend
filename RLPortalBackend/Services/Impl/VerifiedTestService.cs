@@ -20,7 +20,7 @@ namespace RLPortalBackend.Services.Impl
             _mapper = mapper;
         }
 
-        public async Task CreateAsync(SolvedTestDto solvedTest, Guid userId)
+        public async Task CreateAsync(SolvedTestDto solvedTest, string username)
         {
             // Add Exceptions Handling: test not found, incorrect exercises
 
@@ -29,7 +29,7 @@ namespace RLPortalBackend.Services.Impl
 
             CreateVerifiedTestDto verifiedTest = _mapper.Map<CreateVerifiedTestDto>(solvedTest);
 
-            verifiedTest.UserId = userId;
+            verifiedTest.Username = username;
 
             verifiedTest.MaxPoints = exercises.Count;
 
@@ -61,9 +61,9 @@ namespace RLPortalBackend.Services.Impl
             return _mapper.Map<VerifiedTestDto>(verifiedTestEntity);
         }
 
-        public async Task<ICollection<VerifiedTestDto>> GetByUserIdAsync(Guid userId)
+        public async Task<ICollection<VerifiedTestDto>> GetByUserIdAsync(string username)
         {
-            ICollection<VerifiedTestEntity> verifiedTestEntities = await _verifiedTestRepository.GetByUserIdAsync(userId);
+            ICollection<VerifiedTestEntity> verifiedTestEntities = await _verifiedTestRepository.GetByUserIdAsync(username);
             return _mapper.Map<ICollection<VerifiedTestDto>>(verifiedTestEntities);
         }
 

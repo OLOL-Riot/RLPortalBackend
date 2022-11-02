@@ -36,9 +36,9 @@ namespace RLPortalBackend.Repositories.Impl
             return await _verifiedTestCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<ICollection<VerifiedTestEntity>> GetByUserIdAsync(Guid userId)
+        public async Task<ICollection<VerifiedTestEntity>> GetByUserIdAsync(string username)
         {
-            return await _verifiedTestCollection.Find(el => userId == el.UserId).ToListAsync();
+            return await _verifiedTestCollection.Find(el => username == el.Username).ToListAsync();
         }
 
         public async Task RemoveAsync(Guid id)
