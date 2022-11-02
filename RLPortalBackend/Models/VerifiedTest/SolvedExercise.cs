@@ -2,7 +2,7 @@
 {
     public class SolvedExercise
     {
-        public Guid Id { get; set; }
+        public Guid ExerciseId { get; set; }
 
         public string ChosenAnswer { get; set; }
 
