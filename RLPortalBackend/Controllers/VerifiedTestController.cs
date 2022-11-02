@@ -41,5 +41,12 @@ namespace RLPortalBackend.Controllers
             return await _verifiedTestService.GetByIdAsync(verifiedTestId);
         }
 
+        [HttpGet("CurrentUser")]
+        [Authorize(Roles = "User, Administrator")]
+        public async Task<ICollection<VerifiedTestDto>> GetCurrentUserVerifiedTests()
+        {
+            return await _verifiedTestService.GetByUserIdAsync(User.Identity.Name);
+        }
+
     }
 }
