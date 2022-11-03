@@ -5,6 +5,9 @@ using RLPortalBackend.Models;
 
 namespace RLPortalBackend.Repositories.Impl
 {
+    /// <summary>
+    /// VerifiedTestRepository
+    /// </summary>
     public class VerifiedTestRepository : IVerifiedTestRepository
     {
         private readonly IMongoCollection<VerifiedTestEntity> _verifiedTestCollection;
