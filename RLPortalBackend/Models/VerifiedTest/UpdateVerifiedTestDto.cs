@@ -2,7 +2,7 @@
 {
     public class UpdateVerifiedTestDto
     {
-        public string Username { get; set; }
+        public Guid UserId { get; set; }
 
         public Guid TestId { get; set; }
 

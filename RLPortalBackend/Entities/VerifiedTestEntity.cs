@@ -8,7 +8,7 @@ namespace RLPortalBackend.Entities
         [BsonId(IdGenerator = typeof(GuidGenerator))]
         public Guid Id { get; set; }
 
-        public string Username { get; set; }
+        public Guid UserId { get; set; }
 
         public Guid TestId { get; set; }
 

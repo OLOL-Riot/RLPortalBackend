@@ -12,9 +12,9 @@ namespace RLPortalBackend.Services
         /// Create one VerifiedTest
         /// </summary>
         /// <param name="solvedTest">Solved test with user answers</param>
-        /// <param name="username">User id</param>
+        /// <param name="userId">User id</param>
         /// <returns></returns>
-        public Task<VerifiedTestDto> CreateAsync(SolvedTestDto solvedTest, string username);
+        public Task<VerifiedTestDto> CreateAsync(SolvedTestDto solvedTest, Guid userId);
 
         /// <summary>
         /// Get all of VerifiedTests
@@ -32,9 +32,9 @@ namespace RLPortalBackend.Services
         /// <summary>
         /// Get all VerifiedTests by userId
         /// </summary>
-        /// <param name="username">User id</param>
+        /// <param name="userId">User id</param>
         /// <returns></returns>
-        public Task<ICollection<VerifiedTestDto>> GetByUserIdAsync(string username);
+        public Task<ICollection<VerifiedTestDto>> GetByUserIdAsync(Guid userId);
 
         /// <summary>
         /// Update one VerifiedTest by id
