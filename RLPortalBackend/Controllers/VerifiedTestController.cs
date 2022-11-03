@@ -6,16 +6,31 @@ using System.Security.Claims;
 
 namespace RLPortalBackend.Controllers
 {
+    /// <summary>
+    /// VerifiedTestController
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class VerifiedTestController : Controller
     {
         private readonly IVerifiedTestService _verifiedTestService;
 
+        /// <summary>
+        /// Constructor for VerifiedTestController
+        /// </summary>
+        /// <param name="verifiedTestService">verifiedTestService</param>
         public VerifiedTestController(IVerifiedTestService verifiedTestService)
         {
             _verifiedTestService = verifiedTestService;
         }
+
+        /// <summary>
+        /// Send the solved test to verify 
+        /// (Permissions: User, Administrator)
+        /// </summary>
+        /// <param name="solvedTest">solvedTest</param>
+        /// <returns></returns>
+        [ProducesResponseType(typeof(VerifiedTestDto), 201)]
 
         [HttpPost]
         [Authorize(Roles = "User, Administrator")]
@@ -27,12 +42,28 @@ namespace RLPortalBackend.Controllers
 
         }
 
+
+        /// <summary>
+        /// Get all verified tests 
+        /// (Permissions: Administrator)
+        /// </summary>
+        /// <returns></returns>
+        [ProducesResponseType(typeof(ICollection<VerifiedTestDto>), 200)]
+
         [HttpGet]
         [Authorize(Roles = "Administrator")]
         public async Task<ICollection<VerifiedTestDto>> GetAllVerifiedTests()
         {
             return await _verifiedTestService.GetAsync();
         }
+
+        /// <summary>
+        /// Get the verified test by id 
+        /// (Permissions: Administrator)
+        /// </summary>
+        /// <param name="verifiedTestId"></param>
+        /// <returns></returns>
+        [ProducesResponseType(typeof(VerifiedTestDto),200)]
 
         [HttpGet("{verifiedTestId:length(36)}")]
         [Authorize(Roles = "User, Administrator")]
@@ -41,6 +72,13 @@ namespace RLPortalBackend.Controllers
             return await _verifiedTestService.GetByIdAsync(verifiedTestId);
         }
 
+        /// <summary>
+        /// Get all verified tests for current user 
+        /// (Permissions: User, Administrator)
+        /// </summary>
+        /// <returns></returns>
+        [ProducesResponseType(typeof(ICollection<VerifiedTestDto>), 200)]
+
         [HttpGet("CurrentUser")]
         [Authorize(Roles = "User, Administrator")]
         public async Task<ICollection<VerifiedTestDto>> GetCurrentUserVerifiedTests()
@@ -48,6 +86,14 @@ namespace RLPortalBackend.Controllers
             var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             return await _verifiedTestService.GetByUserIdAsync(userId);
         }
+
+        /// <summary>
+        /// Get all verified tests for specific user 
+        /// (Permissions: Administrator)
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [ProducesResponseType(typeof(ICollection<VerifiedTestDto>), 200)]
 
         [HttpGet("SpecificUser/{userId:length(36)}")]
         [Authorize(Roles = "Administrator")]
