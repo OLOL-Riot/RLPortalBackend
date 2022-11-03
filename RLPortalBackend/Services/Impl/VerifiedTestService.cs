@@ -7,6 +7,9 @@ using RLPortalBackend.Repositories;
 
 namespace RLPortalBackend.Services.Impl
 {
+    /// <summary>
+    /// VerifiedTestService
+    /// </summary>
     public class VerifiedTestService : IVerifiedTestService
     {
         private readonly IVerifiedTestRepository _verifiedTestRepository;
