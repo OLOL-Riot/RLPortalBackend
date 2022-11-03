@@ -3,20 +3,20 @@
 namespace RLPortalBackend.Models.Autentification
 {
     /// <summary>
-    /// Autentification data
+    /// Class for current password and new password
     /// </summary>
-    public class AutentificationRequest
+    public class UserDtoForChangePassword
     {
         /// <summary>
-        /// Login
+        /// CurrentPassword
         /// </summary>
         [Required]
-        public string Login { get; set; }
+        public string CurrentPassword { get; set; }
 
         /// <summary>
-        /// Password
+        /// NewPassword
         /// </summary>
         [Required]
-        public string Password { get; set; }
+        public string NewPassword { get; set; }
     }
 }

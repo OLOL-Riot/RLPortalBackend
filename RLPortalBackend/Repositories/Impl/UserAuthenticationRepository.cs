@@ -10,6 +10,9 @@ using System.Text.RegularExpressions;
 
 namespace RLPortalBackend.Repositories.Impl
 {
+    /// <summary>
+    /// UserAuthenticationRepository for Postgres
+    /// </summary>
     public class UserAuthenticationRepository : IUserAuthenticationRepository
     {
 
@@ -21,8 +24,17 @@ namespace RLPortalBackend.Repositories.Impl
         private readonly IEmailSender _emailSender;
         private readonly IConfiguration _configuration;
         private readonly IJWTHelper _jwtHelper;
-        
 
+        /// <summary>
+        /// UserAuthenticationRepository constructor
+        /// </summary>
+        /// <param name="jwtHelper"></param>
+        /// <param name="configuration"></param>
+        /// <param name="userManager"></param>
+        /// <param name="userStore"></param>
+        /// <param name="signInManager"></param>
+        /// <param name="logger"></param>
+        /// <param name="emailSender"></param>
         public UserAuthenticationRepository(
             IJWTHelper jwtHelper,
             IConfiguration configuration,
@@ -43,10 +55,11 @@ namespace RLPortalBackend.Repositories.Impl
         }
 
         /// <summary>
-        /// Async login in account
+        /// Login
         /// </summary>
         /// <param name="request"></param>
-        /// <returns>JWT</returns>
+        /// <returns>JWT token</returns>
+        /// <exception cref="HttpException"></exception>
         public async Task<JWT> LoginAsync(AutentificationRequest request)
         {
             var resultLogin = await _userManager.FindByNameAsync(request.Login);
@@ -65,14 +78,16 @@ namespace RLPortalBackend.Repositories.Impl
                 string token = _jwtHelper.CreateToken(user, role[0]);
                 return new JWT(token);
             }
-            throw new HttpException(HttpStatusCode.BadRequest, "Invalid password");
+            throw new HttpException(HttpStatusCode.BadRequest, "Wrong password");
         }
 
+ 
         /// <summary>
-        /// Async registration
+        /// User registration
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        /// <exception cref="HttpException"></exception>
         public async Task RegistrateAsync(UserModel input)
         {
             string pattern = @"^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,}$";
@@ -114,11 +129,13 @@ namespace RLPortalBackend.Repositories.Impl
 
         }
 
+     
         /// <summary>
-        /// Async give role to user
+        /// Giving role by email
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
+        /// <exception cref="HttpException"></exception>
         public async Task GiveRoleToUserAsync(EmailAndRole email)
         {
             var user = await _userManager.FindByEmailAsync(email.UserEmail);

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
-
+#pragma warning disable 1591
 namespace RLPortalBackend.Migrations
 {
     public partial class InitApplicationUser : Migration

@@ -11,34 +11,34 @@ namespace RLPortalBackend.Services
         /// <summary>
         /// Get all exercises to edit
         /// </summary>
-        /// <returns>Collection of exercises</returns>
+        /// <returns>Collection of <see cref="ExerciseDto"/></returns>
         public Task<ICollection<ExerciseDto>> GetAsyncAllExercisesToEdit();
 
         /// <summary>
         /// Get one exercise to edit by Id
         /// </summary>
         /// <param name="id">Id</param>
-        /// <returns>one exercise</returns>
+        /// <returns><see cref="ExerciseDto"/></returns>
         public Task<ExerciseDto> GetAsyncExerciseToEditById(Guid id);
 
         /// <summary>
         /// Get all exercises to edit
         /// </summary>
-        /// <returns>Collection of exercises</returns>
+        /// <returns>Collection of <see cref="ExerciseDto"/></returns>
         public Task<ICollection<NoRightAnswerExercise>> GetAsyncAllExercisesToSolve();
 
         /// <summary>
         /// Get one exercise to edit by Id
         /// </summary>
         /// <param name="id">Id</param>
-        /// <returns>one exercise</returns>
+        /// <returns><see cref="NoRightAnswerExercise"/></returns>
         public Task<NoRightAnswerExercise> GetAsyncExerciseToSolveById(Guid id);
 
         /// <summary>
         /// Create one exerci9se
         /// </summary>
         /// <param name="newExercise">New exercise</param>
-        /// <returns></returns>
+        /// <returns><see cref="ExerciseDto"/></returns>
         public Task<ExerciseDto> CreateAsync(NewExercise newExercise);
 
         /// <summary>

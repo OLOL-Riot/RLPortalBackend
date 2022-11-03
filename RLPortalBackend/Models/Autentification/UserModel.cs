@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace RLPortalBackend.Models.Autentification
 {
     /// <summary>
-    /// UserModel models to auth
+    /// User model to authentification
     /// </summary>
     public class UserModel
     {
@@ -40,11 +40,5 @@ namespace RLPortalBackend.Models.Autentification
         /// Phone number
         /// </summary>
         public string PhoneNumber { get; init; }
-
-        /// <summary>
-        /// Confirm password
-        /// </summary>
-        [Required(ErrorMessage = "Confirm password is required")]
-        public string ConfirmPassword { get; set; }
     }
 }

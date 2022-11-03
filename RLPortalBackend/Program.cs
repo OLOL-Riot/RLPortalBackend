@@ -44,7 +44,9 @@ builder.Services.AddSwaggerGen(c =>
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey
     });
-    c.OperationFilter<SecurityRequirementsOperationFilter>(); 
+    c.OperationFilter<SecurityRequirementsOperationFilter>();
+    var filepath = Path.Combine(System.AppContext.BaseDirectory, "RLPortalBackend.xml");
+    c.IncludeXmlComments(filepath);
 });
 
 //Injections
@@ -52,6 +54,9 @@ builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
 builder.Services.AddScoped<ITestRepository, TestRepository>();
 builder.Services.AddScoped<ITestService, TestService>();
+builder.Services.AddScoped<IVerifiedTestRepository, VerifiedTestRepository>();
+builder.Services.AddScoped<IVerifiedTestService, VerifiedTestService>();
+
 builder.Services.AddScoped<IUserAuthenticationRepository, UserAuthenticationRepository>();
 builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
 builder.Services.AddScoped<IJWTHelper, JWTHelper>();

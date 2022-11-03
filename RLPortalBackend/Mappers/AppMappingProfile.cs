@@ -2,12 +2,19 @@
 using RLPortalBackend.Entities;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
+using RLPortalBackend.Models.VerifiedTest;
 
 namespace RLPortalBackend.Mappers
 {
+    /// <summary>
+    /// Mapper for <see cref="ExerciseDto"/> to <see cref="ExerciseEntity"/>
+    /// Mapper for <see cref="TestDto"/> to <see cref="TestEntity"/>
+    /// </summary>
     public class AppMappingProfile : Profile
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public AppMappingProfile()
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             // Exercise, ExerciseEntity
             CreateMap<ExerciseDto, ExerciseEntity>().ReverseMap();
@@ -29,6 +36,28 @@ namespace RLPortalBackend.Mappers
 
             // UpdateTest, TestEntity
             CreateMap<UpdateTest, TestEntity>().ReverseMap();
+
+            // VerifiedTestEntity, VerifiedTestDto
+            CreateMap<VerifiedTestEntity, VerifiedTestDto>().ReverseMap();
+
+            // UserAnswerEntity, UserAnswerDto
+            CreateMap<VerifiedExerciseEntity, VerifiedExerciseDto>().ReverseMap();
+
+            // VerifiedTestEntity, UpdateVerifiedTestDto
+            CreateMap<VerifiedTestEntity, UpdateVerifiedTestDto>().ReverseMap();
+
+            // CreateVerifiedTestDto, VerifiedTestDto
+            CreateMap<CreateVerifiedTestDto, VerifiedTestEntity>();
+
+            // SolvedTestDto, VerifiedTestDto
+            CreateMap<SolvedTestDto, CreateVerifiedTestDto>()
+                .ForMember(dest => dest.VerifiedAnswers, opt => opt.MapFrom(source => source.UserAnswers));
+
+            // SolvedExercise, VerifiedExerciseDto
+            CreateMap<SolvedExercise, VerifiedExerciseDto>();
+
+            // CreateVerifiedTestDto, VerifiedTestDto
+            CreateMap<CreateVerifiedTestDto, VerifiedTestDto>().ReverseMap();
         }
     }
 }
