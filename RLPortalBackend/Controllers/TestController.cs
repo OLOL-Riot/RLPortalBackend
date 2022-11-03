@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
+using RLPortalBackend.Models.VerifiedTest;
 using RLPortalBackend.Services;
 
 namespace RLPortalBackend.Controllers
@@ -107,21 +108,6 @@ namespace RLPortalBackend.Controllers
             TestDto createdTest = await _testService.CreateAsync(newTest);
 
             return CreatedAtAction(nameof(GetTestToEditById), new { id = createdTest.Id }, createdTest);
-        }
-
-        /// <summary>
-        /// Verify solved test
-        /// </summary>
-        /// <param name="solvedTest"></param>
-        /// <returns>CompletedTestResult</returns>
-        [ProducesResponseType(typeof(CompletedTestResult), 200)]
-        [HttpPost("verify")]
-        [Authorize(Roles = "User, Administrator")]
-        public async Task<IActionResult> SendSolvedTest([FromBody] SolvedTest solvedTest)
-        {
-
-            CompletedTestResult completedTestResult = await _testService.CheckSolvedTest(solvedTest);
-            return Ok(completedTestResult);
         }
 
         /// <summary>

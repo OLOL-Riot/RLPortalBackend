@@ -24,5 +24,7 @@
         /// Test collection name
         /// </summary>
         public string TestCollectionName { get; set; } = null!;
+
+        public string VerifiedTestCollectionName { get; set; } = null!;
     }
 }

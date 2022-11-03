@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using RLPortalBackend.Entities;
 using RLPortalBackend.Models.Test;
+using RLPortalBackend.Models.VerifiedTest;
 
 namespace RLPortalBackend.Services
 {
@@ -57,12 +58,5 @@ namespace RLPortalBackend.Services
         /// <param name="id">Id</param>
         /// <returns></returns>
         public Task RemoveAsync(Guid id);
-
-        /// <summary>
-        /// Checking the solved test
-        /// </summary>
-        /// <param name="solvedTest"></param>
-        /// <returns><see cref="CompletedTestResult"/></returns>
-        public Task<CompletedTestResult> CheckSolvedTest(SolvedTest solvedTest);
     }
 }
