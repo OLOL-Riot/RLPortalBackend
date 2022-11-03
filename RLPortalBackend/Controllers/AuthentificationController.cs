@@ -25,18 +25,19 @@ namespace RLPortalBackend.Controllers
         }
 
         /// <summary>
-        /// User registration method
+        /// Register a new user
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         /// <response code="200">Registration completed successfully</response>
         /// <response code="400">Invalid email or password</response>
         /// <response code="409">Email or Username alredy exists</response>
-        [HttpPost("registration")]
         [ProducesResponseType(typeof(UserModel), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(409)]
         [ProducesResponseType(500)]
+
+        [HttpPost("registration")]
         public async Task<ActionResult> Registration(UserModel input)
         {
             await _auth.RegistrateAsync(input);
@@ -44,14 +45,16 @@ namespace RLPortalBackend.Controllers
         }
 
         /// <summary>
-        /// User role change method 
+        /// Change role for specific user
+        /// (Permissions: Administrator)
         /// </summary>
         /// <param name="emailAndRole"></param>
         /// <returns></returns>
-        [HttpPost("roles"), Authorize(Roles = "Administrator")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
+
+        [HttpPost("roles"), Authorize(Roles = "Administrator")]
         public async Task<ActionResult> GiveRole(EmailAndRole emailAndRole)
         {
             await _auth.GiveRoleToUserAsync(emailAndRole);
@@ -59,7 +62,7 @@ namespace RLPortalBackend.Controllers
         }
 
         /// <summary>
-        /// User login method
+        /// Login
         /// </summary>
         /// <param name="autentificationRequest"></param>
         /// <returns><see cref="JWT"/></returns>
@@ -67,10 +70,11 @@ namespace RLPortalBackend.Controllers
         /// <response code="200">Registration completed successfully</response>
         /// <response code="400">Wrong password</response> 
         /// <response code="404">Login not found</response>
-        [HttpPost("login")]
         [ProducesResponseType(typeof(JWT), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
+
+        [HttpPost("login")]
         public async Task<ActionResult> Login(AutentificationRequest autentificationRequest)
         {
             var token = await _auth.LoginAsync(autentificationRequest);
