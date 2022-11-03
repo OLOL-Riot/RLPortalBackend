@@ -25,24 +25,28 @@ namespace RLPortalBackend.Controllers
         }
 
         /// <summary>
-        /// Get all tests in database
+        /// Get all tests for solving 
+        /// (Permissions: User, Administrator)
         /// </summary>
         /// <returns>Collection of NoRightAnswersTest</returns>
-        [HttpGet("solve"), Authorize(Roles = "User, Administrator")]
         [ProducesResponseType(typeof(ICollection<NoRightAnswersTest>), 200)]
 
+        [HttpGet("solve"), Authorize(Roles = "User, Administrator")]
         public async Task<ICollection<NoRightAnswersTest>> GetAllTestsToSolve()
         {
             return await _testService.GetAsyncAllTestsToSolve();
         }
 
         /// <summary>
-        /// Get test by Id
+        /// Get the test by Id for solving
+        /// (Permissions: User, Administrator)
         /// </summary>
         /// <param name="id"></param>
         /// <returns>NoRightAnswersTest</returns>
-        [HttpGet("solve/{id:length(36)}"), Authorize(Roles = "User, Administrator")]
         [ProducesResponseType(typeof(NoRightAnswersTest), 200)]
+        [ProducesResponseType(404)]
+
+        [HttpGet("solve/{id:length(36)}"), Authorize(Roles = "User, Administrator")]
         public async Task<ActionResult<NoRightAnswersTest>> GetTestToSolveById(Guid id)
         {
             var test = await _testService.GetAsyncTestToSolveById(id);
@@ -56,10 +60,12 @@ namespace RLPortalBackend.Controllers
         }
 
         /// <summary>
-        /// Get all test for edit
+        /// Get all tests for editing 
+        /// (Permissions: Administrator)
         /// </summary>
         /// <returns>TestDto</returns>
         [ProducesResponseType(typeof(ICollection<TestDto>), 200)]
+
         [HttpGet("edit"), Authorize(Roles = "Administrator")]
         public async Task<ICollection<TestDto>> GetAllTestsToEdit()
         {
@@ -67,11 +73,13 @@ namespace RLPortalBackend.Controllers
         }
 
         /// <summary>
-        /// Get test by id to edit
+        /// Get the test by id for editing 
+        /// (Permissions: Administrator)
         /// </summary>
         /// <param name="id"></param>
         /// <returns>TestDto</returns>
         [ProducesResponseType(typeof(TestDto), 200)]
+
         [HttpGet("edit/{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<ActionResult<TestDto>> GetTestToEditById(Guid id)
         {
@@ -86,11 +94,13 @@ namespace RLPortalBackend.Controllers
         }
 
         /// <summary>
-        /// Add new test in database
+        /// Create a new test 
+        /// (Permissions: Administrator)
         /// </summary>
         /// <param name="newTest"></param>
         /// <returns>TestDto</returns>
         [ProducesResponseType(typeof(TestDto), 201)]
+
         [HttpPost, Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Post(CreateTest newTest)
         {
@@ -115,12 +125,15 @@ namespace RLPortalBackend.Controllers
         }
 
         /// <summary>
-        /// Update test by Id
+        /// Update the test by id 
+        /// (Permissions: Administrator)
         /// </summary>
         /// <param name="id"></param>
         /// <param name="updatedTest"></param>
         /// <returns></returns>
         [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+
         [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Update(Guid id, UpdateTest updatedTest)
         {
@@ -137,11 +150,14 @@ namespace RLPortalBackend.Controllers
         }
 
         /// <summary>
-        /// Delete test by Id
+        /// Delete the test by id 
+        /// (Permissions: Administrator)
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+
         [HttpDelete("{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(Guid id)
         {

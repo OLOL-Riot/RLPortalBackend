@@ -24,7 +24,8 @@ namespace RLPortalBackend.Controllers
         }
 
         /// <summary>
-        /// Sendig email
+        /// Send a message with email 
+        /// (Permissions: Administrator)
         /// </summary>
         /// <param name="data"></param>
         [HttpPost, Authorize(Roles = "Administrator")]

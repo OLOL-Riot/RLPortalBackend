@@ -25,10 +25,12 @@ namespace RLPortalBackend.Controllers
         }
 
         /// <summary>
-        /// Get all exercises to edit method
+        /// Get all exercises for editing 
+        /// (Permissions: Administrator)
         /// </summary>
         /// <returns></returns>
         [ProducesResponseType(typeof(ICollection<ExerciseDto>), 200)]
+
         [HttpGet("edit"), Authorize(Roles = "Administrator")]
         public async Task<ICollection<ExerciseDto>> GetAllExercisesToEdit()
         {
@@ -36,12 +38,15 @@ namespace RLPortalBackend.Controllers
         }
 
         /// <summary>
-        /// Get ExerciseDto by Id for edit
+        /// Get the exercise by id for editing
+        /// (Permissions: Administrator)
         /// </summary>
         /// <param name="id"></param>
         /// <returns>ExerciseDto</returns>
-        [HttpGet("edit/{id:length(36)}"), Authorize(Roles = "Administrator")]
         [ProducesResponseType(typeof(ExerciseDto), 200)]
+        [ProducesResponseType(404)]
+
+        [HttpGet("edit/{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<ActionResult<ExerciseDto>> GetExerciseToEditById(Guid id)
         {
             var exercise = await _exerciseService.GetAsyncExerciseToEditById(id);
@@ -55,24 +60,28 @@ namespace RLPortalBackend.Controllers
         }
 
         /// <summary>
-        /// Get all Exercises
+        /// Get all exercises for solving
+        /// (Permissions: User, Administrator)
         /// </summary>
         /// <returns>Collection of NoRightAnswerExercise</returns>
-        [HttpGet("solve"), Authorize(Roles = "User, Administrator")]
         [ProducesResponseType(typeof(ICollection<NoRightAnswerExercise>), 200)]
+
+        [HttpGet("solve"), Authorize(Roles = "User, Administrator")]
         public async Task<ICollection<NoRightAnswerExercise>> GetAllExercisesToSolve()
         {
             return await _exerciseService.GetAsyncAllExercisesToSolve();
         }
 
         /// <summary>
-        /// Get NoRightAnswerExercise by Id
+        /// Get exercise by id for solving 
+        /// (Permissions: User, Administrator)
         /// </summary>
         /// <param name="id"></param>
         /// <returns>NoRightAnswerExercise</returns>
-        [HttpGet("solve/{id:length(36)}"), Authorize(Roles = "User, Administrator")]
         [ProducesResponseType(typeof(NoRightAnswerExercise), 200)]
+        [ProducesResponseType(404)]
 
+        [HttpGet("solve/{id:length(36)}"), Authorize(Roles = "User, Administrator")]
         public async Task<ActionResult<NoRightAnswerExercise>> GetExerciseToSolveById(Guid id)
         {
             var exercise = await _exerciseService.GetAsyncExerciseToSolveById(id);
@@ -86,13 +95,14 @@ namespace RLPortalBackend.Controllers
         }
 
         /// <summary>
-        /// Add new Exercise in MongoDB
+        /// Create a new exercise 
+        /// (Permissions: Administrator)
         /// </summary>
         /// <param name="newExercise"></param>
         /// <returns>ExerciseDto with Id</returns>
-        [HttpPost, Authorize(Roles = "Administrator")]
         [ProducesResponseType(typeof(ExerciseDto), 201)]
 
+        [HttpPost, Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Post(NewExercise newExercise)
         {
             ExerciseDto createdExercise = await _exerciseService.CreateAsync(newExercise);
@@ -101,13 +111,16 @@ namespace RLPortalBackend.Controllers
         }
 
         /// <summary>
-        /// Update Exercise by Id
+        /// Update the exercise by id 
+        /// (Permissions: Administrator)
         /// </summary>
         /// <param name="id"></param>
         /// <param name="updatedExercise"></param>
         /// <returns></returns>
-        [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
         [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+
+        [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Update(Guid id, NewExercise updatedExercise)
         {
             var exercise = await _exerciseService.GetAsyncExerciseToEditById(id);
@@ -123,12 +136,15 @@ namespace RLPortalBackend.Controllers
         }
 
         /// <summary>
-        /// Delete Exercise by Id
+        /// Delete Exercise by id 
+        /// (Permissions: Administrator)
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpDelete("{id:length(36)}"), Authorize(Roles = "Administrator")]
         [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+
+        [HttpDelete("{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var exercise = await _exerciseService.GetAsyncExerciseToEditById(id);
