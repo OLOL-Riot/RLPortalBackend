@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
 using RLPortalBackend.Services;
 
@@ -28,6 +29,8 @@ namespace RLPortalBackend.Controllers
         /// </summary>
         /// <returns>Collection of NoRightAnswersTest</returns>
         [HttpGet("solve"), Authorize(Roles = "User, Administrator")]
+        [ProducesResponseType(typeof(ICollection<NoRightAnswersTest>), 200)]
+
         public async Task<ICollection<NoRightAnswersTest>> GetAllTestsToSolve()
         {
             return await _testService.GetAsyncAllTestsToSolve();
@@ -39,6 +42,7 @@ namespace RLPortalBackend.Controllers
         /// <param name="id"></param>
         /// <returns>NoRightAnswersTest</returns>
         [HttpGet("solve/{id:length(36)}"), Authorize(Roles = "User, Administrator")]
+        [ProducesResponseType(typeof(NoRightAnswersTest), 200)]
         public async Task<ActionResult<NoRightAnswersTest>> GetTestToSolveById(Guid id)
         {
             var test = await _testService.GetAsyncTestToSolveById(id);
@@ -55,6 +59,7 @@ namespace RLPortalBackend.Controllers
         /// Get all test for edit
         /// </summary>
         /// <returns>TestDto</returns>
+        [ProducesResponseType(typeof(ICollection<TestDto>), 200)]
         [HttpGet("edit"), Authorize(Roles = "Administrator")]
         public async Task<ICollection<TestDto>> GetAllTestsToEdit()
         {
@@ -66,6 +71,7 @@ namespace RLPortalBackend.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>TestDto</returns>
+        [ProducesResponseType(typeof(TestDto), 200)]
         [HttpGet("edit/{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<ActionResult<TestDto>> GetTestToEditById(Guid id)
         {
@@ -84,6 +90,7 @@ namespace RLPortalBackend.Controllers
         /// </summary>
         /// <param name="newTest"></param>
         /// <returns>TestDto</returns>
+        [ProducesResponseType(typeof(TestDto), 201)]
         [HttpPost, Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Post(CreateTest newTest)
         {
@@ -97,6 +104,7 @@ namespace RLPortalBackend.Controllers
         /// </summary>
         /// <param name="solvedTest"></param>
         /// <returns>CompletedTestResult</returns>
+        [ProducesResponseType(typeof(CompletedTestResult), 200)]
         [HttpPost("verify")]
         [Authorize(Roles = "User, Administrator")]
         public async Task<IActionResult> SendSolvedTest([FromBody] SolvedTest solvedTest)
@@ -112,6 +120,7 @@ namespace RLPortalBackend.Controllers
         /// <param name="id"></param>
         /// <param name="updatedTest"></param>
         /// <returns></returns>
+        [ProducesResponseType(204)]
         [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Update(Guid id, UpdateTest updatedTest)
         {
@@ -132,6 +141,7 @@ namespace RLPortalBackend.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [ProducesResponseType(204)]
         [HttpDelete("{id:length(36)}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(Guid id)
         {

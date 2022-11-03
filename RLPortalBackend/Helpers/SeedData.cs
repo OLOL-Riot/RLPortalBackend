@@ -20,6 +20,10 @@ namespace RLPortalBackend.Helpers
             SeedUsers(userManager);
         }
 
+        /// <summary>
+        /// Seed users to Postgres
+        /// </summary>
+        /// <param name="userManager"></param>
         private static void SeedUsers(UserManager<User> userManager)
         {
             if (userManager.FindByNameAsync("admin").Result == null)
@@ -40,6 +44,10 @@ namespace RLPortalBackend.Helpers
             }
         }
 
+        /// <summary>
+        /// Seed roles to Postgres
+        /// </summary>
+        /// <param name="roleManager"></param>
         private static void SeedRoles(RoleManager<IdentityRole> roleManager)
         {
             if (!roleManager.RoleExistsAsync("Administrator").Result)
