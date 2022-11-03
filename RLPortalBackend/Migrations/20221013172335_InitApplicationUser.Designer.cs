@@ -11,6 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace RLPortalBackend.Migrations
 {
+    #pragma warning disable CS1591
     [DbContext(typeof(AplicationDBContext))]
     [Migration("20221013172335_InitApplicationUser")]
     partial class InitApplicationUser
@@ -287,4 +288,5 @@ namespace RLPortalBackend.Migrations
 #pragma warning restore 612, 618
         }
     }
+#pragma warning restore CS1591
 }

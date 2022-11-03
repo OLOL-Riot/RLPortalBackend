@@ -44,7 +44,9 @@ builder.Services.AddSwaggerGen(c =>
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey
     });
-    c.OperationFilter<SecurityRequirementsOperationFilter>(); 
+    c.OperationFilter<SecurityRequirementsOperationFilter>();
+    var filepath = Path.Combine(System.AppContext.BaseDirectory, "RLPortalBackend.xml");
+    c.IncludeXmlComments(filepath);
 });
 
 //Injections

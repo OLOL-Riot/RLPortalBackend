@@ -14,34 +14,34 @@ namespace RLPortalBackend.Services
         /// <summary>
         /// Get all tests to solve
         /// </summary>
-        /// <returns>Collection of tests</returns>
+        /// <returns>Collection of <see cref="NoRightAnswersTest"/></returns>
         public Task<ICollection<NoRightAnswersTest>> GetAsyncAllTestsToSolve();
 
         /// <summary>
         /// Get one test to solve by Id
         /// </summary>
         /// <param name="id">Id</param>
-        /// <returns>One test</returns>
+        /// <returns><see cref="NoRightAnswersTest"/></returns>
         public Task<NoRightAnswersTest> GetAsyncTestToSolveById(Guid id);
 
         /// <summary>
         /// Get all tests to edit
         /// </summary>
-        /// <returns>Collection of tests</returns>
+        /// <returns>Collection of <see cref="TestDto"/></returns>
         public Task<ICollection<TestDto>> GetAsyncAllTestsToEdit();
 
         /// <summary>
         /// Get one test to edit by Id
         /// </summary>
         /// <param name="id">Id</param>
-        /// <returns>One test</returns>
+        /// <returns><see cref="TestDto"/></returns>
         public Task<TestDto> GetAsyncTestToEditById(Guid id);
 
         /// <summary>
         /// Create one exercise
         /// </summary>
         /// <param name="newTest">New exercise</param>
-        /// <returns></returns>
+        /// <returns><see cref="TestDto"/></returns>
         public Task<TestDto> CreateAsync(CreateTest newTest);
 
         /// <summary>

@@ -10,29 +10,28 @@ namespace RLPortalBackend.Repositories
         /// <summary>
         /// Get all exercises
         /// </summary>
-        /// <returns>Collection of exercises</returns>
+        /// <returns>Collection of <see cref="ExerciseEntity"/></returns>
         public Task<ICollection<ExerciseEntity>> GetAsync();
 
         /// <summary>
         /// Get all exercises by ids
         /// </summary>
         /// <param name="ids">ids of exercises</param>
-        /// <returns></returns>
+        /// <returns><see cref="ExerciseEntity"/></returns>
         public Task<ICollection<ExerciseEntity>> GetAsync(ICollection<Guid> ids);
 
         /// <summary>
         /// Get one exercise by Id
         /// </summary>
         /// <param name="id">Id</param>
-        /// <returns>One exercise</returns>
+        /// <returns><see cref="ExerciseEntity"/></returns>
         public Task<ExerciseEntity> GetAsync(Guid id);
 
         /// <summary>
         /// Create one Exercise
         /// </summary>
         /// <param name="newExercise">New Exercise</param>
-        /// <returns>
-        /// </returns>
+        /// <returns></returns>
         public Task CreateAsync(ExerciseEntity newExercise);
 
         /// <summary>
