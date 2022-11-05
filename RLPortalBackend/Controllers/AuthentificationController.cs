@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RLPortalBackend.Exeption;
+using RLPortalBackend.Exceptions;
 using RLPortalBackend.Models;
 using RLPortalBackend.Models.Autentification;
 using RLPortalBackend.Repositories;
+using System.Data;
+using System.Security.Claims;
+using InvalidDataException = RLPortalBackend.Exceptions.InvalidDataException;
 
 namespace RLPortalBackend.Controllers
 {
@@ -83,7 +86,29 @@ namespace RLPortalBackend.Controllers
                 return Ok(token);
             }
             return BadRequest("User not Found");
+        }
 
+        /// <summary>
+        /// Change password
+        /// </summary>
+        /// <param name="changePasswordDto"></param>
+        /// <returns></returns>
+        /// <response code="200">Password changed</response>
+        /// <response code="400">Wrong password</response> 
+        /// <response code="409">Passwords match</response>
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(409)]
+
+        [Authorize(Roles = "Administrator, User")]
+        [HttpPost("change-password")]
+        public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
+        {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            await _auth.ChangePasswordAsync(changePasswordDto, userId);
+            
+            return Ok(new {Message = "Password changed"});
         }
 
 
