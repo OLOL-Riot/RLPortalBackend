@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace RLPortalBackend.Exeption
+﻿namespace RLPortalBackend.Exceptions
 {
     /// <summary>
     /// HttpException
@@ -10,16 +8,20 @@ namespace RLPortalBackend.Exeption
         /// <summary>
         /// Http status code
         /// </summary>
-        public HttpStatusCode Code { get; set; }
+        public int Code { get; set; }
 
         /// <summary>
         /// HttpException constructor
         /// </summary>
         /// <param name="code"></param>
         /// <param name="message"></param>
-        public HttpException(HttpStatusCode code, string message) : base(message)
+        public HttpException(int code, string message) : base(message)
         {
             Code = code;
+        }
+
+        public HttpException(string message) : base(message)
+        {
         }
 
 
