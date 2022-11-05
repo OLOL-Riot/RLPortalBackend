@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RLPortalBackend.Entities;
+using RLPortalBackend.Models.Autentification;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
 using RLPortalBackend.Models.VerifiedTest;
@@ -58,6 +59,9 @@ namespace RLPortalBackend.Mappers
 
             // CreateVerifiedTestDto, VerifiedTestDto
             CreateMap<CreateVerifiedTestDto, VerifiedTestDto>().ReverseMap();
+
+            // ChangeUserDataDto, User
+            CreateMap<ChangeUserDataDto, User>().ReverseMap();
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RLPortalBackend.Exeption;
 using RLPortalBackend.Models;
 using RLPortalBackend.Models.Autentification;
 using RLPortalBackend.Repositories;
+using System.Security.Claims;
 
 namespace RLPortalBackend.Controllers
 {
@@ -83,6 +83,26 @@ namespace RLPortalBackend.Controllers
                 return Ok(token);
             }
             return BadRequest("User not Found");
+
+        }
+
+        /// <summary>
+        /// Change user data
+        /// (Permissions: User, Administrator)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(409)]
+
+        [Authorize(Roles = "User, Administrator")]
+        [HttpPost("change-user-data")]
+        public async Task<ActionResult> ChangeUserData([FromBody] ChangeUserDataDto input)
+        {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            await _auth.ChangeUserDataAsync(input, userId);
+            return Ok();
 
         }
 
