@@ -97,7 +97,7 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(409)]
 
         [Authorize(Roles = "User, Administrator")]
-        [HttpPost("change-user-data")]
+        [HttpPut("change-user-data")]
         public async Task<ActionResult> ChangeUserData([FromBody] ChangeUserDataDto input)
         {
             var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));

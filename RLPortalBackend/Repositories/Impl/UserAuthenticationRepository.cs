@@ -69,6 +69,7 @@ namespace RLPortalBackend.Repositories.Impl
             var resultLogin = await _userManager.FindByNameAsync(request.Login);
             if(resultLogin == null)
             {
+                _logger.LogInformation($"User with username {request.Login} not found");
                 throw new UserNameNotFoundException($"Login {request.Login} not found");
             }
 
@@ -99,18 +100,23 @@ namespace RLPortalBackend.Repositories.Impl
         {
             if (!Regex.IsMatch(input.Email, @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
                 @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$", RegexOptions.IgnoreCase))
+            {
+                _logger.LogInformation($"Mail {input.Email} non valid");
                 throw new InvalidEmailException("Invalid email");
-
+            }
             if (!Regex.IsMatch(input.Password, @"^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,}$"))
             {
+                _logger.LogInformation($"Password {input.Password} non valid");
                 throw new InvalidPasswordException("Invalid password");
             }
             if (_userManager.FindByNameAsync(input.Login).Result != null)
             {
+                _logger.LogInformation($"User with {input.Login} alredy exists");
                 throw new UserNameAlredyExistsException($"Login {input.Login} alredy exists");
             }
             if (_userManager.FindByEmailAsync(input.Email).Result != null)
             {
+                _logger.LogInformation($"User with email {input.Email} alredy exists");
                 throw new EmailAlredyExistsException($"Email {input.Email} alredy exists");
             }
             var user = CreateUser();
@@ -146,6 +152,7 @@ namespace RLPortalBackend.Repositories.Impl
             if (user != null)
             {
                 await _userManager.AddToRoleAsync(user, email.Role);
+                _logger.LogInformation($"User with {email.UserEmail} get new role {email.Role}");
                 if (email.Role.Equals("Administrator")) await _userManager.RemoveFromRoleAsync(user, "User");
                 if (email.Role.Equals("User")) await _userManager.RemoveFromRoleAsync(user, "Administrator");
             }
