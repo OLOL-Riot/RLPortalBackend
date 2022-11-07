@@ -101,7 +101,7 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(409)]
 
         [Authorize(Roles = "Administrator, User")]
-        [HttpPost("change-password")]
+        [HttpPut("change-password")]
         public async Task<ActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
         {
             var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
