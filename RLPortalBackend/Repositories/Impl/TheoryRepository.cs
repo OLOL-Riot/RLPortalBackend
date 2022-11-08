@@ -9,10 +9,6 @@ namespace RLPortalBackend.Repositories.Impl
     {
         private readonly IMongoCollection<TheoryEntity> _theoryCollection;
 
-        /// <summary>
-        /// TestRepository connection to MongoDB
-        /// </summary>
-        /// <param name="portalGeographyMongoDBSettings"></param>
         public TheoryRepository(IOptions<PortalGeographyMongoDBSettings> portalGeographyMongoDBSettings)
         {
             var mongoClient = new MongoClient(
