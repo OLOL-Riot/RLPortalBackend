@@ -1,4 +1,4 @@
-﻿using RLPortalBackend.Exeption;
+﻿using RLPortalBackend.Exceptions;
 
 namespace RLPortalBackend
 {
@@ -31,7 +31,7 @@ namespace RLPortalBackend
             var result = string.Empty;
 
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)code;
+            context.Response.StatusCode = code;
 
             if (result == string.Empty)
             {
