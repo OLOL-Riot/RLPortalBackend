@@ -19,9 +19,11 @@ namespace RLPortalBackend.Controllers
 
 
         [HttpPost("create")]
-        public async Task<TheoryDto> CreateTheoryAsync([FromBody] NoIdTheoryDto input)
+        public async Task<ActionResult<TheoryDto>> CreateTheoryAsync([FromBody] NoIdTheoryDto input)
         {
-            return await _theoryService.CreateAsync(input);
+            TheoryDto dto = await _theoryService.CreateAsync(input);
+
+            return CreatedAtAction(nameof(CreateTheoryAsync) ,dto);
         }
 
         [HttpGet("get")]
@@ -40,17 +42,7 @@ namespace RLPortalBackend.Controllers
         [HttpDelete("remove/{id:length(36)}")]
         public async Task<ActionResult> DeleteById(Guid id)
         {
-            
-            ///ПРоходить эту и другие похожие проверки в сервисе
-            var theory = await _theoryService.GetByIdAsync(id);
-
-            if (theory is null)
-            {
-                return NotFound();
-            }
-
             await _theoryService.RemoveAsync(id);
-
             return NoContent();
         }
 
@@ -58,7 +50,7 @@ namespace RLPortalBackend.Controllers
         public async Task<ActionResult> Update(Guid id, [FromBody] NoIdTheoryDto update)
         {
             await _theoryService.UpdateAsync(id, update);
-            return Ok();
+            return NoContent();
         }
     }
 }

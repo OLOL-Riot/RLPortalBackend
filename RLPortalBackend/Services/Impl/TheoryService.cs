@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RLPortalBackend.Entities;
+using RLPortalBackend.Exceptions;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Theory;
 using RLPortalBackend.Repositories;
@@ -42,17 +43,31 @@ namespace RLPortalBackend.Services.Impl
         public async Task<TheoryDto> GetByIdAsync(Guid id)
         {
             TheoryEntity theoryEntity = await _repository.GetAsync(id);
+            if (theoryEntity == null)
+            {
+                throw new TheoryNotFoundException($"Theory {id} not found");
+            }
             TheoryDto theoryDto = _mapper.Map<TheoryDto>(theoryEntity);
             return theoryDto;
         }
 
         public async Task RemoveAsync(Guid id)
         {
+            if (await _repository.GetAsync(id) == null)
+            {
+                throw new TheoryNotFoundException($"Theory {id} not found");
+            }
+
             await _repository.RemoveAsync(id);
         }
 
         public async Task UpdateAsync(Guid id, NoIdTheoryDto updateTheoryDto)
         {
+            if (await _repository.GetAsync(id) == null)
+            {
+                throw new TheoryNotFoundException($"Theory {id} not found");
+            }
+
             TheoryDto dto = _mapper.Map<TheoryDto>(updateTheoryDto);
             dto.Id = id;
             ICollection<TheorySectionEntity> theorySectionEntities = _mapper.Map<ICollection<TheorySectionEntity>>(updateTheoryDto.TheorySectionDtos);
