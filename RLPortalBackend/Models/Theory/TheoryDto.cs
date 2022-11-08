@@ -26,7 +26,7 @@
         public string ShortDescription { get; set; }
 
         /// <summary>
-        /// TheorySectionEntities
+        /// TheorySectionDtos
         /// </summary>
         public ICollection<TheorySectionDto> TheorySectionEntities { get; set; }
     }

@@ -5,14 +5,39 @@ namespace RLPortalBackend.Services
 {
     public interface ITheoryService
     {
-        public Task<TheoryDto> CreateAsync(CreateTheoryDto theoryDto);
+        /// <summary>
+        /// Create Theory
+        /// </summary>
+        /// <param name="theoryDto"></param>
+        /// <returns></returns>
+        public Task<TheoryDto> CreateAsync(NoIdTheoryDto theoryDto);
 
+        /// <summary>
+        /// Get all Theory
+        /// </summary>
+        /// <returns></returns>
         public Task<ICollection<TheoryDto>> GetAsync();
 
+        /// <summary>
+        /// Get Theory by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Task<TheoryDto> GetByIdAsync(Guid id);
 
-        public Task UpdateAsync(Guid id, UpdateTheoryDto updateTheoryDto);
+        /// <summary>
+        /// Update Theory by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updateTheoryDto"></param>
+        /// <returns></returns>
+        public Task UpdateAsync(Guid id, NoIdTheoryDto updateTheoryDto);
 
+        /// <summary>
+        /// Remove Theory by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Task RemoveAsync(Guid id);
 
     }

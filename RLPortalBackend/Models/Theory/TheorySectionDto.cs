@@ -5,10 +5,11 @@
     /// </summary>
     public class TheorySectionDto
     {
+
         /// <summary>
-        /// Id
+        /// SerialNumber
         /// </summary>
-        public Guid Id { get; set; }
+        public int SerialNumber { get; set; }
 
         /// <summary>
         /// Header

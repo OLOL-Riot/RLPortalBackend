@@ -61,21 +61,18 @@ namespace RLPortalBackend.Mappers
             // CreateVerifiedTestDto, VerifiedTestDto
             CreateMap<CreateVerifiedTestDto, VerifiedTestDto>().ReverseMap();
 
+            // TheoryDto, TheoryEntity
             CreateMap<TheoryDto, TheoryEntity>().ReverseMap();
 
-            CreateMap<CreateTheoryDto, TheoryEntity>().ReverseMap();
+            // NoIdTheoryDto, TheoryEntity
+            CreateMap<NoIdTheoryDto, TheoryEntity>().ReverseMap();
 
-            CreateMap<UpdateTheoryDto, TheoryEntity>().ReverseMap();
+            // NoIdTheoryDto, TheoryDto
+            CreateMap<NoIdTheoryDto, TheoryDto>().ReverseMap();
 
+            // TheorySectionDto, TheorySectionEntity
             CreateMap<TheorySectionDto, TheorySectionEntity>().ReverseMap();
 
-            CreateMap<CreateTheorySectionDto, TheorySectionEntity>().ReverseMap();
-
-            CreateMap<UpdateTheorySectionDto, TheorySectionEntity>().ReverseMap();
-
-            CreateMap<NewCourseSectionDto, CourseSectionEntity>().ReverseMap();
-
-            CreateMap<CourseSectionDto, CourseSectionEntity>().ReverseMap();
         }
     }
 }

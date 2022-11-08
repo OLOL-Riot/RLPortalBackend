@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson.Serialization.IdGenerators;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace RLPortalBackend.Entities
 {
@@ -9,12 +7,11 @@ namespace RLPortalBackend.Entities
     /// </summary>
     public class TheorySectionEntity
     {
+
         /// <summary>
-        /// Id
+        /// SerialNumber
         /// </summary>
-        [BsonId(IdGenerator = typeof(GuidGenerator))]
-        [Required]
-        public Guid Id { get; set; }
+        public int SerialNumber { get; set; }
 
         /// <summary>
         /// Header
