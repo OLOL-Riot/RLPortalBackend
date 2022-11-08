@@ -12,9 +12,12 @@ namespace RLPortalBackend.Entities
 
         [Required]
         public string Name { get; set; }
-        
+
         [Required]
         public string ShortDescription { get; set; }
+
+        [Required]
+        public int SerialNumber { get; set; }
 
         [Required]
         public ICollection<Guid> TheoryEntityId { get; set; }
