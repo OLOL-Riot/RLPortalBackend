@@ -3,9 +3,9 @@
 namespace RLPortalBackend.Models.Theory
 {
     /// <summary>
-    /// UpdateTheoryDto
+    /// NoIdTheoryDto
     /// </summary>
-    public class UpdateTheoryDto
+    public class NoIdTheoryDto
     {
         /// <summary>
         /// Name
@@ -26,9 +26,9 @@ namespace RLPortalBackend.Models.Theory
         public string ShortDescription { get; set; }
 
         /// <summary>
-        /// TheorySectionEntities
+        /// TheorySectionDtos
         /// </summary>
         [Required]
-        public ICollection<TheorySectionDto> TheorySectionEntities { get; set; }
+        public ICollection<TheorySectionDto> TheorySectionDtos { get; set; }
     }
 }

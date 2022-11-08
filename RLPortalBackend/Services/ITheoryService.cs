@@ -5,13 +5,13 @@ namespace RLPortalBackend.Services
 {
     public interface ITheoryService
     {
-        public Task<TheoryDto> CreateAsync(CreateTheoryDto theoryDto);
+        public Task<TheoryDto> CreateAsync(NoIdTheoryDto theoryDto);
 
         public Task<ICollection<TheoryDto>> GetAsync();
 
         public Task<TheoryDto> GetByIdAsync(Guid id);
 
-        public Task UpdateAsync(Guid id, UpdateTheoryDto updateTheoryDto);
+        public Task UpdateAsync(Guid id, NoIdTheoryDto updateTheoryDto);
 
         public Task RemoveAsync(Guid id);
 

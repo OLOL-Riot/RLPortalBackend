@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using RLPortalBackend.Models.Theory;
 using RLPortalBackend.Services;
 using RLPortalBackend.Services.Impl;
@@ -18,12 +19,12 @@ namespace RLPortalBackend.Controllers
 
 
         [HttpPost("create")]
-        public async Task<TheoryDto> CreateTheoryAsync([FromBody] CreateTheoryDto input)
+        public async Task<TheoryDto> CreateTheoryAsync([FromBody] NoIdTheoryDto input)
         {
             return await _theoryService.CreateAsync(input);
         }
 
-        [HttpGet("get-all-theories")]
+        [HttpGet("get")]
         public async Task<ICollection<TheoryDto>> GetTheoriesAsync()
         {
             return await _theoryService.GetAsync();
@@ -51,6 +52,13 @@ namespace RLPortalBackend.Controllers
             await _theoryService.RemoveAsync(id);
 
             return NoContent();
+        }
+
+        [HttpPut("update/{id:length(36)}")]
+        public async Task<ActionResult> Update(Guid id, [FromBody] NoIdTheoryDto update)
+        {
+            await _theoryService.UpdateAsync(id, update);
+            return Ok();
         }
     }
 }

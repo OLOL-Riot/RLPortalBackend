@@ -18,11 +18,11 @@ namespace RLPortalBackend.Services.Impl
             _mapper = mapper;
         }
 
-        public async Task<TheoryDto> CreateAsync(CreateTheoryDto theoryDto)
+        public async Task<TheoryDto> CreateAsync(NoIdTheoryDto theoryDto)
         {
             TheoryEntity theoryEntity = _mapper.Map<TheoryEntity>(theoryDto);
 
-            IEnumerable<CreateTheorySectionDto> createTheorySectionDtos = theoryDto.CreateTheorySectionDtos;
+            IEnumerable<TheorySectionDto> createTheorySectionDtos = theoryDto.TheorySectionDtos;
             IEnumerable<TheorySectionEntity> theorySectionEntities = _mapper.Map<IEnumerable<TheorySectionEntity>>(createTheorySectionDtos);
 
             theoryEntity.TheorySectionEntities = theorySectionEntities.ToList();
@@ -33,7 +33,7 @@ namespace RLPortalBackend.Services.Impl
 
         public async Task<ICollection<TheoryDto>> GetAsync()
         {
-            IEnumerable<TheoryEntity> theoryEntities = await _repository.GetAsync();
+            ICollection<TheoryEntity> theoryEntities = await _repository.GetAsync();
             ICollection<TheoryDto> theoryDtos = _mapper.Map<ICollection<TheoryDto>>(theoryEntities);
             return theoryDtos;
 
@@ -51,9 +51,14 @@ namespace RLPortalBackend.Services.Impl
             await _repository.RemoveAsync(id);
         }
 
-        public async Task UpdateAsync(Guid id, UpdateTheoryDto updateTheoryDto)
+        public async Task UpdateAsync(Guid id, NoIdTheoryDto updateTheoryDto)
         {
-            throw new NotImplementedException();
+            TheoryDto dto = _mapper.Map<TheoryDto>(updateTheoryDto);
+            dto.Id = id;
+            ICollection<TheorySectionEntity> theorySectionEntities = _mapper.Map<ICollection<TheorySectionEntity>>(updateTheoryDto.TheorySectionDtos);
+            TheoryEntity newEntity = _mapper.Map<TheoryEntity>(dto);
+            newEntity.TheorySectionEntities = theorySectionEntities;
+            await _repository.UpdateAsync(id, newEntity);
         }
     }
 }
