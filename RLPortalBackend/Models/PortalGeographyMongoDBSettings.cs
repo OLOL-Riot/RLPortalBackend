@@ -29,5 +29,7 @@
 
         public string TheoryCollectionName { get; set; } = null!;
 
+        public string CourseSectionsCollectionName { get; set; } = null!;
+
     }
 }
