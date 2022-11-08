@@ -28,5 +28,12 @@ namespace RLPortalBackend.Entities
         /// </summary>
         [Required]
         public ICollection<Guid> ExerciseIds { get; set; }
+
+        public TestEntity(Guid id, string name, ICollection<Guid> exerciseIds)
+        {
+            Id = id;
+            Name = name;
+            ExerciseIds = exerciseIds;
+        }
     }
 }
