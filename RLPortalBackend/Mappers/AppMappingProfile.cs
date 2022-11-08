@@ -5,6 +5,7 @@ using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
 using RLPortalBackend.Models.Theory;
 using RLPortalBackend.Models.VerifiedTest;
+using RLPortalBackend.Repositories;
 
 namespace RLPortalBackend.Mappers
 {
@@ -14,6 +15,8 @@ namespace RLPortalBackend.Mappers
     /// </summary>
     public class AppMappingProfile : Profile
     {
+
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public AppMappingProfile()
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
@@ -84,5 +87,7 @@ namespace RLPortalBackend.Mappers
             CreateMap<PreviewCourseDto, CourseSectionEntity>().ReverseMap();
 
         }
+
+
     }
 }
