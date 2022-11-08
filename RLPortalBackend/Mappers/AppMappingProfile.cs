@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RLPortalBackend.Entities;
+using RLPortalBackend.Models.CourseSection;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
 using RLPortalBackend.Models.Theory;
@@ -72,8 +73,6 @@ namespace RLPortalBackend.Mappers
             // TheorySectionDto, TheorySectionEntity
             CreateMap<TheorySectionDto, TheorySectionEntity>().ReverseMap();
 
-            // TheorySectionDto, TheorySectionEntity
-            CreateMap<TheorySectionDto, TheorySectionEntity>().ReverseMap();
         }
     }
 }
