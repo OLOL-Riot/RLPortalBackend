@@ -56,6 +56,8 @@ builder.Services.AddScoped<ITestRepository, TestRepository>();
 builder.Services.AddScoped<ITestService, TestService>();
 builder.Services.AddScoped<IVerifiedTestRepository, VerifiedTestRepository>();
 builder.Services.AddScoped<IVerifiedTestService, VerifiedTestService>();
+builder.Services.AddScoped<ITheoryRepository, TheoryRepository>();
+builder.Services.AddScoped<ITheoryService, TheoryService>();
 
 builder.Services.AddScoped<IUserAuthenticationRepository, UserAuthenticationRepository>();
 builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
