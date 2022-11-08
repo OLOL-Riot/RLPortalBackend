@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using RLPortalBackend.Entities;
-using RLPortalBackend.Exeption;
+using RLPortalBackend.Exceptions;
 using RLPortalBackend.Helpers;
 using RLPortalBackend.Models;
 using RLPortalBackend.Models.Autentification;
-using System.Net;
 using System.Text.RegularExpressions;
 
 namespace RLPortalBackend.Repositories.Impl
@@ -58,14 +57,15 @@ namespace RLPortalBackend.Repositories.Impl
         /// Login
         /// </summary>
         /// <param name="request"></param>
-        /// <returns>JWT token</returns>
-        /// <exception cref="HttpException"></exception>
+        /// <returns></returns>
+        /// <exception cref="UserNameNotFoundException"></exception>
+        /// <exception cref="WrongPasswordException"></exception>
         public async Task<JWT> LoginAsync(AutentificationRequest request)
         {
             var resultLogin = await _userManager.FindByNameAsync(request.Login);
             if(resultLogin == null)
             {
-                throw new HttpException(HttpStatusCode.NotFound, $"Login {request.Login} not found");
+                throw new UserNameNotFoundException($"Login {request.Login} not found");
             }
 
 
@@ -78,7 +78,7 @@ namespace RLPortalBackend.Repositories.Impl
                 string token = _jwtHelper.CreateToken(user, role[0]);
                 return new JWT(token);
             }
-            throw new HttpException(HttpStatusCode.BadRequest, "Wrong password");
+            throw new WrongPasswordException("Wrong password");
         }
 
  
@@ -87,27 +87,27 @@ namespace RLPortalBackend.Repositories.Impl
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        /// <exception cref="HttpException"></exception>
+        /// <exception cref="InvalidEmailException"></exception>
+        /// <exception cref="InvalidPasswordException"></exception>
+        /// <exception cref="UserNameAlredyExistsException"></exception>
+        /// <exception cref="EmailAlredyExistsException"></exception>
         public async Task RegistrateAsync(UserModel input)
         {
-            string pattern = @"^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,}$";
-            string patternEmail = @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
-                @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$";
+            if (!Regex.IsMatch(input.Email, @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
+                @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$", RegexOptions.IgnoreCase))
+                throw new InvalidEmailException("Invalid email");
 
-            if (!Regex.IsMatch(input.Email, patternEmail, RegexOptions.IgnoreCase))
-                throw new HttpException(HttpStatusCode.BadRequest, "Invalid email");
-
-            if (!Regex.IsMatch(input.Password, pattern))
+            if (!Regex.IsMatch(input.Password, @"^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,}$"))
             {
-                throw new HttpException(HttpStatusCode.BadRequest, "Invalid password");
+                throw new InvalidPasswordException("Invalid password");
             }
             if (_userManager.FindByNameAsync(input.Login).Result != null)
             {
-                throw new HttpException(HttpStatusCode.Conflict, $"Login {input.Login} alredy exists");
+                throw new UserNameAlredyExistsException($"Login {input.Login} alredy exists");
             }
             if (_userManager.FindByEmailAsync(input.Email).Result != null)
             {
-                throw new HttpException(HttpStatusCode.Conflict, $"Email {input.Email} alredy exists");
+                throw new EmailAlredyExistsException($"Email {input.Email} alredy exists");
             }
             var user = CreateUser();
 
@@ -135,7 +135,7 @@ namespace RLPortalBackend.Repositories.Impl
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
-        /// <exception cref="HttpException"></exception>
+        /// <exception cref="EmailNotFoundException"></exception>
         public async Task GiveRoleToUserAsync(EmailAndRole email)
         {
             var user = await _userManager.FindByEmailAsync(email.UserEmail);
@@ -145,14 +145,9 @@ namespace RLPortalBackend.Repositories.Impl
                 if (email.Role.Equals("Administrator")) await _userManager.RemoveFromRoleAsync(user, "User");
                 if (email.Role.Equals("User")) await _userManager.RemoveFromRoleAsync(user, "Administrator");
             }
-            throw new HttpException(HttpStatusCode.BadRequest, $"Email {email.UserEmail} not found");
+            throw new EmailNotFoundException($"Email {email.UserEmail} not found");
         }
 
-        /// <summary>
-        /// Create instance of User
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="InvalidOperationException"></exception>
         private User CreateUser()
         {
             try
