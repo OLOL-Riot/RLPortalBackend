@@ -60,14 +60,19 @@ namespace RLPortalBackend.Mappers
             // CreateVerifiedTestDto, VerifiedTestDto
             CreateMap<CreateVerifiedTestDto, VerifiedTestDto>().ReverseMap();
 
+            // TheoryDto, TheoryEntity
             CreateMap<TheoryDto, TheoryEntity>().ReverseMap();
 
+            // NoIdTheoryDto, TheoryEntity
             CreateMap<NoIdTheoryDto, TheoryEntity>().ReverseMap();
 
+            // NoIdTheoryDto, TheoryDto
             CreateMap<NoIdTheoryDto, TheoryDto>().ReverseMap();
 
+            // TheorySectionDto, TheorySectionEntity
             CreateMap<TheorySectionDto, TheorySectionEntity>().ReverseMap();
 
+            // TheorySectionDto, TheorySectionEntity
             CreateMap<TheorySectionDto, TheorySectionEntity>().ReverseMap();
         }
     }
