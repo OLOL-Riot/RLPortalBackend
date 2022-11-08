@@ -2,6 +2,7 @@
 using RLPortalBackend.Entities;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
+using RLPortalBackend.Models.Theory;
 using RLPortalBackend.Models.VerifiedTest;
 
 namespace RLPortalBackend.Mappers
@@ -58,6 +59,18 @@ namespace RLPortalBackend.Mappers
 
             // CreateVerifiedTestDto, VerifiedTestDto
             CreateMap<CreateVerifiedTestDto, VerifiedTestDto>().ReverseMap();
+
+            CreateMap<TheoryDto, TheoryEntity>().ReverseMap();
+
+            CreateMap<CreateTheoryDto, TheoryEntity>().ReverseMap();
+
+            CreateMap<UpdateTheoryDto, TheoryEntity>().ReverseMap();
+
+            CreateMap<TheorySectionDto, TheorySectionEntity>().ReverseMap();
+
+            CreateMap<CreateTheorySectionDto, TheorySectionEntity>().ReverseMap();
+
+            CreateMap<UpdateTheorySectionDto, TheorySectionEntity>().ReverseMap();
         }
     }
 }
