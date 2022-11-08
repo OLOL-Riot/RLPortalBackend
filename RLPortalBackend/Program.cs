@@ -60,6 +60,8 @@ builder.Services.AddScoped<ITheoryRepository, TheoryRepository>();
 builder.Services.AddScoped<ITheoryService, TheoryService>();
 builder.Services.AddScoped<ICourseSectionRepository, CourseSectionRepository>();
 builder.Services.AddScoped<ICourseSectionService, CourseSectionService>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<ICourseService, CourseService>();
 
 builder.Services.AddScoped<IUserAuthenticationRepository, UserAuthenticationRepository>();
 builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
