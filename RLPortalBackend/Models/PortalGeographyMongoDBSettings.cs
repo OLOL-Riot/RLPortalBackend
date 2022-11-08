@@ -31,5 +31,7 @@
 
         public string CourseSectionsCollectionName { get; set; } = null!;
 
+        public string CourseCollectionName { get; set; } = null!;
+
     }
 }
