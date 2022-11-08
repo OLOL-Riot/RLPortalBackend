@@ -42,6 +42,13 @@ namespace RLPortalBackend.Repositories
         /// <returns></returns>
         public Task UpdateAsync(Guid id, TheoryEntity updatedTheory);
 
+        /// <summary>
+        /// Create many Theory
+        /// </summary>
+        /// <param name="theoryEntities"></param>
+        /// <returns></returns>
+        public Task CreateManyAsync(IEnumerable<TheoryEntity> theoryEntities);
+
 
 
 

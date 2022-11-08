@@ -38,6 +38,11 @@ namespace RLPortalBackend.Repositories.Impl
             return await _courseSection.Find(x => x.Id == id).FirstOrDefaultAsync();
         }
 
+        public async Task<ICollection<CourseSectionEntity>> GetAsync(ICollection<Guid> ids)
+        {
+            return await _courseSection.Find(el => ids.Contains(el.Id)).ToListAsync();
+        }
+
         public async Task RemoveAsync(Guid id)
         {
             await _courseSection.DeleteOneAsync(x => x.Id == id);

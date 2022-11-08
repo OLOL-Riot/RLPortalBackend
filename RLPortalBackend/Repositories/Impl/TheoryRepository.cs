@@ -45,5 +45,10 @@ namespace RLPortalBackend.Repositories.Impl
         {
             await _theoryCollection.ReplaceOneAsync(x => x.Id == id, updatedTheory);
         }
+
+        public async Task CreateManyAsync(IEnumerable<TheoryEntity> theoryEntities)
+        {
+            await _theoryCollection.InsertManyAsync(theoryEntities);
+        }
     }
 }
