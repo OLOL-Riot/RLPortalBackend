@@ -26,5 +26,8 @@
         public string TestCollectionName { get; set; } = null!;
 
         public string VerifiedTestCollectionName { get; set; } = null!;
+
+        public string TheoryCollectionName { get; set; } = null!;
+
     }
 }
