@@ -1,9 +1,9 @@
 ﻿namespace RLPortalBackend.Models.CourseSection
 {
     /// <summary>
-    /// PreviewCourseDto
+    /// PreviewCourseSectionDto
     /// </summary>
-    public class PreviewCourseDto
+    public class PreviewCourseSectionDto
     {
         /// <summary>
         /// Id

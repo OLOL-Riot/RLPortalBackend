@@ -90,13 +90,13 @@ namespace RLPortalBackend.Controllers
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        [ProducesResponseType(typeof(ICollection<PreviewCourseDto>), 200)]
+        [ProducesResponseType(typeof(ICollection<PreviewCourseSectionDto>), 200)]
 
         [Authorize(Roles = "User, Administrator")]
         [HttpPost("preview")]
-        public async Task<ICollection<PreviewCourseDto>> GetPreviews(ICollection<Guid> ids)
+        public async Task<ICollection<PreviewCourseSectionDto>> GetPreviews(ICollection<Guid> ids)
         {
-            return await _courseSectionService.GetPreviewCourse(ids);
+            return await _courseSectionService.GetPreviewCourseSections(ids);
         }
 
         /// <summary>
