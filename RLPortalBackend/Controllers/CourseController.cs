@@ -66,7 +66,7 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(typeof(ICollection<PreviewCourseDto>), 200)]
 
         [Authorize(Roles = "User, Administrator")]
-        [HttpGet]
+        [HttpGet("preview")]
         public async Task<ICollection<PreviewCourseDto>> GetPreviewCoursesAsync()
         {
             return await _courseService.GetAllPreviewCourses();
