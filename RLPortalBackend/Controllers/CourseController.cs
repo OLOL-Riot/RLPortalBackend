@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RLPortalBackend.Models.Course;
 using RLPortalBackend.Models.CourseSection;
+using RLPortalBackend.Models.Test;
 using RLPortalBackend.Services;
 using RLPortalBackend.Services.Impl;
 
@@ -32,7 +33,7 @@ namespace RLPortalBackend.Controllers
         [HttpGet]
         public async Task<ICollection<CourseDto>> GetCoursesAsync()
         {
-
+            return await _courseService.GetCoursesAsync();
         }
 
         /// <summary>
@@ -45,9 +46,16 @@ namespace RLPortalBackend.Controllers
 
         [Authorize(Roles = "User, Administrator")]
         [HttpGet("{id:length(36)}")]
-        public async Task<CourseDto> GetCourseByIdAsync(Guid id)
+        public async Task<ActionResult<CourseDto>> GetCourseByIdAsync(Guid id)
         {
+            var course = await _courseService.GetCourseByIdAsync(id);
 
+            if (course is null)
+            {
+                return NotFound();
+            }
+
+            return course;
         }
 
         /// <summary>
@@ -61,7 +69,7 @@ namespace RLPortalBackend.Controllers
         [HttpGet]
         public async Task<ICollection<PreviewCourseDto>> GetPreviewCoursesAsync()
         {
-
+            return await _courseService.GetAllPreviewCourses();
         }
 
         /// <summary>
@@ -76,7 +84,10 @@ namespace RLPortalBackend.Controllers
         [HttpPost]
         public async Task<ActionResult<CourseDto>> CreateNewCourse([FromBody] CreateCourseDto createCourseDto)
         {
-            
+            CourseDto createdCourse = await _courseService.CreateAsync(createCourseDto);
+
+            return CreatedAtAction(nameof(GetCourseByIdAsync), new { id = createdCourse.Id }, createdCourse);
+
         }
 
         /// <summary>
@@ -93,7 +104,16 @@ namespace RLPortalBackend.Controllers
         [HttpPut("{id:length(36)}")]
         public async Task<ActionResult> UpdateCourseSection(Guid id, UpdateCourseDto updateCourseDto)
         {
+            var course = await _courseService.GetCourseByIdAsync(id);
 
+            if (course is null)
+            {
+                return NotFound();
+            }
+
+            await _courseService.UpdateAsync(id, updateCourseDto);
+
+            return NoContent();
         }
 
         /// <summary>
@@ -109,6 +129,16 @@ namespace RLPortalBackend.Controllers
         [HttpDelete("{id:length(36)}")]
         public async Task<ActionResult> RemoveCourseById(Guid id)
         {
+            var course = await _courseService.GetCourseByIdAsync(id);
+
+            if (course is null)
+            {
+                return NotFound();
+            }
+
+            await _courseService.RemoveAsync(id);
+
+            return NoContent();
 
         }
 
