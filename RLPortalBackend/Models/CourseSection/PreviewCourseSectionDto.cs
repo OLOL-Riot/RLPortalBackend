@@ -3,7 +3,7 @@
     /// <summary>
     /// PreviewCourseDto
     /// </summary>
-    public class PreviewCourseDto
+    public class PreviewCourseSectionDto
     {
         /// <summary>
         /// Id
