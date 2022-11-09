@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RLPortalBackend.Entities;
+using RLPortalBackend.Models.Course;
 using RLPortalBackend.Models.CourseSection;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
@@ -85,6 +86,15 @@ namespace RLPortalBackend.Mappers
             CreateMap<PreviewCourseSectionDto, CourseSectionDto>().ReverseMap();
 
             CreateMap<PreviewCourseSectionDto, CourseSectionEntity>().ReverseMap();
+
+            CreateMap<CreateCourseDto, CourseEntity>();
+
+            CreateMap<CourseEntity, PreviewCourseDto>();
+
+            CreateMap<CourseEntity, CourseDto>();
+
+            CreateMap<UpdateCourseDto, CourseEntity>()
+                .ForMember(dest => dest.CourseSectionEntityIds, opt => opt.MapFrom(source => source.CourseSectionIds));
 
         }
 
