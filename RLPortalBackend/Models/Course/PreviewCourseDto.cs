@@ -1,5 +1,8 @@
 ﻿namespace RLPortalBackend.Models.Course
 {
+    /// <summary>
+    /// PreviewCourseDto
+    /// </summary>
     public class PreviewCourseDto
     {
         /// <summary>

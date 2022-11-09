@@ -1,5 +1,8 @@
 ﻿namespace RLPortalBackend.Models.Course
 {
+    /// <summary>
+    /// UpdateCourseDto
+    /// </summary>
     public class UpdateCourseDto
     {
         /// <summary>

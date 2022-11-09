@@ -2,6 +2,9 @@
 
 namespace RLPortalBackend.Models.Course
 {
+    /// <summary>
+    /// CourseDto
+    /// </summary>
     public class CourseDto
     {
         /// <summary>
