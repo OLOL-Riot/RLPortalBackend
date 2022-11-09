@@ -1,4 +1,7 @@
-﻿namespace RLPortalBackend.Entities
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.IdGenerators;
+
+namespace RLPortalBackend.Entities
 {
     /// <summary>
     /// CourseEntity
@@ -8,6 +11,7 @@
         /// <summary>
         /// Id
         /// </summary>
+        [BsonId(IdGenerator = typeof(GuidGenerator))]
         public Guid Id { get; set; }
 
         /// <summary>
