@@ -44,6 +44,6 @@ namespace RLPortalBackend.Services
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        public Task<ICollection<PreviewCourseSectionDto>> GetPreviewCourse(ICollection<Guid> ids);
+        public Task<ICollection<PreviewCourseSectionDto>> GetPreviewCourseSections(ICollection<Guid> ids);
     }
 }

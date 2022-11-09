@@ -96,7 +96,7 @@ namespace RLPortalBackend.Controllers
         [HttpPost("preview")]
         public async Task<ICollection<PreviewCourseSectionDto>> GetPreviews(ICollection<Guid> ids)
         {
-            return await _courseSectionService.GetPreviewCourse(ids);
+            return await _courseSectionService.GetPreviewCourseSections(ids);
         }
 
         /// <summary>

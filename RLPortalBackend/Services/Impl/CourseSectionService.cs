@@ -92,7 +92,7 @@ namespace RLPortalBackend.Services.Impl
 
         }
 
-        public async Task<ICollection<PreviewCourseSectionDto>> GetPreviewCourse(ICollection<Guid> ids)
+        public async Task<ICollection<PreviewCourseSectionDto>> GetPreviewCourseSections(ICollection<Guid> ids)
         {
             ICollection<CourseSectionEntity> entities = await _courseSectionRepository.GetAsync(ids);
             ICollection<PreviewCourseSectionDto> previews = _mapper.Map<ICollection<PreviewCourseSectionDto>>(entities);
