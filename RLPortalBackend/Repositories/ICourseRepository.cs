@@ -13,7 +13,7 @@ namespace RLPortalBackend.Repositories
         /// </summary>
         /// <param name="newCourseEntity"></param>
         /// <returns></returns>
-        public Task<CourseEntity> CreateAsync(CourseEntity newCourseEntity);
+        public Task CreateAsync(CourseEntity newCourseEntity);
 
         /// <summary>
         /// Get all courses from source
