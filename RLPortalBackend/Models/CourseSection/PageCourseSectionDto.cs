@@ -35,6 +35,6 @@ namespace RLPortalBackend.Models.CourseSection
         /// <summary>
         /// TestEntityId
         /// </summary>
-        public Guid TestEntityId { get; set; }
+        public Guid TestId { get; set; }
     }
 }

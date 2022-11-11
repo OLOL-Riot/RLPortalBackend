@@ -40,14 +40,5 @@ namespace RLPortalBackend.Entities
         /// </summary>
         [Required]
         public ICollection<TheorySectionEntity> TheorySectionEntities { get; set; }
-
-        public TheoryEntity(Guid id, string name, string description, string shortDescription, ICollection<TheorySectionEntity> theorySectionEntities)
-        {
-            Id = id;
-            Name = name;
-            Description = description;
-            ShortDescription = shortDescription;
-            TheorySectionEntities = theorySectionEntities;
-        }
     }
 }

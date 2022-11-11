@@ -25,11 +25,11 @@
         /// <summary>
         /// TheoryEntityId
         /// </summary>
-        public Guid TheoryEntityId { get; set; }
+        public Guid TheoryId { get; set; }
 
         /// <summary>
         /// TestEntityId
         /// </summary>
-        public Guid TestEntityId { get; set; }
+        public Guid TestId { get; set; }
     }
 }
