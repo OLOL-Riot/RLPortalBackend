@@ -30,8 +30,8 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(typeof(TheoryDto), 201)]
 
         [Authorize(Roles = "Administrator")]
-        [HttpPost("create")]
-        public async Task<ActionResult<TheoryDto>> CreateTheoryAsync([FromBody] NoIdTheoryDto input)
+        [HttpPost]
+        public async Task<ActionResult<TheoryDto>> CreateTheoryAsync([FromBody] NewTheoryDto input)
         {
             TheoryDto dto = await _theoryService.CreateAsync(input);
 
@@ -46,7 +46,7 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(typeof(ICollection<TheoryDto>), 200)]
 
         [Authorize(Roles = "User, Administrator")]
-        [HttpGet("get")]
+        [HttpGet]
         public async Task<ICollection<TheoryDto>> GetTheoriesAsync()
         {
             return await _theoryService.GetAsync();
@@ -62,7 +62,7 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(404)]
 
         [Authorize(Roles = "User, Administrator")]
-        [HttpGet("get/{id:length(36)}")]
+        [HttpGet("{id:length(36)}")]
         public async Task<TheoryDto> GetById(Guid id)
         {
             ///Добавить проверку на наличие теории в бд внутри сервиса
@@ -79,7 +79,7 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(404)]
 
         [Authorize(Roles = "Administrator")]
-        [HttpDelete("remove/{id:length(36)}")]
+        [HttpDelete("{id:length(36)}")]
         public async Task<ActionResult> DeleteById(Guid id)
         {
             await _theoryService.RemoveAsync(id);
@@ -97,8 +97,8 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(404)]
 
         [Authorize(Roles = "Administrator")]
-        [HttpPut("update/{id:length(36)}")]
-        public async Task<ActionResult> Update(Guid id, [FromBody] NoIdTheoryDto update)
+        [HttpPut("{id:length(36)}")]
+        public async Task<ActionResult> Update(Guid id, [FromBody] NewTheoryDto update)
         {
             await _theoryService.UpdateAsync(id, update);
             return NoContent();

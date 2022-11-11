@@ -5,7 +5,7 @@ namespace RLPortalBackend.Models.Theory
     /// <summary>
     /// NoIdTheoryDto
     /// </summary>
-    public class NoIdTheoryDto
+    public class NewTheoryDto
     {
         /// <summary>
         /// Name

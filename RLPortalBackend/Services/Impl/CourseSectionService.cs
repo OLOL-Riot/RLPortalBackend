@@ -28,16 +28,25 @@ namespace RLPortalBackend.Services.Impl
         public async Task<CourseSectionDto> CreateAsync(NewCourseSectionDto newCourseSectionDto)
         {
             CourseSectionEntity courseSectionEntity = _mapper.Map<CourseSectionEntity>(newCourseSectionDto);
+
             var testId = Guid.NewGuid();
             var theoryId = Guid.NewGuid();
-            TestEntity testEntity = new(testId, "", new List<Guid>());
+
+            TestEntity testEntity = new TestEntity();
+            testEntity.Id = testId;
+            testEntity.Name = "";
+            testEntity.ExerciseIds = new List<Guid>();
+
             await _testRepository.CreateAsync(testEntity);
             await _theoryRepository.CreateAsync(new TheoryEntity(theoryId, "", "", "", new List<TheorySectionEntity>()));
+
             courseSectionEntity.TestEntityId = testId;
             courseSectionEntity.TheoryEntityId = theoryId;
+
             await _courseSectionRepository.CreateAsync(courseSectionEntity);
             CourseSectionDto dto = _mapper.Map<CourseSectionDto>(courseSectionEntity);
             dto.TheoryDto = _mapper.Map<TheoryDto>(await _theoryRepository.GetAsync(theoryId));
+
             return dto;
 
         }
@@ -70,11 +79,15 @@ namespace RLPortalBackend.Services.Impl
 
         public async Task RemoveAsync(Guid id)
         {
-            if (await _courseSectionRepository.GetAsync(id) == null)
+            CourseSectionEntity courseSectionEntity = await _courseSectionRepository.GetAsync(id);
+
+            if (courseSectionEntity == null)
             {
                 throw new CourseSectionNotFoundException($"Course section {id} not found");
             }
+
             await _courseSectionRepository.RemoveAsync(id);
+            await _theoryRepository.RemoveAsync(courseSectionEntity.TheoryEntityId);
         }
 
         public async Task UpdateAsync(Guid id, NewCourseSectionDto newCourseSectionDto)

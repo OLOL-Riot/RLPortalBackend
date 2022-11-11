@@ -68,10 +68,10 @@ namespace RLPortalBackend.Mappers
             CreateMap<TheoryDto, TheoryEntity>().ReverseMap();
 
             // NoIdTheoryDto, TheoryEntity
-            CreateMap<NoIdTheoryDto, TheoryEntity>().ReverseMap();
+            CreateMap<NewTheoryDto, TheoryEntity>().ReverseMap();
 
             // NoIdTheoryDto, TheoryDto
-            CreateMap<NoIdTheoryDto, TheoryDto>().ReverseMap();
+            CreateMap<NewTheoryDto, TheoryDto>().ReverseMap();
 
             // TheorySectionDto, TheorySectionEntity
             CreateMap<TheorySectionDto, TheorySectionEntity>().ReverseMap();

@@ -19,7 +19,7 @@ namespace RLPortalBackend.Services.Impl
             _mapper = mapper;
         }
 
-        public async Task<TheoryDto> CreateAsync(NoIdTheoryDto theoryDto)
+        public async Task<TheoryDto> CreateAsync(NewTheoryDto theoryDto)
         {
             TheoryEntity theoryEntity = _mapper.Map<TheoryEntity>(theoryDto);
 
@@ -61,7 +61,7 @@ namespace RLPortalBackend.Services.Impl
             await _repository.RemoveAsync(id);
         }
 
-        public async Task UpdateAsync(Guid id, NoIdTheoryDto updateTheoryDto)
+        public async Task UpdateAsync(Guid id, NewTheoryDto updateTheoryDto)
         {
             if (await _repository.GetAsync(id) == null)
             {

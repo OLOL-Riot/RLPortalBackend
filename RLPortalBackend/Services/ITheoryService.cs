@@ -10,7 +10,7 @@ namespace RLPortalBackend.Services
         /// </summary>
         /// <param name="theoryDto"></param>
         /// <returns></returns>
-        public Task<TheoryDto> CreateAsync(NoIdTheoryDto theoryDto);
+        public Task<TheoryDto> CreateAsync(NewTheoryDto theoryDto);
 
         /// <summary>
         /// Get all Theory
@@ -31,7 +31,7 @@ namespace RLPortalBackend.Services
         /// <param name="id"></param>
         /// <param name="updateTheoryDto"></param>
         /// <returns></returns>
-        public Task UpdateAsync(Guid id, NoIdTheoryDto updateTheoryDto);
+        public Task UpdateAsync(Guid id, NewTheoryDto updateTheoryDto);
 
         /// <summary>
         /// Remove Theory by Id
