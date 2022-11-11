@@ -1,7 +1,7 @@
 ﻿namespace RLPortalBackend.Models.CourseSection
 {
     /// <summary>
-    /// PreviewCourseDto
+    /// PreviewCourseSectionDto
     /// </summary>
     public class PreviewCourseSectionDto
     {
