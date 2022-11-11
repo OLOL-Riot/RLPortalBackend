@@ -26,17 +26,17 @@ namespace RLPortalBackend.Controllers
         /// (Permissions: User, Administrator)
         /// </summary>
         /// <returns></returns>
-        [ProducesResponseType(typeof(ICollection<PageCourseSectionDto>), 200)]
+        [ProducesResponseType(typeof(ICollection<CourseSectionDto>), 200)]
 
         [Authorize(Roles = "User, Administrator")]
         [HttpGet]
-        public async Task<ICollection<PageCourseSectionDto>> GetCourseSectionDtosAsync()
+        public async Task<ICollection<CourseSectionDto>> GetCourseSectionDtosAsync()
         {
             return await _courseSectionService.GetAsync();
         }
 
         /// <summary>
-        /// Get CourseSection by Id
+        /// Get page CourseSection by Id
         /// (Permissions: User, Administrator)
         /// </summary>
         /// <param name="id"></param>
@@ -46,9 +46,25 @@ namespace RLPortalBackend.Controllers
 
         [Authorize(Roles = "User, Administrator")]
         [HttpGet("page/{id:length(36)}")]
-        public async Task<PageCourseSectionDto> GetCourseSectionByIdAsync(Guid id)
+        public async Task<PageCourseSectionDto> GetPageCourseSectionByIdAsync(Guid id)
         {
             return await _courseSectionService.GetPageCourseSectionByIdAsync(id);
+        }
+
+        /// <summary>
+        /// Get CourseSection by Id
+        /// (Permissions: User, Administrator)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [ProducesResponseType(typeof(CourseSectionDto), 200)]
+        [ProducesResponseType(404)]
+
+        [Authorize(Roles = "User, Administrator")]
+        [HttpGet("{id:length(36)}")]
+        public async Task<CourseSectionDto> GetCourseSectionByIdAsync(Guid id)
+        {
+            return await _courseSectionService.GetCourseSectionByIdAsync(id);
         }
 
         /// <summary>
@@ -74,14 +90,14 @@ namespace RLPortalBackend.Controllers
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [ProducesResponseType(typeof(PageCourseSectionDto), 201)]
+        [ProducesResponseType(typeof(CourseSectionDto), 201)]
 
         [Authorize(Roles = "Administrator")]
         [HttpPost]
-        public async Task<ActionResult<PageCourseSectionDto>> CreateNewCourseSection([FromBody] NewCourseSectionDto input)
+        public async Task<ActionResult<CourseSectionDto>> CreateNewCourseSection([FromBody] NewCourseSectionDto input)
         {
             var dto = await _courseSectionService.CreateAsync(input);
-            return CreatedAtAction(nameof(CreateNewCourseSection), dto);
+            return CreatedAtAction(nameof(GetCourseSectionByIdAsync), new { id = dto.Id }, dto);
         }
 
         /// <summary>

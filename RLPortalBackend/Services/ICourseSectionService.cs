@@ -9,13 +9,13 @@ namespace RLPortalBackend.Services
         /// </summary>
         /// <param name="newCourseSectionDto"></param>
         /// <returns></returns>
-        public Task<PageCourseSectionDto> CreateAsync(NewCourseSectionDto newCourseSectionDto);
+        public Task<CourseSectionDto> CreateAsync(NewCourseSectionDto newCourseSectionDto);
 
         /// <summary>
         /// Get all Course sections
         /// </summary>
         /// <returns></returns>
-        public Task<ICollection<PageCourseSectionDto>> GetAsync();
+        public Task<ICollection<CourseSectionDto>> GetAsync();
 
         /// <summary>
         /// Get Page Course section by Id
@@ -23,6 +23,13 @@ namespace RLPortalBackend.Services
         /// <param name="id"></param>
         /// <returns></returns>
         public Task<PageCourseSectionDto> GetPageCourseSectionByIdAsync(Guid id);
+
+        /// <summary>
+        /// Get Course section by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Task<CourseSectionDto> GetCourseSectionByIdAsync(Guid id);
 
         /// <summary>
         /// Update Course section by Id
