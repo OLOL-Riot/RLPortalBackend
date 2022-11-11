@@ -29,10 +29,26 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(typeof(ICollection<CourseSectionDto>), 200)]
 
         [Authorize(Roles = "User, Administrator")]
-        [HttpGet("get")]
+        [HttpGet]
         public async Task<ICollection<CourseSectionDto>> GetCourseSectionDtosAsync()
         {
             return await _courseSectionService.GetAsync();
+        }
+
+        /// <summary>
+        /// Get page CourseSection by Id
+        /// (Permissions: User, Administrator)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [ProducesResponseType(typeof(PageCourseSectionDto), 200)]
+        [ProducesResponseType(404)]
+
+        [Authorize(Roles = "User, Administrator")]
+        [HttpGet("page/{id:length(36)}")]
+        public async Task<PageCourseSectionDto> GetPageCourseSectionByIdAsync(Guid id)
+        {
+            return await _courseSectionService.GetPageCourseSectionByIdAsync(id);
         }
 
         /// <summary>
@@ -45,10 +61,10 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(404)]
 
         [Authorize(Roles = "User, Administrator")]
-        [HttpGet("get/{id:length(36)}")]
+        [HttpGet("{id:length(36)}")]
         public async Task<CourseSectionDto> GetCourseSectionByIdAsync(Guid id)
         {
-            return await _courseSectionService.GetByIdAsync(id);
+            return await _courseSectionService.GetCourseSectionByIdAsync(id);
         }
 
         /// <summary>
@@ -61,7 +77,7 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(404)]
 
         [Authorize(Roles = "Administrator")]
-        [HttpDelete("remove/{id:length(36)}")]
+        [HttpDelete("{id:length(36)}")]
         public async Task<ActionResult> RemoveCourseSectionById(Guid id)
         {
             await _courseSectionService.RemoveAsync(id);
@@ -77,11 +93,11 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(typeof(CourseSectionDto), 201)]
 
         [Authorize(Roles = "Administrator")]
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<ActionResult<CourseSectionDto>> CreateNewCourseSection([FromBody] NewCourseSectionDto input)
         {
             var dto = await _courseSectionService.CreateAsync(input);
-            return CreatedAtAction(nameof(CreateNewCourseSection), dto);
+            return CreatedAtAction(nameof(GetCourseSectionByIdAsync), new { id = dto.Id }, dto);
         }
 
         /// <summary>
@@ -101,7 +117,7 @@ namespace RLPortalBackend.Controllers
 
         /// <summary>
         /// Update CourseSection by Id
-        /// (Permissions: User, Administrator)
+        /// (Permissions: Administrator)
         /// </summary>
         /// <param name="id"></param>
         /// <param name="newCourseSectionDto"></param>
@@ -109,8 +125,8 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
 
-        [Authorize(Roles = "User, Administrator")]
-        [HttpPut("update/{id:length(36)}")]
+        [Authorize(Roles = "Administrator")]
+        [HttpPut("{id:length(36)}")]
         public async Task<ActionResult> UpdateCourseSection(Guid id, NewCourseSectionDto newCourseSectionDto)
         {
             await _courseSectionService.UpdateAsync(id, newCourseSectionDto);

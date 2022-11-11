@@ -26,7 +26,12 @@ namespace RLPortalBackend.Services.Impl
             IEnumerable<NewExercise> newExercises = newTest.Exercises;
             IEnumerable<ExerciseEntity> newExerciseEntities = _mapper.Map<IEnumerable<ExerciseEntity>>(newExercises);
 
-            await _exerciseRepository.CreateManyAsync(newExerciseEntities);
+            foreach (ExerciseEntity exerciseEntity in newExerciseEntities)
+            {
+                await _exerciseRepository.CreateAsync(exerciseEntity);
+            }
+
+
 
             ICollection<Guid> guids = newExerciseEntities.Select(e => e.Id).ToList();
             newTestEntity.ExerciseIds = guids;
@@ -67,6 +72,12 @@ namespace RLPortalBackend.Services.Impl
             TestEntity testEntity = await _testRepository.GetAsync(id);
             NoRightAnswersTest noRightAnswersTest = _mapper.Map<NoRightAnswersTest>(testEntity);
 
+            if (noRightAnswersTest == null)
+            {
+                return noRightAnswersTest;
+            }
+
+
             ICollection<Guid> exercisesIds = testEntity.ExerciseIds;
 
             ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync(exercisesIds);
@@ -102,6 +113,11 @@ namespace RLPortalBackend.Services.Impl
         {
             TestEntity testEntity = await _testRepository.GetAsync(id);
             TestDto testDto = _mapper.Map<TestDto>(testEntity);
+
+            if (testDto == null)
+            {
+                return testDto;
+            }
 
             ICollection<Guid> exercisesId = testEntity.ExerciseIds;
             ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync(exercisesId);

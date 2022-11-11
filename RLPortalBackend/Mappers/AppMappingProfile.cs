@@ -68,23 +68,30 @@ namespace RLPortalBackend.Mappers
             CreateMap<TheoryDto, TheoryEntity>().ReverseMap();
 
             // NoIdTheoryDto, TheoryEntity
-            CreateMap<NoIdTheoryDto, TheoryEntity>().ReverseMap();
+            CreateMap<NewTheoryDto, TheoryEntity>().ReverseMap();
 
             // NoIdTheoryDto, TheoryDto
-            CreateMap<NoIdTheoryDto, TheoryDto>().ReverseMap();
+            CreateMap<NewTheoryDto, TheoryDto>().ReverseMap();
 
             // TheorySectionDto, TheorySectionEntity
             CreateMap<TheorySectionDto, TheorySectionEntity>().ReverseMap();
 
-            CreateMap<CourseSectionDto, CourseSectionEntity>().ReverseMap();
+            CreateMap<PageCourseSectionDto, CourseSectionEntity>()
+                .ForMember(dest => dest.TestEntityId, opt => opt.MapFrom(source => source.TestId))
+                .ReverseMap();
 
             CreateMap<NewCourseSectionDto, CourseSectionEntity>().ReverseMap();
 
-            CreateMap<CourseSectionDto, NewCourseSectionDto>().ReverseMap();
+            CreateMap<PageCourseSectionDto, NewCourseSectionDto>().ReverseMap();
 
-            CreateMap<PreviewCourseSectionDto, CourseSectionDto>().ReverseMap();
+            CreateMap<PreviewCourseSectionDto, PageCourseSectionDto>().ReverseMap();
 
             CreateMap<PreviewCourseSectionDto, CourseSectionEntity>().ReverseMap();
+
+            CreateMap<CourseSectionEntity, CourseSectionDto>()
+                .ForMember(dest => dest.TestId, opt => opt.MapFrom(source => source.TestEntityId))
+                .ForMember(dest => dest.TheoryId, opt => opt.MapFrom(source => source.TheoryEntityId))
+                .ReverseMap();
 
             CreateMap<CreateCourseDto, CourseEntity>();
 

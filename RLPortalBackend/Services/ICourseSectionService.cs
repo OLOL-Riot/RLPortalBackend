@@ -5,27 +5,34 @@ namespace RLPortalBackend.Services
     public interface ICourseSectionService
     {
         /// <summary>
-        /// Create Course
+        /// Create Course section
         /// </summary>
         /// <param name="newCourseSectionDto"></param>
         /// <returns></returns>
         public Task<CourseSectionDto> CreateAsync(NewCourseSectionDto newCourseSectionDto);
 
         /// <summary>
-        /// Get all Course
+        /// Get all Course sections
         /// </summary>
         /// <returns></returns>
         public Task<ICollection<CourseSectionDto>> GetAsync();
 
         /// <summary>
-        /// Get Course by Id
+        /// Get Page Course section by Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<CourseSectionDto> GetByIdAsync(Guid id);
+        public Task<PageCourseSectionDto> GetPageCourseSectionByIdAsync(Guid id);
 
         /// <summary>
-        /// Update Course by Id
+        /// Get Course section by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Task<CourseSectionDto> GetCourseSectionByIdAsync(Guid id);
+
+        /// <summary>
+        /// Update Course section by Id
         /// </summary>
         /// <param name="id"></param>
         /// <param name="newCourseSectionDto"></param>
@@ -33,14 +40,14 @@ namespace RLPortalBackend.Services
         public Task UpdateAsync(Guid id, NewCourseSectionDto newCourseSectionDto);
 
         /// <summary>
-        /// Delete Course by Id
+        /// Delete Course section by Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         public Task RemoveAsync(Guid id);
 
         /// <summary>
-        /// Get previews of courses
+        /// Get previews course sections of courses
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>

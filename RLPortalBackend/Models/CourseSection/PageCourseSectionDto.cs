@@ -1,6 +1,11 @@
-﻿namespace RLPortalBackend.Models.CourseSection
+﻿using RLPortalBackend.Models.Theory;
+
+namespace RLPortalBackend.Models.CourseSection
 {
-    public class CourseSectionDto
+    /// <summary>
+    /// CourseSectionDto
+    /// </summary>
+    public class PageCourseSectionDto
     {
         /// <summary>
         /// Id
@@ -23,9 +28,9 @@
         public int SerialNumber { get; set; }
 
         /// <summary>
-        /// TheoryEntityId
+        /// TheoryDto
         /// </summary>
-        public Guid TheoryId { get; set; }
+        public TheoryDto TheoryDto { get; set; }
 
         /// <summary>
         /// TestEntityId
