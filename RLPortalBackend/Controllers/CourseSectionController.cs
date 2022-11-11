@@ -48,7 +48,7 @@ namespace RLPortalBackend.Controllers
         [HttpGet("page/{id:length(36)}")]
         public async Task<PageCourseSectionDto> GetCourseSectionByIdAsync(Guid id)
         {
-            return await _courseSectionService.GetByIdAsync(id);
+            return await _courseSectionService.GetPageCourseSectionByIdAsync(id);
         }
 
         /// <summary>

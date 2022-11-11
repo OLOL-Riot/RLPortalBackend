@@ -65,7 +65,7 @@ namespace RLPortalBackend.Services.Impl
             return dtos;
         }
 
-        public async Task<PageCourseSectionDto> GetByIdAsync(Guid id)
+        public async Task<PageCourseSectionDto> GetPageCourseSectionByIdAsync(Guid id)
         {
             if (await _courseSectionRepository.GetAsync(id) == null)
             {
