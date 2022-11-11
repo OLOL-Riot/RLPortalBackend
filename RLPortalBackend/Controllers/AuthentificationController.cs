@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RLPortalBackend.Exeption;
 using RLPortalBackend.Models;
 using RLPortalBackend.Models.Autentification;
 using RLPortalBackend.Repositories;

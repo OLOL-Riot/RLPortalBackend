@@ -41,5 +41,7 @@ namespace RLPortalBackend.Repositories
         /// <param name="id">Id</param>
         /// <returns></returns>
         public Task RemoveAsync(Guid id);
+
+     
     }
 }

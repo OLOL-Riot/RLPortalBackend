@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using RLPortalBackend.Entities;
+using RLPortalBackend.Models.Course;
+using RLPortalBackend.Models.CourseSection;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
+using RLPortalBackend.Models.Theory;
 using RLPortalBackend.Models.VerifiedTest;
 
 namespace RLPortalBackend.Mappers
@@ -12,6 +15,8 @@ namespace RLPortalBackend.Mappers
     /// </summary>
     public class AppMappingProfile : Profile
     {
+
+
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public AppMappingProfile()
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
@@ -58,6 +63,44 @@ namespace RLPortalBackend.Mappers
 
             // CreateVerifiedTestDto, VerifiedTestDto
             CreateMap<CreateVerifiedTestDto, VerifiedTestDto>().ReverseMap();
+
+            // TheoryDto, TheoryEntity
+            CreateMap<TheoryDto, TheoryEntity>().ReverseMap();
+
+            // NoIdTheoryDto, TheoryEntity
+            CreateMap<NoIdTheoryDto, TheoryEntity>().ReverseMap();
+
+            // NoIdTheoryDto, TheoryDto
+            CreateMap<NoIdTheoryDto, TheoryDto>().ReverseMap();
+
+            // TheorySectionDto, TheorySectionEntity
+            CreateMap<TheorySectionDto, TheorySectionEntity>().ReverseMap();
+
+            CreateMap<CourseSectionDto, CourseSectionEntity>().ReverseMap();
+
+            CreateMap<NewCourseSectionDto, CourseSectionEntity>().ReverseMap();
+
+            CreateMap<CourseSectionDto, NewCourseSectionDto>().ReverseMap();
+
+            CreateMap<PreviewCourseSectionDto, CourseSectionDto>().ReverseMap();
+
+            CreateMap<PreviewCourseSectionDto, CourseSectionEntity>().ReverseMap();
+
+            CreateMap<CreateCourseDto, CourseEntity>();
+
+            CreateMap<CourseEntity, PreviewCourseDto>();
+
+            CreateMap<CourseEntity, PageCourseDto>();
+
+            CreateMap<UpdateCourseDto, CourseEntity>()
+                .ForMember(dest => dest.CourseSectionEntityIds, opt => opt.MapFrom(source => source.CourseSectionIds));
+
+            CreateMap<CourseEntity, CourseDto>()
+                .ForMember(dest => dest.CourseSectionIds, opt => opt.MapFrom(source => source.CourseSectionEntityIds))
+                .ReverseMap();
+
         }
+
+
     }
 }

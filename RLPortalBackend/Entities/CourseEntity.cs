@@ -1,39 +1,37 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.IdGenerators;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RLPortalBackend.Entities
 {
     /// <summary>
-    /// Test Entity
+    /// CourseEntity
     /// </summary>
-    public class TestEntity
+    public class CourseEntity
     {
         /// <summary>
         /// Id
         /// </summary>
-        [Required]
         [BsonId(IdGenerator = typeof(GuidGenerator))]
         public Guid Id { get; set; }
 
         /// <summary>
         /// Name
         /// </summary>
-        [Required]
         public string Name { get; set; }
 
         /// <summary>
-        /// Collection of Execise Id
+        /// Description
         /// </summary>
-        [Required]
-        public ICollection<Guid> ExerciseIds { get; set; }
+        public string Description { get; set; }
 
-        public TestEntity(Guid id, string name, ICollection<Guid> exerciseIds)
-        {
-            Id = id;
-            Name = name;
-            ExerciseIds = exerciseIds;
-        }
+        /// <summary>
+        /// ShortDescription
+        /// </summary>
+        public string ShortDescription { get; set; }
+
+        /// <summary>
+        /// CourseSectionEntityIds
+        /// </summary>
+        public ICollection<Guid> CourseSectionEntityIds { get; set; }
     }
 }

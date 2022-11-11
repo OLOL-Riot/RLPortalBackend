@@ -2,7 +2,6 @@
 using RLPortalBackend.Entities;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
-using RLPortalBackend.Models.VerifiedTest;
 using RLPortalBackend.Repositories;
 
 namespace RLPortalBackend.Services.Impl
