@@ -5,7 +5,7 @@ namespace RLPortalBackend.Models.CourseSection
     /// <summary>
     /// CourseSectionDto
     /// </summary>
-    public class CourseSectionDto
+    public class PageCourseSectionDto
     {
         /// <summary>
         /// Id

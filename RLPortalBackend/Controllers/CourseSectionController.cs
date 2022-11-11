@@ -26,11 +26,11 @@ namespace RLPortalBackend.Controllers
         /// (Permissions: User, Administrator)
         /// </summary>
         /// <returns></returns>
-        [ProducesResponseType(typeof(ICollection<CourseSectionDto>), 200)]
+        [ProducesResponseType(typeof(ICollection<PageCourseSectionDto>), 200)]
 
         [Authorize(Roles = "User, Administrator")]
         [HttpGet]
-        public async Task<ICollection<CourseSectionDto>> GetCourseSectionDtosAsync()
+        public async Task<ICollection<PageCourseSectionDto>> GetCourseSectionDtosAsync()
         {
             return await _courseSectionService.GetAsync();
         }
@@ -41,12 +41,12 @@ namespace RLPortalBackend.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [ProducesResponseType(typeof(CourseSectionDto), 200)]
+        [ProducesResponseType(typeof(PageCourseSectionDto), 200)]
         [ProducesResponseType(404)]
 
         [Authorize(Roles = "User, Administrator")]
         [HttpGet("page/{id:length(36)}")]
-        public async Task<CourseSectionDto> GetCourseSectionByIdAsync(Guid id)
+        public async Task<PageCourseSectionDto> GetCourseSectionByIdAsync(Guid id)
         {
             return await _courseSectionService.GetByIdAsync(id);
         }
@@ -74,11 +74,11 @@ namespace RLPortalBackend.Controllers
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [ProducesResponseType(typeof(CourseSectionDto), 201)]
+        [ProducesResponseType(typeof(PageCourseSectionDto), 201)]
 
         [Authorize(Roles = "Administrator")]
         [HttpPost]
-        public async Task<ActionResult<CourseSectionDto>> CreateNewCourseSection([FromBody] NewCourseSectionDto input)
+        public async Task<ActionResult<PageCourseSectionDto>> CreateNewCourseSection([FromBody] NewCourseSectionDto input)
         {
             var dto = await _courseSectionService.CreateAsync(input);
             return CreatedAtAction(nameof(CreateNewCourseSection), dto);

@@ -25,7 +25,7 @@ namespace RLPortalBackend.Services.Impl
 
 
 
-        public async Task<CourseSectionDto> CreateAsync(NewCourseSectionDto newCourseSectionDto)
+        public async Task<PageCourseSectionDto> CreateAsync(NewCourseSectionDto newCourseSectionDto)
         {
             CourseSectionEntity courseSectionEntity = _mapper.Map<CourseSectionEntity>(newCourseSectionDto);
 
@@ -44,20 +44,20 @@ namespace RLPortalBackend.Services.Impl
             courseSectionEntity.TheoryEntityId = theoryId;
 
             await _courseSectionRepository.CreateAsync(courseSectionEntity);
-            CourseSectionDto dto = _mapper.Map<CourseSectionDto>(courseSectionEntity);
+            PageCourseSectionDto dto = _mapper.Map<PageCourseSectionDto>(courseSectionEntity);
             dto.TheoryDto = _mapper.Map<TheoryDto>(await _theoryRepository.GetAsync(theoryId));
 
             return dto;
 
         }
 
-        public async Task<ICollection<CourseSectionDto>> GetAsync()
+        public async Task<ICollection<PageCourseSectionDto>> GetAsync()
         {
             ICollection<CourseSectionEntity> courseSectionEntities = await _courseSectionRepository.GetAsync();
-            ICollection<CourseSectionDto> dtos = new List<CourseSectionDto>();
+            ICollection<PageCourseSectionDto> dtos = new List<PageCourseSectionDto>();
             foreach(var courseSectionEntity in courseSectionEntities)
             {
-                var dto = _mapper.Map<CourseSectionDto>(courseSectionEntity);
+                var dto = _mapper.Map<PageCourseSectionDto>(courseSectionEntity);
                 dto.TheoryDto = _mapper.Map<TheoryDto>(await _theoryRepository.GetAsync(courseSectionEntity.TheoryEntityId));
                 dtos.Add(dto);
             }
@@ -65,14 +65,14 @@ namespace RLPortalBackend.Services.Impl
             return dtos;
         }
 
-        public async Task<CourseSectionDto> GetByIdAsync(Guid id)
+        public async Task<PageCourseSectionDto> GetByIdAsync(Guid id)
         {
             if (await _courseSectionRepository.GetAsync(id) == null)
             {
                 throw new CourseSectionNotFoundException($"Course section {id} not found");
             }
             CourseSectionEntity courseSectionEntity = await _courseSectionRepository.GetAsync(id);
-            CourseSectionDto dto = _mapper.Map<CourseSectionDto>(courseSectionEntity);
+            PageCourseSectionDto dto = _mapper.Map<PageCourseSectionDto>(courseSectionEntity);
             dto.TheoryDto = _mapper.Map<TheoryDto>(await _theoryRepository.GetAsync(courseSectionEntity.TheoryEntityId));
             return dto;
         }
