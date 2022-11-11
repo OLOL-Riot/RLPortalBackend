@@ -86,6 +86,8 @@ namespace RLPortalBackend.Mappers
 
             CreateMap<PreviewCourseSectionDto, CourseSectionEntity>().ReverseMap();
 
+            CreateMap<CourseSectionEntity, CourseSectionDto>().ReverseMap();
+
             CreateMap<CreateCourseDto, CourseEntity>();
 
             CreateMap<CourseEntity, PreviewCourseDto>();
