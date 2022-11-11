@@ -6,7 +6,6 @@ using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
 using RLPortalBackend.Models.Theory;
 using RLPortalBackend.Models.VerifiedTest;
-using RLPortalBackend.Repositories;
 
 namespace RLPortalBackend.Mappers
 {
@@ -91,10 +90,14 @@ namespace RLPortalBackend.Mappers
 
             CreateMap<CourseEntity, PreviewCourseDto>();
 
-            CreateMap<CourseEntity, CourseDto>();
+            CreateMap<CourseEntity, PageCourseDto>();
 
             CreateMap<UpdateCourseDto, CourseEntity>()
                 .ForMember(dest => dest.CourseSectionEntityIds, opt => opt.MapFrom(source => source.CourseSectionIds));
+
+            CreateMap<CourseEntity, CourseDto>()
+                .ForMember(dest => dest.CourseSectionIds, opt => opt.MapFrom(source => source.CourseSectionEntityIds))
+                .ReverseMap();
 
         }
 

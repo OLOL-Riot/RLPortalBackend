@@ -1,6 +1,11 @@
-﻿namespace RLPortalBackend.Models.Course
+﻿using RLPortalBackend.Models.CourseSection;
+
+namespace RLPortalBackend.Models.Course
 {
-    public class CourseDto
+    /// <summary>
+    /// CourseDto
+    /// </summary>
+    public class PageCourseDto
     {
         /// <summary>
         /// Id
@@ -23,8 +28,8 @@
         public string ShortDescription { get; set; }
 
         /// <summary>
-        /// CourseSectionIds
+        /// PreviewCourseSections
         /// </summary>
-        public ICollection<Guid> CourseSectionIds { get; set; }
+        public ICollection<PreviewCourseSectionDto> PreviewCourseSections { get; set; }
     }
 }

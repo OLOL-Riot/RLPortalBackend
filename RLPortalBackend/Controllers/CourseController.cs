@@ -37,12 +37,34 @@ namespace RLPortalBackend.Controllers
         }
 
         /// <summary>
+        /// Get page course by id 
+        /// (Permissions: User, Administrator)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [ProducesResponseType(typeof(PageCourseDto), 200)]
+
+        [Authorize(Roles = "User, Administrator")]
+        [HttpGet("page/{id:length(36)}")]
+        public async Task<ActionResult<PageCourseDto>> GetPageCourseByIdAsync(Guid id)
+        {
+            var course = await _courseService.GetPageCourseByIdAsync(id);
+
+            if (course is null)
+            {
+                return NotFound();
+            }
+
+            return course;
+        }
+
+        /// <summary>
         /// Get course by id 
         /// (Permissions: User, Administrator)
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [ProducesResponseType(typeof(CourseDto), 200)]
+        [ProducesResponseType(typeof(PageCourseDto), 200)]
 
         [Authorize(Roles = "User, Administrator")]
         [HttpGet("{id:length(36)}")]

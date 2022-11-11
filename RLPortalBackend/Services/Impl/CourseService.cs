@@ -22,11 +22,12 @@ namespace RLPortalBackend.Services.Impl
         public async Task<CourseDto> CreateAsync(CreateCourseDto createCourseDto)
         {
             CourseEntity newCourseEntity = _mapper.Map<CourseEntity>(createCourseDto);
+            newCourseEntity.CourseSectionEntityIds = new List<Guid>();
 
             await _courseRepository.CreateAsync(newCourseEntity);
 
-            CourseDto createdCourseDto = _mapper.Map<CourseDto>(createCourseDto);
-
+            CourseDto createdCourseDto = _mapper.Map<CourseDto>(newCourseEntity);
+            
             return createdCourseDto;
         }
 
@@ -39,15 +40,24 @@ namespace RLPortalBackend.Services.Impl
             return previewCourses;
         }
 
-        public async Task<CourseDto> GetCourseByIdAsync(Guid id)
+        public async Task<PageCourseDto> GetPageCourseByIdAsync(Guid id)
         {
             CourseEntity courseEntity = await _courseRepository.GetCourseByIdAsync(id);
 
             ICollection<PreviewCourseSectionDto> previewCourseSectionDtos = await _courseSectionService.GetPreviewCourseSections(courseEntity.CourseSectionEntityIds);
 
-            CourseDto courseDto = _mapper.Map<CourseDto>(courseEntity);
+            PageCourseDto courseDto = _mapper.Map<PageCourseDto>(courseEntity);
 
             courseDto.PreviewCourseSections = previewCourseSectionDtos;
+
+            return courseDto;
+        }
+
+        public async Task<CourseDto> GetCourseByIdAsync(Guid id)
+        {
+            CourseEntity courseEntity = await _courseRepository.GetCourseByIdAsync(id);
+
+            CourseDto courseDto = _mapper.Map<CourseDto>(courseEntity);
 
             return courseDto;
         }
@@ -58,31 +68,25 @@ namespace RLPortalBackend.Services.Impl
 
             ICollection<CourseDto> courseDtos = _mapper.Map<ICollection<CourseDto>>(courseEntities);
 
-            // Preview Courses Sections adding to courseDtos
-            for (int i = 0; i < courseEntities.Count; i++)
-            {
-                CourseEntity courseEntity = courseEntities.ElementAt(i);
-                CourseDto courseDto = courseDtos.First(x => x.Id == courseEntity.Id);
-
-                ICollection<PreviewCourseSectionDto> previewCourseSectionDtos = await _courseSectionService.GetPreviewCourseSections(courseEntity.CourseSectionEntityIds);
-
-                courseDto = _mapper.Map<CourseDto>(courseEntity);
-
-                courseDto.PreviewCourseSections = previewCourseSectionDtos;
-            }
-
-
             return courseDtos;
         }
 
         public async Task RemoveAsync(Guid id)
         {
+            CourseEntity courseEntity = await _courseRepository.GetCourseByIdAsync(id);
+
+            foreach(var courseSectionIds in courseEntity.CourseSectionEntityIds)
+            {
+                await _courseSectionService.RemoveAsync(courseSectionIds);
+            }
+
             await _courseRepository.RemoveAsync(id);
         }
 
         public async Task UpdateAsync(Guid id, UpdateCourseDto updateCourseDto)
         {
             CourseEntity updateCourseEntity = _mapper.Map<CourseEntity>(updateCourseDto);
+            updateCourseEntity.Id = id;
 
             await _courseRepository.UpdateAsync(id, updateCourseEntity);
         }

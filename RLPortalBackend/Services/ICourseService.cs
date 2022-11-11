@@ -25,6 +25,13 @@ namespace RLPortalBackend.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        public Task<PageCourseDto> GetPageCourseByIdAsync(Guid id);
+
+        /// <summary>
+        /// Get the course by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Task<CourseDto> GetCourseByIdAsync(Guid id);
 
         /// <summary>
