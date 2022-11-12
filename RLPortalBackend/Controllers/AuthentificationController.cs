@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RLPortalBackend.Models.Autentification;
 using RLPortalBackend.Repositories;
+using System.Security.Claims;
 
 namespace RLPortalBackend.Controllers
 {
@@ -57,6 +58,15 @@ namespace RLPortalBackend.Controllers
             }
             return BadRequest("User not Found");
             
+        }
+
+        [HttpPost("confirm-email")]
+        [Authorize(Roles = "User, Administrator")]
+        public async Task<ActionResult> ConfirmEmail(string token)
+        {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            await _auth.ConfirmEmail(userId, token);
+            return Ok();
         }
 
 

@@ -10,5 +10,8 @@ namespace RLPortalBackend.Repositories
         public Task<JWT> LoginAsync(AutentificationRequest request);
 
         public Task GiveRoleToUserAsync(EmailAndRole email);
+
+        public Task ConfirmEmail(Guid id, string token);
+
     }
 }
