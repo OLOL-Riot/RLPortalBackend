@@ -85,7 +85,7 @@ namespace RLPortalBackend.Controllers
 
         }
 
-        [HttpPost("confirm-email")]
+        [HttpGet("confirm-email")]
         public async Task<ActionResult> ConfirmEmail(Guid id, string token)
         {
             await _auth.ConfirmEmail(id, token);
