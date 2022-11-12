@@ -106,6 +106,15 @@ namespace RLPortalBackend.Controllers
 
         }
 
+        [HttpPost("confirm-email")]
+        [Authorize(Roles = "User, Administrator")]
+        public async Task<ActionResult> ConfirmEmail(string token)
+        {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            await _auth.ConfirmEmail(userId, token);
+            return Ok();
+        }
+
 
     }
 }
