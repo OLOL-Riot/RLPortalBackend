@@ -28,5 +28,7 @@ namespace RLPortalBackend.Repositories
         /// <param name="email"></param>
         /// <returns></returns>
         public Task GiveRoleToUserAsync(EmailAndRole email);
+
+        public Task ConfirmEmail(Guid id, string token);
     }
 }

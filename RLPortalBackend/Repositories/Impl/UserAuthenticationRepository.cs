@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.OpenApi.Writers;
+using RLPortalBackend.Container.Messages;
 using RLPortalBackend.Entities;
 using RLPortalBackend.Exceptions;
 using RLPortalBackend.Helpers;
 using RLPortalBackend.Models;
 using RLPortalBackend.Models.Autentification;
+using RLPortalBackend.Services;
 using System.Text.RegularExpressions;
 
 namespace RLPortalBackend.Repositories.Impl
@@ -20,7 +23,7 @@ namespace RLPortalBackend.Repositories.Impl
         private readonly IUserStore<User> _userStore;
         private readonly IUserEmailStore<User> _emailStore;
         private readonly ILogger<UserAuthenticationRepository> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailSenderService _emailSender;
         private readonly IConfiguration _configuration;
         private readonly IJWTHelper _jwtHelper;
 
@@ -41,7 +44,7 @@ namespace RLPortalBackend.Repositories.Impl
             IUserStore<User> userStore,
             SignInManager<User> signInManager,
             ILogger<UserAuthenticationRepository> logger,
-            IEmailSender emailSender)
+            IEmailSenderService emailSender)
         {
             _jwtHelper = jwtHelper;
             _configuration = configuration;
@@ -66,6 +69,10 @@ namespace RLPortalBackend.Repositories.Impl
             if(resultLogin == null)
             {
                 throw new UserNameNotFoundException($"Login {request.Login} not found");
+            }
+            if (!resultLogin.EmailConfirmed)
+            {
+                throw new EmailNotConfirmedException("Email not confirmed");
             }
 
 
@@ -122,6 +129,7 @@ namespace RLPortalBackend.Repositories.Impl
 
             if (result.Succeeded)
             {
+                await SendConfirmEmail(user);
                 _logger.LogInformation($"User {input.Login} created");
                 await _userManager.AddToRoleAsync(user, "User");
 
@@ -169,6 +177,21 @@ namespace RLPortalBackend.Repositories.Impl
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
             return (IUserEmailStore<User>)_userStore;
+        }
+
+        private async Task SendConfirmEmail(User user)
+        {
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            string userId = user.Id;
+            string tempUrl = $"/{userId}/token={token}";
+            var message = new MessageToSend(user.Email, "Confirm email", tempUrl);
+            await _emailSender.SendEmail(message);
+        }
+
+        public async Task ConfirmEmail(Guid id, string token)
+        {
+            User user = await _userManager.FindByIdAsync(id.ToString());
+            await _userManager.ConfirmEmailAsync(user, token);
         }
 
 
