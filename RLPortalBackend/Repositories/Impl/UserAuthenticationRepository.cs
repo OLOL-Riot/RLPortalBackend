@@ -179,6 +179,11 @@ namespace RLPortalBackend.Repositories.Impl
             return (IUserEmailStore<User>)_userStore;
         }
 
+        /// <summary>
+        /// Send confirmation email to EmailSenderService by Rabbit
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         private async Task SendConfirmEmail(User user)
         {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -189,6 +194,12 @@ namespace RLPortalBackend.Repositories.Impl
             await _emailSender.SendEmail(message);
         }
 
+        /// <summary>
+        /// Confirm email
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public async Task ConfirmEmail(Guid id, string token)
         {
             User user = await _userManager.FindByIdAsync(id.ToString());
