@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RLPortalBackend.Entities;
+using RLPortalBackend.Exceptions;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Repositories;
 
@@ -34,6 +35,10 @@ namespace RLPortalBackend.Services.Impl
         public async Task<ExerciseDto> GetAsyncExerciseToEditById(Guid id)
         {
             ExerciseEntity exerciseEntity = await _exerciseRepository.GetAsync(id);
+            if (exerciseEntity == null)
+            {
+                throw new ExerciseNotFoundException($"Exercise {id} not found");
+            }
             ExerciseDto exerciseDto = _mapper.Map<ExerciseDto>(exerciseEntity);
             return exerciseDto;
         }
