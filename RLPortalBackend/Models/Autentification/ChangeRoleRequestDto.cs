@@ -3,20 +3,20 @@
 namespace RLPortalBackend.Models.Autentification
 {
     /// <summary>
-    /// Autentification data
+    /// Mail and role
     /// </summary>
-    public class AutentificationRequest
+    public class ChangeRoleRequestDto
     {
         /// <summary>
-        /// Login
+        /// Email
         /// </summary>
         [Required]
-        public string Login { get; set; }
+        public string UserEmail { get; set; }
 
         /// <summary>
-        /// Password
+        /// Role
         /// </summary>
         [Required]
-        public string Password { get; set; }
+        public string Role { get; set; }
     }
 }

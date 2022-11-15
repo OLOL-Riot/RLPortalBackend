@@ -14,15 +14,15 @@ namespace RLPortalBackend.Services
         /// <summary>
         /// Get all tests to solve
         /// </summary>
-        /// <returns>Collection of <see cref="NoRightAnswersTest"/></returns>
-        public Task<ICollection<NoRightAnswersTest>> GetAsyncAllTestsToSolve();
+        /// <returns>Collection of <see cref="NoRightAnswersTestDto"/></returns>
+        public Task<ICollection<NoRightAnswersTestDto>> GetAsyncAllTestsToSolve();
 
         /// <summary>
         /// Get one test to solve by Id
         /// </summary>
         /// <param name="id">Id</param>
-        /// <returns><see cref="NoRightAnswersTest"/></returns>
-        public Task<NoRightAnswersTest> GetAsyncTestToSolveById(Guid id);
+        /// <returns><see cref="NoRightAnswersTestDto"/></returns>
+        public Task<NoRightAnswersTestDto> GetAsyncTestToSolveById(Guid id);
 
         /// <summary>
         /// Get all tests to edit
@@ -42,7 +42,7 @@ namespace RLPortalBackend.Services
         /// </summary>
         /// <param name="newTest">New exercise</param>
         /// <returns><see cref="TestDto"/></returns>
-        public Task<TestDto> CreateAsync(CreateTest newTest);
+        public Task<TestDto> CreateAsync(CreateTestDto newTest);
 
         /// <summary>
         /// Update one test by Id
@@ -50,7 +50,7 @@ namespace RLPortalBackend.Services
         /// <param name="id">Id</param>
         /// <param name="updatedTest">Updated Exercise</param>
         /// <returns></returns>
-        public Task UpdateAsync(Guid id, UpdateTest updatedTest);
+        public Task UpdateAsync(Guid id, UpdateTestDto updatedTest);
 
         /// <summary>
         /// Remove one test by Id

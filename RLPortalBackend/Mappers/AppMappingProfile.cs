@@ -34,13 +34,13 @@ namespace RLPortalBackend.Mappers
             CreateMap<TestDto, TestEntity>().ReverseMap();
 
             // NoRightAnswerTest, TestEntity
-            CreateMap<NoRightAnswersTest, TestEntity>().ReverseMap();
+            CreateMap<NoRightAnswersTestDto, TestEntity>().ReverseMap();
 
-            // CreateTest, TestEntity
-            CreateMap<CreateTest, TestEntity>().ReverseMap();
+            // CreateTestDto, TestEntity
+            CreateMap<CreateTestDto, TestEntity>().ReverseMap();
 
-            // UpdateTest, TestEntity
-            CreateMap<UpdateTest, TestEntity>().ReverseMap();
+            // UpdateTestDto, TestEntity
+            CreateMap<UpdateTestDto, TestEntity>().ReverseMap();
 
             // VerifiedTestEntity, VerifiedTestDto
             CreateMap<VerifiedTestEntity, VerifiedTestDto>().ReverseMap();

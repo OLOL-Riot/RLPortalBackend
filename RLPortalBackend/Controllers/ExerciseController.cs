@@ -61,12 +61,12 @@ namespace RLPortalBackend.Controllers
 
         /// <summary>
         /// Get all exercises for solving
-        /// (Permissions: User, Administrator)
+        /// (Permissions: UserEntity, Administrator)
         /// </summary>
         /// <returns>Collection of NoRightAnswerExercise</returns>
         [ProducesResponseType(typeof(ICollection<NoRightAnswerExercise>), 200)]
 
-        [HttpGet("solve"), Authorize(Roles = "User, Administrator")]
+        [HttpGet("solve"), Authorize(Roles = "UserEntity, Administrator")]
         public async Task<ICollection<NoRightAnswerExercise>> GetAllExercisesToSolve()
         {
             return await _exerciseService.GetAsyncAllExercisesToSolve();
@@ -74,14 +74,14 @@ namespace RLPortalBackend.Controllers
 
         /// <summary>
         /// Get exercise by id for solving 
-        /// (Permissions: User, Administrator)
+        /// (Permissions: UserEntity, Administrator)
         /// </summary>
         /// <param name="id"></param>
         /// <returns>NoRightAnswerExercise</returns>
         [ProducesResponseType(typeof(NoRightAnswerExercise), 200)]
         [ProducesResponseType(404)]
 
-        [HttpGet("solve/{id:length(36)}"), Authorize(Roles = "User, Administrator")]
+        [HttpGet("solve/{id:length(36)}"), Authorize(Roles = "UserEntity, Administrator")]
         public async Task<ActionResult<NoRightAnswerExercise>> GetExerciseToSolveById(Guid id)
         {
             var exercise = await _exerciseService.GetAsyncExerciseToSolveById(id);

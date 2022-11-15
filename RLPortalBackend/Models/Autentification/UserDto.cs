@@ -4,9 +4,9 @@ using System.Diagnostics.CodeAnalysis;
 namespace RLPortalBackend.Models.Autentification
 {
     /// <summary>
-    /// User model to authentification
+    /// UserEntity model to authentification
     /// </summary>
-    public class UserModel
+    public class UserDto
     {
         /// <summary>
         /// Firstname
@@ -27,7 +27,7 @@ namespace RLPortalBackend.Models.Autentification
         /// <summary>
         /// Email
         /// </summary>
-        [Required(ErrorMessage = "EmailAndRole is required")]
+        [Required(ErrorMessage = "ChangeRoleRequestDto is required")]
         public string Email { get; set; }
 
         /// <summary>

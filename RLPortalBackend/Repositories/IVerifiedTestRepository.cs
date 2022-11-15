@@ -30,7 +30,7 @@ namespace RLPortalBackend.Repositories
         /// <summary>
         /// Get all VerifiedTests by userId
         /// </summary>
-        /// <param name="userId">User id</param>
+        /// <param name="userId">UserEntity id</param>
         /// <returns>collection of Verified Test</returns>
         public Task<ICollection<VerifiedTestEntity>> GetByUserIdAsync(Guid userId);
 

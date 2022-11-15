@@ -9,7 +9,7 @@ namespace RLPortalBackend.Repositories.Impl
     {
         private readonly IMongoCollection<ExerciseEntity> _exerciseCollection;
 
-        public ExerciseRepository(IOptions<PortalGeographyMongoDBSettings> portalGeographyMongoDBSettings)
+        public ExerciseRepository(IOptions<MongoDbSettings> portalGeographyMongoDBSettings)
         {
             var mongoClient = new MongoClient(
                 portalGeographyMongoDBSettings.Value.ConnectionString);
