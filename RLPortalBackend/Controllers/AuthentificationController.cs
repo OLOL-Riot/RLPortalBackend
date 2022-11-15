@@ -36,7 +36,7 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(409)]
         [ProducesResponseType(500)]
 
-        [HttpPost("register")]
+        [HttpPost("registration")]
         public async Task<ActionResult> Registration(UserDto input)
         {
             await _auth.RegistrateAsync(input);
