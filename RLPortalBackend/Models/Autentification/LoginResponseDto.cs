@@ -1,9 +1,9 @@
 ﻿namespace RLPortalBackend.Models
 {
     /// <summary>
-    /// JWT class
+    /// LoginResponseDto class
     /// </summary>
-    public class JWT
+    public class LoginResponseDto
     {
         /// <summary>
         /// Token
@@ -11,10 +11,10 @@
         public string Token { get; set; }
 
         /// <summary>
-        /// JWT constructor
+        /// LoginResponseDto constructor
         /// </summary>
         /// <param name="token"></param>
-        public JWT (string token)
+        public LoginResponseDto (string token)
         {
             Token = token;
         }

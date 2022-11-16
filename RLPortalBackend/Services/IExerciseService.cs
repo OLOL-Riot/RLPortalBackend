@@ -55,5 +55,13 @@ namespace RLPortalBackend.Services
         /// <param name="id">Id</param>
         /// <returns></returns>
         public Task RemoveAsync(Guid id);
+
+        /// <summary>
+        /// Get collection of Exercises
+        /// </summary>
+        /// <param name="guids"></param>
+        /// <returns></returns>
+        public Task<ICollection<ExerciseDto>> GetAsyncExercise(ICollection<Guid> guids);
+
     }
 }

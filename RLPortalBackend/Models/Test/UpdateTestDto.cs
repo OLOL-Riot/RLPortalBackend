@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 namespace RLPortalBackend.Models.Test
 {
     /// <summary>
-    /// UpdateTest
+    /// UpdateTestDto
     /// </summary>
-    public class UpdateTest
+    public class UpdateTestDto
     {
         /// <summary>
         /// Name

@@ -5,7 +5,7 @@ using RLPortalBackend.Entities;
 
 namespace RLPortalBackend.Models;
 
-public class AplicationDBContext : IdentityDbContext<User>
+public class AplicationDBContext : IdentityDbContext<UserEntity>
 {
     public AplicationDBContext(DbContextOptions<AplicationDBContext> options) : base(options)
     {
@@ -19,9 +19,9 @@ public class AplicationDBContext : IdentityDbContext<User>
 }
 
 
-public class ApplicationUserEntityConfiguration : IEntityTypeConfiguration<User>
+public class ApplicationUserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
 {
-    public void Configure(EntityTypeBuilder<User> builder)
+    public void Configure(EntityTypeBuilder<UserEntity> builder)
     {
         builder.Property(o => o.FirstName).HasMaxLength(255);
         builder.Property(o => o.LastName).HasMaxLength(255);

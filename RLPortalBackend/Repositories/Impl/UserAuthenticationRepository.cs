@@ -15,10 +15,10 @@ namespace RLPortalBackend.Repositories.Impl
     public class UserAuthenticationRepository : IUserAuthenticationRepository
     {
 
-        private readonly SignInManager<User> _signInManager;
-        private readonly UserManager<User> _userManager;
-        private readonly IUserStore<User> _userStore;
-        private readonly IUserEmailStore<User> _emailStore;
+        private readonly SignInManager<UserEntity> _signInManager;
+        private readonly UserManager<UserEntity> _userManager;
+        private readonly IUserStore<UserEntity> _userStore;
+        private readonly IUserEmailStore<UserEntity> _emailStore;
         private readonly ILogger<UserAuthenticationRepository> _logger;
         private readonly IEmailSender _emailSender;
         private readonly IConfiguration _configuration;
@@ -37,9 +37,9 @@ namespace RLPortalBackend.Repositories.Impl
         public UserAuthenticationRepository(
             IJWTHelper jwtHelper,
             IConfiguration configuration,
-            UserManager<User> userManager,
-            IUserStore<User> userStore,
-            SignInManager<User> signInManager,
+            UserManager<UserEntity> userManager,
+            IUserStore<UserEntity> userStore,
+            SignInManager<UserEntity> signInManager,
             ILogger<UserAuthenticationRepository> logger,
             IEmailSender emailSender)
         {
@@ -60,7 +60,7 @@ namespace RLPortalBackend.Repositories.Impl
         /// <returns></returns>
         /// <exception cref="UserNameNotFoundException"></exception>
         /// <exception cref="WrongPasswordException"></exception>
-        public async Task<JWT> LoginAsync(AutentificationRequest request)
+        public async Task<LoginResponseDto> LoginAsync(AutentificationRequestDto request)
         {
             var resultLogin = await _userManager.FindByNameAsync(request.Login);
             if(resultLogin == null)
@@ -72,18 +72,18 @@ namespace RLPortalBackend.Repositories.Impl
             var result = await _signInManager.PasswordSignInAsync(request.Login, request.Password, false, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                _logger.LogInformation($"User login in account: {request.Login}");
+                _logger.LogInformation($"UserEntity login in account: {request.Login}");
                 var user = await _userManager.FindByNameAsync(request.Login);
                 var role = await _userManager.GetRolesAsync(user);
                 string token = _jwtHelper.CreateToken(user, role[0]);
-                return new JWT(token);
+                return new LoginResponseDto(token);
             }
             throw new WrongPasswordException("Wrong password");
         }
 
  
         /// <summary>
-        /// User registration
+        /// UserEntity registration
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -91,7 +91,7 @@ namespace RLPortalBackend.Repositories.Impl
         /// <exception cref="InvalidPasswordException"></exception>
         /// <exception cref="UserNameAlredyExistsException"></exception>
         /// <exception cref="EmailAlredyExistsException"></exception>
-        public async Task RegistrateAsync(UserModel input)
+        public async Task RegistrateAsync(UserDto input)
         {
             if (!Regex.IsMatch(input.Email, @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
                 @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$", RegexOptions.IgnoreCase))
@@ -122,8 +122,8 @@ namespace RLPortalBackend.Repositories.Impl
 
             if (result.Succeeded)
             {
-                _logger.LogInformation($"User {input.Login} created");
-                await _userManager.AddToRoleAsync(user, "User");
+                _logger.LogInformation($"UserEntity {input.Login} created");
+                await _userManager.AddToRoleAsync(user, "UserEntity");
 
             }
 
@@ -136,39 +136,39 @@ namespace RLPortalBackend.Repositories.Impl
         /// <param name="email"></param>
         /// <returns></returns>
         /// <exception cref="EmailNotFoundException"></exception>
-        public async Task GiveRoleToUserAsync(EmailAndRole email)
+        public async Task GiveRoleToUserAsync(ChangeRoleRequestDto email)
         {
             var user = await _userManager.FindByEmailAsync(email.UserEmail);
             if (user != null)
             {
                 await _userManager.AddToRoleAsync(user, email.Role);
-                if (email.Role.Equals("Administrator")) await _userManager.RemoveFromRoleAsync(user, "User");
-                if (email.Role.Equals("User")) await _userManager.RemoveFromRoleAsync(user, "Administrator");
+                if (email.Role.Equals("Administrator")) await _userManager.RemoveFromRoleAsync(user, "UserEntity");
+                if (email.Role.Equals("UserEntity")) await _userManager.RemoveFromRoleAsync(user, "Administrator");
             }
             throw new EmailNotFoundException($"Email {email.UserEmail} not found");
         }
 
-        private User CreateUser()
+        private UserEntity CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<User>();
+                return Activator.CreateInstance<UserEntity>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(User)}'. " +
-                    $"Ensure that '{nameof(User)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(UserEntity)}'. " +
+                    $"Ensure that '{nameof(UserEntity)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<User> GetEmailStore()
+        private IUserEmailStore<UserEntity> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<User>)_userStore;
+            return (IUserEmailStore<UserEntity>)_userStore;
         }
 
 

@@ -10,7 +10,7 @@ namespace RLPortalBackend.Models.Exercise
         /// <summary>
         /// Id
         /// </summary>
-        [Required]
+       
         public Guid? Id { get; set; }
 
         /// <summary>

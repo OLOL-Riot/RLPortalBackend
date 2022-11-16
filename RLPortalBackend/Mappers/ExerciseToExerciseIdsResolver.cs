@@ -8,9 +8,9 @@ using RLPortalBackend.Repositories;
 namespace RLPortalBackend.Mappers
 {
 #pragma warning disable CS1591
-    public class NewExercisesToExerciseIdsResolver : IValueResolver<CreateTest, TestEntity, ICollection<Guid>>
+    public class NewExercisesToExerciseIdsResolver : IValueResolver<CreateTestDto, TestEntity, ICollection<Guid>>
     {
-        public ICollection<Guid> Resolve(CreateTest source, TestEntity destination, ICollection<Guid> destMember, ResolutionContext context)
+        public ICollection<Guid> Resolve(CreateTestDto source, TestEntity destination, ICollection<Guid> destMember, ResolutionContext context)
         {
             return null;
         }
