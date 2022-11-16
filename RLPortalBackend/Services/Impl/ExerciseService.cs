@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RLPortalBackend.Entities;
+using RLPortalBackend.Exceptions;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Repositories;
 
@@ -34,6 +35,10 @@ namespace RLPortalBackend.Services.Impl
         public async Task<ExerciseDto> GetAsyncExerciseToEditById(Guid id)
         {
             ExerciseEntity exerciseEntity = await _exerciseRepository.GetAsync(id);
+            if (exerciseEntity == null)
+            {
+                throw new ExerciseNotFoundException($"Exercise {id} not found");
+            }
             ExerciseDto exerciseDto = _mapper.Map<ExerciseDto>(exerciseEntity);
             return exerciseDto;
         }
@@ -47,6 +52,10 @@ namespace RLPortalBackend.Services.Impl
 
         public async Task<NoRightAnswerExercise> GetAsyncExerciseToSolveById(Guid id)
         {
+            if (await _exerciseRepository.GetAsync(id) == null)
+            {
+                throw new NotFoundException($"Exercise {id} not found");
+            }
             ExerciseEntity exerciseEntity = await _exerciseRepository.GetAsync(id);
             NoRightAnswerExercise noRightAnswerExercises = _mapper.Map<NoRightAnswerExercise>(exerciseEntity);
             return noRightAnswerExercises;
@@ -54,11 +63,19 @@ namespace RLPortalBackend.Services.Impl
 
         public async Task RemoveAsync(Guid id)
         {
+            if (await _exerciseRepository.GetAsync(id) == null)
+            {
+                throw new NotFoundException($"Exercise {id} not found");
+            }
             await _exerciseRepository.RemoveAsync(id);
         }
 
         public async Task UpdateAsync(Guid id, NewExercise updatedExercise)
         {
+            if (await _exerciseRepository.GetAsync(id) == null)
+            {
+                throw new NotFoundException($"Exercise {id} not found");
+            }
             ExerciseEntity updatedExerciseEntity = _mapper.Map<ExerciseEntity>(updatedExercise);
             updatedExerciseEntity.Id = id;
             await _exerciseRepository.UpdateAsync(id, updatedExerciseEntity);
