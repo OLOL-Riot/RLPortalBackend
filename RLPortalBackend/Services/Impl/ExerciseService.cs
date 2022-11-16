@@ -63,5 +63,12 @@ namespace RLPortalBackend.Services.Impl
             updatedExerciseEntity.Id = id;
             await _exerciseRepository.UpdateAsync(id, updatedExerciseEntity);
         }
+
+        public async Task<ICollection<ExerciseDto>> GetAsyncExercise(ICollection<Guid> guids)
+        {
+            ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync(guids);
+            ICollection<ExerciseDto> exerciseDtos = _mapper.Map<ICollection<ExerciseDto>>(exerciseEntities);
+            return exerciseDtos; 
+        }
     }
 }
