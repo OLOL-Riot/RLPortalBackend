@@ -92,6 +92,7 @@ namespace RLPortalBackend.Controllers
         /// Change password
         /// </summary>
         /// <param name="changePasswordDto"></param>
+        /// (Permissions: Administrator, User) 
         /// <returns></returns>
         /// <response code="200">Password changed</response>
         /// <response code="400">Wrong password</response> 
