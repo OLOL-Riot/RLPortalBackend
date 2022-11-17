@@ -24,12 +24,12 @@ namespace RLPortalBackend.Controllers
 
         /// <summary>
         /// Get all courses 
-        /// (Permissions: User, Administrator)
+        /// (Permissions: UserEntity, Administrator)
         /// </summary>
         /// <returns></returns>
         [ProducesResponseType(typeof(ICollection<CourseDto>), 200)]
 
-        [Authorize(Roles = "User, Administrator")]
+        [Authorize(Roles = "UserEntity, Administrator")]
         [HttpGet]
         public async Task<ICollection<CourseDto>> GetCoursesAsync()
         {
@@ -38,13 +38,13 @@ namespace RLPortalBackend.Controllers
 
         /// <summary>
         /// Get page course by id 
-        /// (Permissions: User, Administrator)
+        /// (Permissions: UserEntity, Administrator)
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [ProducesResponseType(typeof(PageCourseDto), 200)]
 
-        [Authorize(Roles = "User, Administrator")]
+        [Authorize(Roles = "UserEntity, Administrator")]
         [HttpGet("page/{id:length(36)}")]
         public async Task<ActionResult<PageCourseDto>> GetPageCourseByIdAsync(Guid id)
         {
@@ -60,13 +60,13 @@ namespace RLPortalBackend.Controllers
 
         /// <summary>
         /// Get course by id 
-        /// (Permissions: User, Administrator)
+        /// (Permissions: UserEntity, Administrator)
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [ProducesResponseType(typeof(PageCourseDto), 200)]
 
-        [Authorize(Roles = "User, Administrator")]
+        [Authorize(Roles = "UserEntity, Administrator")]
         [HttpGet("{id:length(36)}")]
         public async Task<ActionResult<CourseDto>> GetCourseByIdAsync(Guid id)
         {
@@ -82,12 +82,12 @@ namespace RLPortalBackend.Controllers
 
         /// <summary>
         /// Get all preview courses 
-        /// (Permissions: User, Administrator)
+        /// (Permissions: UserEntity, Administrator)
         /// </summary>
         /// <returns></returns>
         [ProducesResponseType(typeof(ICollection<PreviewCourseDto>), 200)]
 
-        [Authorize(Roles = "User, Administrator")]
+        [Authorize(Roles = "UserEntity, Administrator")]
         [HttpGet("preview")]
         public async Task<ICollection<PreviewCourseDto>> GetPreviewCoursesAsync()
         {
@@ -122,7 +122,7 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
 
-        [Authorize(Roles = "User, Administrator")]
+        [Authorize(Roles = "UserEntity, Administrator")]
         [HttpPut("{id:length(36)}")]
         public async Task<ActionResult> UpdateCourseSection(Guid id, UpdateCourseDto updateCourseDto)
         {

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RLPortalBackend.Entities;
+using RLPortalBackend.Exceptions;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Repositories;
 
@@ -16,7 +17,7 @@ namespace RLPortalBackend.Services.Impl
             _mapper = mapper;
         }
 
-        public async Task<ExerciseDto> CreateAsync(NewExercise newExercise)
+        public async Task<ExerciseDto> CreateAsync(NewExerciseDto newExercise)
         {
             ExerciseEntity newExerciseEntity = _mapper.Map<ExerciseEntity>(newExercise);
             await _exerciseRepository.CreateAsync(newExerciseEntity);
@@ -34,34 +35,57 @@ namespace RLPortalBackend.Services.Impl
         public async Task<ExerciseDto> GetAsyncExerciseToEditById(Guid id)
         {
             ExerciseEntity exerciseEntity = await _exerciseRepository.GetAsync(id);
+            if (exerciseEntity == null)
+            {
+                throw new ExerciseNotFoundException($"Exercise {id} not found");
+            }
             ExerciseDto exerciseDto = _mapper.Map<ExerciseDto>(exerciseEntity);
             return exerciseDto;
         }
 
-        public async Task<ICollection<NoRightAnswerExercise>> GetAsyncAllExercisesToSolve()
+        public async Task<ICollection<NoRightAnswerExerciseDto>> GetAsyncAllExercisesToSolve()
         {
             ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync();
-            ICollection<NoRightAnswerExercise> noRightAnswerExercises = _mapper.Map<ICollection<NoRightAnswerExercise>>(exerciseEntities);
+            ICollection<NoRightAnswerExerciseDto> noRightAnswerExercises = _mapper.Map<ICollection<NoRightAnswerExerciseDto>>(exerciseEntities);
             return noRightAnswerExercises;
         }
 
-        public async Task<NoRightAnswerExercise> GetAsyncExerciseToSolveById(Guid id)
+        public async Task<NoRightAnswerExerciseDto> GetAsyncExerciseToSolveById(Guid id)
         {
+            if (await _exerciseRepository.GetAsync(id) == null)
+            {
+                throw new NotFoundException($"Exercise {id} not found");
+            }
             ExerciseEntity exerciseEntity = await _exerciseRepository.GetAsync(id);
-            NoRightAnswerExercise noRightAnswerExercises = _mapper.Map<NoRightAnswerExercise>(exerciseEntity);
+            NoRightAnswerExerciseDto noRightAnswerExercises = _mapper.Map<NoRightAnswerExerciseDto>(exerciseEntity);
             return noRightAnswerExercises;
         }
 
         public async Task RemoveAsync(Guid id)
         {
+            if (await _exerciseRepository.GetAsync(id) == null)
+            {
+                throw new NotFoundException($"Exercise {id} not found");
+            }
             await _exerciseRepository.RemoveAsync(id);
         }
 
-        public async Task UpdateAsync(Guid id, NewExercise updatedExercise)
+        public async Task UpdateAsync(Guid id, NewExerciseDto updatedExercise)
         {
+            if (await _exerciseRepository.GetAsync(id) == null)
+            {
+                throw new NotFoundException($"Exercise {id} not found");
+            }
             ExerciseEntity updatedExerciseEntity = _mapper.Map<ExerciseEntity>(updatedExercise);
             updatedExerciseEntity.Id = id;
             await _exerciseRepository.UpdateAsync(id, updatedExerciseEntity);
+        }
+
+        public async Task<ICollection<ExerciseDto>> GetAsyncExercise(ICollection<Guid> guids)
+        {
+            ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync(guids);
+            ICollection<ExerciseDto> exerciseDtos = _mapper.Map<ICollection<ExerciseDto>>(exerciseEntities);
+            return exerciseDtos; 
         }
     }
 }

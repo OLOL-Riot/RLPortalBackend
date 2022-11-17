@@ -16,7 +16,7 @@ namespace RLPortalBackend.Repositories.Impl
         /// TestRepository connection to MongoDB
         /// </summary>
         /// <param name="portalGeographyMongoDBSettings"></param>
-        public TestRepository(IOptions<PortalGeographyMongoDBSettings> portalGeographyMongoDBSettings)
+        public TestRepository(IOptions<MongoDbSettings> portalGeographyMongoDBSettings)
         {
             var mongoClient = new MongoClient(
                 portalGeographyMongoDBSettings.Value.ConnectionString);

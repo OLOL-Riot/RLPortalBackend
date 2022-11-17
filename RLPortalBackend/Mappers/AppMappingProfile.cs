@@ -24,23 +24,29 @@ namespace RLPortalBackend.Mappers
             // Exercise, ExerciseEntity
             CreateMap<ExerciseDto, ExerciseEntity>().ReverseMap();
 
+            // Exercise, NewExercise
+            CreateMap<ExerciseDto, NewExerciseDto>().ReverseMap();
+
+            // Exercise, NoRightAnswerExercise
+            CreateMap<ExerciseDto, NoRightAnswerExerciseDto>().ReverseMap();
+
             // NewExercise, ExerciseEntity
-            CreateMap<NewExercise, ExerciseEntity>().ReverseMap();
+            CreateMap<NewExerciseDto, ExerciseEntity>().ReverseMap();
 
             // NoRightAnswerExercise, ExerciseEntity
-            CreateMap<NoRightAnswerExercise, ExerciseEntity>().ReverseMap();
+            CreateMap<NoRightAnswerExerciseDto, ExerciseEntity>().ReverseMap();
 
             // Test, TestEntity
             CreateMap<TestDto, TestEntity>().ReverseMap();
 
             // NoRightAnswerTest, TestEntity
-            CreateMap<NoRightAnswersTest, TestEntity>().ReverseMap();
+            CreateMap<NoRightAnswersTestDto, TestEntity>().ReverseMap();
 
-            // CreateTest, TestEntity
-            CreateMap<CreateTest, TestEntity>().ReverseMap();
+            // CreateTestDto, TestEntity
+            CreateMap<CreateTestDto, TestEntity>().ReverseMap();
 
-            // UpdateTest, TestEntity
-            CreateMap<UpdateTest, TestEntity>().ReverseMap();
+            // UpdateTestDto, TestEntity
+            CreateMap<UpdateTestDto, TestEntity>().ReverseMap();
 
             // VerifiedTestEntity, VerifiedTestDto
             CreateMap<VerifiedTestEntity, VerifiedTestDto>().ReverseMap();

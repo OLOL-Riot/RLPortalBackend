@@ -34,13 +34,13 @@ namespace RLPortalBackend.Controllers
         /// <response code="200">Registration completed successfully</response>
         /// <response code="400">Invalid email or password</response>
         /// <response code="409">Email or Username alredy exists</response>
-        [ProducesResponseType(typeof(UserModel), 200)]
+        [ProducesResponseType(typeof(UserDto), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(409)]
         [ProducesResponseType(500)]
 
         [HttpPost("registration")]
-        public async Task<ActionResult> Registration(UserModel input)
+        public async Task<ActionResult> Registration(UserDto input)
         {
             await _auth.RegistrateAsync(input);
             return Created("user", input);
@@ -56,8 +56,8 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
 
-        [HttpPost("roles"), Authorize(Roles = "Administrator")]
-        public async Task<ActionResult> GiveRole(EmailAndRole emailAndRole)
+        [HttpPost("change/role"), Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> GiveRole(ChangeRoleRequestDto emailAndRole)
         {
             await _auth.GiveRoleToUserAsync(emailAndRole);
             return Ok();
@@ -67,17 +67,17 @@ namespace RLPortalBackend.Controllers
         /// Login
         /// </summary>
         /// <param name="autentificationRequest"></param>
-        /// <returns><see cref="JWT"/></returns>
+        /// <returns><see cref="LoginResponseDto"/></returns>
         /// <exception cref="HttpException"></exception>
         /// <response code="200">Registration completed successfully</response>
         /// <response code="400">Wrong password</response> 
         /// <response code="404">Login not found</response>
-        [ProducesResponseType(typeof(JWT), 200)]
+        [ProducesResponseType(typeof(LoginResponseDto), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
 
         [HttpPost("login")]
-        public async Task<ActionResult> Login(AutentificationRequest autentificationRequest)
+        public async Task<ActionResult> Login(AutentificationRequestDto autentificationRequest)
         {
             var token = await _auth.LoginAsync(autentificationRequest);
             if (token.Token != null)

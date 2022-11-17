@@ -3,15 +3,15 @@
 namespace RLPortalBackend.Models.Exercise
 {
     /// <summary>
-    /// NewExercise
+    /// NoRightAnswerExercise
     /// </summary>
-    public class NewExercise
+    public class NoRightAnswerExerciseDto
     {
         /// <summary>
-        /// Description
+        /// Id
         /// </summary>
         [Required]
-        public string Description { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Serial number
@@ -20,16 +20,15 @@ namespace RLPortalBackend.Models.Exercise
         public int SerialNumber { get; set; }
 
         /// <summary>
+        /// Description
+        /// </summary>
+        [Required]
+        public string Description { get; set; }
+
+        /// <summary>
         /// Answers
         /// </summary>
         [Required]
         public ICollection<string> Answers { get; set; }
-
-        /// <summary>
-        /// RightAnswer
-        /// </summary>
-        [Required]
-        public string RightAnswer { get; set; }
-
     }
 }

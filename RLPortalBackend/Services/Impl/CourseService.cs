@@ -85,6 +85,10 @@ namespace RLPortalBackend.Services.Impl
 
         public async Task UpdateAsync(Guid id, UpdateCourseDto updateCourseDto)
         {
+            foreach (var sec in updateCourseDto.CourseSectionIds)
+            {
+                await _courseSectionService.GetCourseSectionByIdAsync(sec);
+            }
             CourseEntity updateCourseEntity = _mapper.Map<CourseEntity>(updateCourseDto);
             updateCourseEntity.Id = id;
 

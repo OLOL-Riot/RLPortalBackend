@@ -31,9 +31,9 @@ namespace RLPortalBackend.Services.Impl
         {
             CourseSectionEntity courseSectionEntity = _mapper.Map<CourseSectionEntity>(newCourseSectionDto);
 
-            CreateTest createTest = new CreateTest();
+            CreateTestDto createTest = new CreateTestDto();
             createTest.Name = "";
-            createTest.Exercises = new List<NewExercise>();
+            createTest.Exercises = new List<NewExerciseDto>();
 
             Guid testId = (await _testService.CreateAsync(createTest)).Id;
 

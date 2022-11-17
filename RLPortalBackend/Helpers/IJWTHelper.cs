@@ -3,16 +3,16 @@
 namespace RLPortalBackend.Helpers
 {
     /// <summary>
-    /// JWT Helper
+    /// LoginResponseDto Helper
     /// </summary>
     public interface IJWTHelper
     {
         /// <summary>
-        /// Create JWT
+        /// Create LoginResponseDto
         /// </summary>
         /// <param name="user"></param>
         /// <param name="role"></param>
         /// <returns>string</returns>
-        public string CreateToken(User user, string role);
+        public string CreateToken(UserEntity user, string role);
     }
 }
