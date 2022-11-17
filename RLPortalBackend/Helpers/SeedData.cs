@@ -61,11 +61,11 @@ namespace RLPortalBackend.Helpers
                 var result = roleManager.CreateAsync(role).Result;
             }
 
-            if (!roleManager.RoleExistsAsync("UserEntity").Result)
+            if (!roleManager.RoleExistsAsync("User").Result)
             {
                 var role = new IdentityRole
                 {
-                    Name = "UserEntity"
+                    Name = "User"
                 };
                 var result = roleManager.CreateAsync(role).Result;
             }

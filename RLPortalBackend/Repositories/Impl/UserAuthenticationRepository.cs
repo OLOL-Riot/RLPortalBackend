@@ -150,17 +150,17 @@ namespace RLPortalBackend.Repositories.Impl
         {
             if (input.CurrentPassword.Equals(input.NewPassword))
             {
-                throw new PasswordMatchException("Passwords match");
+                throw new PasswordMatchException("New passwords equals old password");
             }
             if (!Regex.IsMatch(input.NewPassword, @"^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,}$"))
             {
-                throw new InvalidPasswordException("Invalid password");
+                throw new InvalidPasswordException("Invalid new password");
             }
-            User user = await _userManager.FindByIdAsync(userId.ToString());
+            UserEntity user = await _userManager.FindByIdAsync(userId.ToString());
             var result = await _userManager.ChangePasswordAsync(user, input.CurrentPassword, input.NewPassword);
             if (!result.Succeeded)
             {
-                throw new WrongPasswordException("Wrong password");
+                throw new WrongPasswordException("Current password is incorrect");
             }
 
         }
@@ -219,7 +219,7 @@ namespace RLPortalBackend.Repositories.Impl
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        private async Task SendConfirmEmail(User user)
+        private async Task SendConfirmEmail(UserEntity user)
         {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             string userId = user.Id;
@@ -237,7 +237,7 @@ namespace RLPortalBackend.Repositories.Impl
         /// <returns></returns>
         public async Task ConfirmEmail(Guid id, string token)
         {
-            User user = await _userManager.FindByIdAsync(id.ToString());
+            UserEntity user = await _userManager.FindByIdAsync(id.ToString());
             await _userManager.ConfirmEmailAsync(user, token);
         }
 
