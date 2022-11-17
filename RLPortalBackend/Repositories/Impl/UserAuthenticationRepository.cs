@@ -199,19 +199,24 @@ namespace RLPortalBackend.Repositories.Impl
             /// <exception cref="InvalidEmailException"></exception>
             public async Task ChangeUserDataAsync(ChangeUserDataDto changeUserDataDto, Guid userId)
             {
-                if (_userManager.FindByNameAsync(changeUserDataDto.UserName) != null && changeUserDataDto.UserName != null)
+                if (await _userManager.FindByNameAsync(changeUserDataDto.UserName) != null)
                 {
                     throw new UserNameAlredyExistsException($"UserName {changeUserDataDto.UserName} alredy exists");
                 }
 
-                if (_userManager.FindByEmailAsync(changeUserDataDto.Email) != null && changeUserDataDto.Email != null)
+                if (!Regex.IsMatch(changeUserDataDto.Email, @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
+                    @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$", RegexOptions.IgnoreCase))
+                {
+                    throw new InvalidEmailException("Invalid email");
+                }
+
+                if (await _userManager.FindByEmailAsync(changeUserDataDto.Email) != null)
                 {
                     throw new EmailAlredyExistsException($"Email {changeUserDataDto.Email} alredy exists");
                 }
 
-                if (changeUserDataDto.Email != null && !Regex.IsMatch(changeUserDataDto.Email, @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
-                    @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$", RegexOptions.IgnoreCase))
-                    throw new InvalidEmailException("Invalid email");
+                
+                    
 
                 User currentUser = await _userManager.FindByIdAsync(userId.ToString());
                 User newUser = _mapper.Map<User>(currentUser);
@@ -219,7 +224,7 @@ namespace RLPortalBackend.Repositories.Impl
                 newUser.LastName = changeUserDataDto.LastName == null ? newUser.LastName : changeUserDataDto.LastName;
                 newUser.PhoneNumber = changeUserDataDto.PhoneNumber == null ? newUser.PhoneNumber : changeUserDataDto.PhoneNumber;
                 newUser.Email = changeUserDataDto.Email == null ? newUser.Email : changeUserDataDto.Email;
-                newUser.UserName = changeUserDataDto.UserName == null ? newUser.UserName : changeUserDataDto.UserName;
+                newUser.UserName = changeUserDataDto.UserName == null ? newUser.UserName : changeUserDataDto.UserName == currentUser.UserName? currentUser.UserName : changeUserDataDto.UserName;
                 await _userManager.UpdateAsync(newUser);
 
             }
