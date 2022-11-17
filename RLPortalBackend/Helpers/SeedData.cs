@@ -33,7 +33,9 @@ namespace RLPortalBackend.Helpers
                     FirstName = "Admin",
                     LastName = "Admin",
                     UserName = "admin",
-                    Email = "admin@test.com"
+                    Email = "admin@test.com",
+                    EmailConfirmed = true
+                    
                 };
                 var result = userManager.CreateAsync(user, "Password@1").Result;
 
