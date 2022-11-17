@@ -23,12 +23,12 @@ namespace RLPortalBackend.Controllers
 
         /// <summary>
         /// Get all CourseSection
-        /// (Permissions: UserEntity, Administrator)
+        /// (Permissions: User, Administrator)
         /// </summary>
         /// <returns></returns>
         [ProducesResponseType(typeof(ICollection<CourseSectionDto>), 200)]
 
-        [Authorize(Roles = "UserEntity, Administrator")]
+        [Authorize(Roles = "User, Administrator")]
         [HttpGet]
         public async Task<ICollection<CourseSectionDto>> GetCourseSectionDtosAsync()
         {
@@ -37,14 +37,14 @@ namespace RLPortalBackend.Controllers
 
         /// <summary>
         /// Get page CourseSection by Id
-        /// (Permissions: UserEntity, Administrator)
+        /// (Permissions: User, Administrator)
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [ProducesResponseType(typeof(PageCourseSectionDto), 200)]
         [ProducesResponseType(404)]
 
-        [Authorize(Roles = "UserEntity, Administrator")]
+        [Authorize(Roles = "User, Administrator")]
         [HttpGet("page/{id:length(36)}")]
         public async Task<PageCourseSectionDto> GetPageCourseSectionByIdAsync(Guid id)
         {
@@ -53,14 +53,14 @@ namespace RLPortalBackend.Controllers
 
         /// <summary>
         /// Get CourseSection by Id
-        /// (Permissions: UserEntity, Administrator)
+        /// (Permissions: User, Administrator)
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [ProducesResponseType(typeof(CourseSectionDto), 200)]
         [ProducesResponseType(404)]
 
-        [Authorize(Roles = "UserEntity, Administrator")]
+        [Authorize(Roles = "User, Administrator")]
         [HttpGet("{id:length(36)}")]
         public async Task<CourseSectionDto> GetCourseSectionByIdAsync(Guid id)
         {
@@ -102,13 +102,13 @@ namespace RLPortalBackend.Controllers
 
         /// <summary>
         /// GetPreviews
-        /// (Permissions: UserEntity, Administrator)
+        /// (Permissions: User, Administrator)
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
         [ProducesResponseType(typeof(ICollection<PreviewCourseSectionDto>), 200)]
 
-        [Authorize(Roles = "UserEntity, Administrator")]
+        [Authorize(Roles = "User, Administrator")]
         [HttpPost("preview")]
         public async Task<ICollection<PreviewCourseSectionDto>> GetPreviews(ICollection<Guid> ids)
         {

@@ -40,12 +40,12 @@ namespace RLPortalBackend.Controllers
 
         /// <summary>
         /// Get all Theory
-        /// (Permissions: UserEntity, Administrator)
+        /// (Permissions: User, Administrator)
         /// </summary>
         /// <returns></returns>
         [ProducesResponseType(typeof(ICollection<TheoryDto>), 200)]
 
-        [Authorize(Roles = "UserEntity, Administrator")]
+        [Authorize(Roles = "User, Administrator")]
         [HttpGet]
         public async Task<ICollection<TheoryDto>> GetTheoriesAsync()
         {
@@ -54,14 +54,14 @@ namespace RLPortalBackend.Controllers
 
         /// <summary>
         /// Get Theory by Id
-        /// (Permissions: UserEntity, Administrator)
+        /// (Permissions: User, Administrator)
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [ProducesResponseType(typeof(TheoryDto),200)]
         [ProducesResponseType(404)]
 
-        [Authorize(Roles = "UserEntity, Administrator")]
+        [Authorize(Roles = "User, Administrator")]
         [HttpGet("{id:length(36)}")]
         public async Task<TheoryDto> GetById(Guid id)
         {

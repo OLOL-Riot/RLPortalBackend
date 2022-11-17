@@ -26,14 +26,14 @@ namespace RLPortalBackend.Controllers
 
         /// <summary>
         /// Send the solved test to verify 
-        /// (Permissions: UserEntity, Administrator)
+        /// (Permissions: User, Administrator)
         /// </summary>
         /// <param name="solvedTest">solvedTest</param>
         /// <returns></returns>
         [ProducesResponseType(typeof(VerifiedTestDto), 201)]
 
         [HttpPost]
-        [Authorize(Roles = "UserEntity, Administrator")]
+        [Authorize(Roles = "User, Administrator")]
         public async Task<IActionResult> Post(SolvedTestDto solvedTest)
         {
             var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -66,7 +66,7 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(typeof(VerifiedTestDto),200)]
 
         [HttpGet("{verifiedTestId:length(36)}")]
-        [Authorize(Roles = "UserEntity, Administrator")]
+        [Authorize(Roles = "User, Administrator")]
         public async Task<VerifiedTestDto> GetVerifiedTestById(Guid verifiedTestId)
         {
             return await _verifiedTestService.GetByIdAsync(verifiedTestId);
@@ -74,13 +74,13 @@ namespace RLPortalBackend.Controllers
 
         /// <summary>
         /// Get all verified tests for current user 
-        /// (Permissions: UserEntity, Administrator)
+        /// (Permissions: User, Administrator)
         /// </summary>
         /// <returns></returns>
         [ProducesResponseType(typeof(ICollection<VerifiedTestDto>), 200)]
 
         [HttpGet("CurrentUser")]
-        [Authorize(Roles = "UserEntity, Administrator")]
+        [Authorize(Roles = "User, Administrator")]
         public async Task<ICollection<VerifiedTestDto>> GetCurrentUserVerifiedTests()
         {
             var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));

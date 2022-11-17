@@ -27,12 +27,12 @@ namespace RLPortalBackend.Controllers
 
         /// <summary>
         /// Get all tests for solving 
-        /// (Permissions: UserEntity, Administrator)
+        /// (Permissions: User, Administrator)
         /// </summary>
         /// <returns>Collection of NoRightAnswersTestDto</returns>
         [ProducesResponseType(typeof(ICollection<NoRightAnswersTestDto>), 200)]
 
-        [HttpGet("solve"), Authorize(Roles = "UserEntity, Administrator")]
+        [HttpGet("solve"), Authorize(Roles = "User, Administrator")]
         public async Task<ICollection<NoRightAnswersTestDto>> GetAllTestsToSolve()
         {
             return await _testService.GetAsyncAllTestsToSolve();
@@ -40,14 +40,14 @@ namespace RLPortalBackend.Controllers
 
         /// <summary>
         /// Get the test by Id for solving
-        /// (Permissions: UserEntity, Administrator)
+        /// (Permissions: User, Administrator)
         /// </summary>
         /// <param name="id"></param>
         /// <returns>NoRightAnswersTestDto</returns>
         [ProducesResponseType(typeof(NoRightAnswersTestDto), 200)]
         [ProducesResponseType(404)]
 
-        [HttpGet("solve/{id:length(36)}"), Authorize(Roles = "UserEntity, Administrator")]
+        [HttpGet("solve/{id:length(36)}"), Authorize(Roles = "User, Administrator")]
         public async Task<ActionResult<NoRightAnswersTestDto>> GetTestToSolveById(Guid id)
         {
             var test = await _testService.GetAsyncTestToSolveById(id);
