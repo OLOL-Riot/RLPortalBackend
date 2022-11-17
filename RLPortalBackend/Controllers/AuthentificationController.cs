@@ -85,6 +85,20 @@ namespace RLPortalBackend.Controllers
 
         }
 
+        /// <summary>
+        /// Confirm email
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [ProducesResponseType(200)]
+        [HttpGet("confirm-email")]
+        public async Task<ActionResult> ConfirmEmail(Guid id, string token)
+        {
+            await _auth.ConfirmEmail(id, token);
+            return Ok();
+        }
+
 
     }
 }
