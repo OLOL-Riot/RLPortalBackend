@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RLPortalBackend.Models;
 using RLPortalBackend.Models.Autentification;
 using RLPortalBackend.Repositories;
+using System.Security.Claims;
 
 namespace RLPortalBackend.Controllers
 {
@@ -83,6 +84,19 @@ namespace RLPortalBackend.Controllers
             }
             return BadRequest("User not Found");
 
+        }
+
+        /// <summary>
+        /// Get current user data
+        /// </summary>
+        /// <returns></returns>
+
+        [Authorize(Roles = "Administrator, User")]
+        [HttpGet("get")]
+        public async Task<CurrentUserDto> GetCurrentUserData()
+        {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            return await _auth.GetUserDataById(userId);
         }
 
 

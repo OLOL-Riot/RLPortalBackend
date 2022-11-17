@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using RLPortalBackend.Entities;
 using RLPortalBackend.Exceptions;
@@ -23,6 +24,7 @@ namespace RLPortalBackend.Repositories.Impl
         private readonly IEmailSender _emailSender;
         private readonly IConfiguration _configuration;
         private readonly IJWTHelper _jwtHelper;
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// UserAuthenticationRepository constructor
@@ -41,7 +43,8 @@ namespace RLPortalBackend.Repositories.Impl
             IUserStore<User> userStore,
             SignInManager<User> signInManager,
             ILogger<UserAuthenticationRepository> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IMapper mapper)
         {
             _jwtHelper = jwtHelper;
             _configuration = configuration;
@@ -51,6 +54,7 @@ namespace RLPortalBackend.Repositories.Impl
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -171,7 +175,12 @@ namespace RLPortalBackend.Repositories.Impl
             return (IUserEmailStore<User>)_userStore;
         }
 
-
+        public async Task<CurrentUserDto> GetUserDataById(Guid id)
+        {
+            User userEntity = await _userManager.FindByIdAsync(id.ToString());
+            CurrentUserDto userDto = _mapper.Map<CurrentUserDto>(userEntity);
+            return userDto;
+        }
     }
 }
 

@@ -28,5 +28,12 @@ namespace RLPortalBackend.Repositories
         /// <param name="email"></param>
         /// <returns></returns>
         public Task GiveRoleToUserAsync(EmailAndRole email);
+
+        /// <summary>
+        /// Get user data by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Task<CurrentUserDto> GetUserDataById(Guid id);
     }
 }
