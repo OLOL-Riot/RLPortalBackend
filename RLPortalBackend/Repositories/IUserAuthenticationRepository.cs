@@ -36,5 +36,12 @@ namespace RLPortalBackend.Repositories
         /// <param name="input"></param>
         /// <returns></returns>
         public Task ChangePasswordAsync(ChangePasswordDto input, Guid userid);
+
+        /// Confirm email
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public Task ConfirmEmail(Guid id, string token);
     }
 }

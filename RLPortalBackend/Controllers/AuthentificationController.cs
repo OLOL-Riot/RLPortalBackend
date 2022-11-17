@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RLPortalBackend.Exceptions;
 using RLPortalBackend.Models;
 using RLPortalBackend.Models.Autentification;
 using RLPortalBackend.Repositories;
@@ -110,6 +109,20 @@ namespace RLPortalBackend.Controllers
             await _auth.ChangePasswordAsync(changePasswordDto, userId);
             
             return Ok(new {Message = "Password changed"});
+        }
+
+        /// <summary>
+        /// Confirm email
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [ProducesResponseType(200)]
+        [HttpGet("confirm-email")]
+        public async Task<ActionResult> ConfirmEmail(Guid id, string token)
+        {
+            await _auth.ConfirmEmail(id, token);
+            return Ok();
         }
 
 
