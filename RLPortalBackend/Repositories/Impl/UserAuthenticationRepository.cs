@@ -66,7 +66,7 @@ namespace RLPortalBackend.Repositories.Impl
         public async Task<JWT> LoginAsync(AutentificationRequest request)
         {
             var resultLogin = await _userManager.FindByNameAsync(request.Login);
-            if(resultLogin == null)
+            if (resultLogin == null)
             {
                 throw new UserNameNotFoundException($"Login {request.Login} not found");
             }
@@ -88,7 +88,7 @@ namespace RLPortalBackend.Repositories.Impl
             throw new WrongPasswordException("Wrong password");
         }
 
- 
+
         /// <summary>
         /// User registration
         /// </summary>
@@ -137,7 +137,35 @@ namespace RLPortalBackend.Repositories.Impl
 
         }
 
-     
+        /// <summary>
+        /// Change user password
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="PasswordMatchException"></exception>
+        /// <exception cref="InvalidPasswordException"></exception>
+        /// <exception cref="WrongPasswordException"></exception>
+        public async Task ChangePasswordAsync(ChangePasswordDto input, Guid userId)
+        {
+            if (input.CurrentPassword.Equals(input.NewPassword))
+            {
+                throw new PasswordMatchException("Passwords match");
+            }
+            if (!Regex.IsMatch(input.NewPassword, @"^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,}$"))
+            {
+                throw new InvalidPasswordException("Invalid password");
+            }
+            User user = await _userManager.FindByIdAsync(userId.ToString());
+            var result = await _userManager.ChangePasswordAsync(user, input.CurrentPassword, input.NewPassword);
+            if (!result.Succeeded)
+            {
+                throw new WrongPasswordException("Wrong password");
+            }
+
+        }
+
+
         /// <summary>
         /// Giving role by email
         /// </summary>

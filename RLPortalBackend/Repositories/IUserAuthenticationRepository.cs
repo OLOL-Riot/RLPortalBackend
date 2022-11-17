@@ -1,4 +1,5 @@
-﻿using RLPortalBackend.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using RLPortalBackend.Models;
 using RLPortalBackend.Models.Autentification;
 
 namespace RLPortalBackend.Repositories
@@ -30,6 +31,12 @@ namespace RLPortalBackend.Repositories
         public Task GiveRoleToUserAsync(EmailAndRole email);
 
         /// <summary>
+        /// Change user password
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public Task ChangePasswordAsync(ChangePasswordDto input, Guid userid);
+
         /// Confirm email
         /// </summary>
         /// <param name="id"></param>
