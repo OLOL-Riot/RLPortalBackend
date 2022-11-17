@@ -59,7 +59,7 @@ namespace RLPortalBackend.Mappers
                 .ForMember(dest => dest.VerifiedAnswers, opt => opt.MapFrom(source => source.UserAnswers));
 
             // SolvedExercise, VerifiedExerciseDto
-            CreateMap<SolvedExercise, VerifiedExerciseDto>();
+            CreateMap<SolvedExerciseDto, VerifiedExerciseDto>();
 
             // CreateVerifiedTestDto, VerifiedTestDto
             CreateMap<CreateVerifiedTestDto, VerifiedTestDto>().ReverseMap();
