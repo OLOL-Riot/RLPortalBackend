@@ -24,11 +24,11 @@ namespace RLPortalBackend.Services.Impl
         {
             TestEntity newTestEntity = _mapper.Map<TestEntity>(newTest);
 
-            IEnumerable<NewExercise> newExercises = newTest.Exercises;
+            IEnumerable<NewExerciseDto> newExercises = newTest.Exercises;
             ICollection<Guid> guids = new List<Guid>();
 
 
-            foreach (NewExercise exercise in newExercises)
+            foreach (NewExerciseDto exercise in newExercises)
             {
                 ExerciseDto exerciseDto = await _exerciseService.CreateAsync(exercise);
                 guids.Add((Guid) exerciseDto.Id);
@@ -59,7 +59,7 @@ namespace RLPortalBackend.Services.Impl
                 ICollection<Guid> exercisesIds = testEntity.ExerciseIds;
 
                 ICollection<ExerciseDto> exerciseDtos = await _exerciseService.GetAsyncExercise(exercisesIds);
-                ICollection<NoRightAnswerExercise> noRightAnswerExercises = _mapper.Map<ICollection<NoRightAnswerExercise>>(exerciseDtos);
+                ICollection<NoRightAnswerExerciseDto> noRightAnswerExercises = _mapper.Map<ICollection<NoRightAnswerExerciseDto>>(exerciseDtos);
 
                 NoRightAnswersTestDto noRightAnswersTest = noRightAnswersTests.ElementAt(i);
                 noRightAnswersTest.Exercises = noRightAnswerExercises;
@@ -83,7 +83,7 @@ namespace RLPortalBackend.Services.Impl
             ICollection<Guid> exercisesIds = testEntity.ExerciseIds;
 
             ICollection<ExerciseDto> exerciseDtos = await _exerciseService.GetAsyncExercise(exercisesIds);
-            ICollection<NoRightAnswerExercise> noRightAnswerExercises = _mapper.Map<ICollection<NoRightAnswerExercise>>(exerciseDtos);
+            ICollection<NoRightAnswerExerciseDto> noRightAnswerExercises = _mapper.Map<ICollection<NoRightAnswerExerciseDto>>(exerciseDtos);
 
             noRightAnswersTest.Exercises = noRightAnswerExercises;
 
@@ -141,12 +141,12 @@ namespace RLPortalBackend.Services.Impl
             {
                 if (exerciseDto.Id == null)
                 {
-                    ExerciseDto newExercise = await _exerciseService.CreateAsync(_mapper.Map<NewExercise>(exerciseDto));
+                    ExerciseDto newExercise = await _exerciseService.CreateAsync(_mapper.Map<NewExerciseDto>(exerciseDto));
                     updatedExerciseIds.Add((Guid) newExercise.Id);
                 }
                 else
                 {
-                    await _exerciseService.UpdateAsync((Guid) exerciseDto.Id, _mapper.Map<NewExercise>(exerciseDto));
+                    await _exerciseService.UpdateAsync((Guid) exerciseDto.Id, _mapper.Map<NewExerciseDto>(exerciseDto));
                     Console.WriteLine((Guid)exerciseDto.Id);
                     updatedExerciseIds.Add((Guid) exerciseDto.Id);
                 }

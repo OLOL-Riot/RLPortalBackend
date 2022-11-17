@@ -33,7 +33,7 @@ namespace RLPortalBackend.Services.Impl
 
             CreateTestDto createTest = new CreateTestDto();
             createTest.Name = "";
-            createTest.Exercises = new List<NewExercise>();
+            createTest.Exercises = new List<NewExerciseDto>();
 
             Guid testId = (await _testService.CreateAsync(createTest)).Id;
 

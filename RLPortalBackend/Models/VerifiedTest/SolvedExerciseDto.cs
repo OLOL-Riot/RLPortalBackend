@@ -5,7 +5,7 @@ namespace RLPortalBackend.Models.VerifiedTest
     /// <summary>
     /// SolvedExercise
     /// </summary>
-    public class SolvedExercise
+    public class SolvedExerciseDto
     {
         /// <summary>
         /// ExerciseId

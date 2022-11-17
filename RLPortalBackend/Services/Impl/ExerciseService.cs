@@ -17,7 +17,7 @@ namespace RLPortalBackend.Services.Impl
             _mapper = mapper;
         }
 
-        public async Task<ExerciseDto> CreateAsync(NewExercise newExercise)
+        public async Task<ExerciseDto> CreateAsync(NewExerciseDto newExercise)
         {
             ExerciseEntity newExerciseEntity = _mapper.Map<ExerciseEntity>(newExercise);
             await _exerciseRepository.CreateAsync(newExerciseEntity);
@@ -43,21 +43,21 @@ namespace RLPortalBackend.Services.Impl
             return exerciseDto;
         }
 
-        public async Task<ICollection<NoRightAnswerExercise>> GetAsyncAllExercisesToSolve()
+        public async Task<ICollection<NoRightAnswerExerciseDto>> GetAsyncAllExercisesToSolve()
         {
             ICollection<ExerciseEntity> exerciseEntities = await _exerciseRepository.GetAsync();
-            ICollection<NoRightAnswerExercise> noRightAnswerExercises = _mapper.Map<ICollection<NoRightAnswerExercise>>(exerciseEntities);
+            ICollection<NoRightAnswerExerciseDto> noRightAnswerExercises = _mapper.Map<ICollection<NoRightAnswerExerciseDto>>(exerciseEntities);
             return noRightAnswerExercises;
         }
 
-        public async Task<NoRightAnswerExercise> GetAsyncExerciseToSolveById(Guid id)
+        public async Task<NoRightAnswerExerciseDto> GetAsyncExerciseToSolveById(Guid id)
         {
             if (await _exerciseRepository.GetAsync(id) == null)
             {
                 throw new NotFoundException($"Exercise {id} not found");
             }
             ExerciseEntity exerciseEntity = await _exerciseRepository.GetAsync(id);
-            NoRightAnswerExercise noRightAnswerExercises = _mapper.Map<NoRightAnswerExercise>(exerciseEntity);
+            NoRightAnswerExerciseDto noRightAnswerExercises = _mapper.Map<NoRightAnswerExerciseDto>(exerciseEntity);
             return noRightAnswerExercises;
         }
 
@@ -70,7 +70,7 @@ namespace RLPortalBackend.Services.Impl
             await _exerciseRepository.RemoveAsync(id);
         }
 
-        public async Task UpdateAsync(Guid id, NewExercise updatedExercise)
+        public async Task UpdateAsync(Guid id, NewExerciseDto updatedExercise)
         {
             if (await _exerciseRepository.GetAsync(id) == null)
             {

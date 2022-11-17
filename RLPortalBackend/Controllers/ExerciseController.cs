@@ -64,10 +64,10 @@ namespace RLPortalBackend.Controllers
         /// (Permissions: UserEntity, Administrator)
         /// </summary>
         /// <returns>Collection of NoRightAnswerExercise</returns>
-        [ProducesResponseType(typeof(ICollection<NoRightAnswerExercise>), 200)]
+        [ProducesResponseType(typeof(ICollection<NoRightAnswerExerciseDto>), 200)]
 
         [HttpGet("solve"), Authorize(Roles = "UserEntity, Administrator")]
-        public async Task<ICollection<NoRightAnswerExercise>> GetAllExercisesToSolve()
+        public async Task<ICollection<NoRightAnswerExerciseDto>> GetAllExercisesToSolve()
         {
             return await _exerciseService.GetAsyncAllExercisesToSolve();
         }
@@ -78,11 +78,11 @@ namespace RLPortalBackend.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>NoRightAnswerExercise</returns>
-        [ProducesResponseType(typeof(NoRightAnswerExercise), 200)]
+        [ProducesResponseType(typeof(NoRightAnswerExerciseDto), 200)]
         [ProducesResponseType(404)]
 
         [HttpGet("solve/{id:length(36)}"), Authorize(Roles = "UserEntity, Administrator")]
-        public async Task<ActionResult<NoRightAnswerExercise>> GetExerciseToSolveById(Guid id)
+        public async Task<ActionResult<NoRightAnswerExerciseDto>> GetExerciseToSolveById(Guid id)
         {
             var exercise = await _exerciseService.GetAsyncExerciseToSolveById(id);
 
@@ -103,7 +103,7 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(typeof(ExerciseDto), 201)]
 
         [HttpPost, Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Post(NewExercise newExercise)
+        public async Task<IActionResult> Post(NewExerciseDto newExercise)
         {
             ExerciseDto createdExercise = await _exerciseService.CreateAsync(newExercise);
 
@@ -121,7 +121,7 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(404)]
 
         [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Update(Guid id, NewExercise updatedExercise)
+        public async Task<IActionResult> Update(Guid id, NewExerciseDto updatedExercise)
         {
             var exercise = await _exerciseService.GetAsyncExerciseToEditById(id);
 

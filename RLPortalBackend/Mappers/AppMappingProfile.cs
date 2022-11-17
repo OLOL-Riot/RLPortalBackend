@@ -25,16 +25,16 @@ namespace RLPortalBackend.Mappers
             CreateMap<ExerciseDto, ExerciseEntity>().ReverseMap();
 
             // Exercise, NewExercise
-            CreateMap<ExerciseDto, NewExercise>().ReverseMap();
+            CreateMap<ExerciseDto, NewExerciseDto>().ReverseMap();
 
             // Exercise, NoRightAnswerExercise
-            CreateMap<ExerciseDto, NoRightAnswerExercise>().ReverseMap();
+            CreateMap<ExerciseDto, NoRightAnswerExerciseDto>().ReverseMap();
 
             // NewExercise, ExerciseEntity
-            CreateMap<NewExercise, ExerciseEntity>().ReverseMap();
+            CreateMap<NewExerciseDto, ExerciseEntity>().ReverseMap();
 
             // NoRightAnswerExercise, ExerciseEntity
-            CreateMap<NoRightAnswerExercise, ExerciseEntity>().ReverseMap();
+            CreateMap<NoRightAnswerExerciseDto, ExerciseEntity>().ReverseMap();
 
             // Test, TestEntity
             CreateMap<TestDto, TestEntity>().ReverseMap();
@@ -65,7 +65,7 @@ namespace RLPortalBackend.Mappers
                 .ForMember(dest => dest.VerifiedAnswers, opt => opt.MapFrom(source => source.UserAnswers));
 
             // SolvedExercise, VerifiedExerciseDto
-            CreateMap<SolvedExercise, VerifiedExerciseDto>();
+            CreateMap<SolvedExerciseDto, VerifiedExerciseDto>();
 
             // CreateVerifiedTestDto, VerifiedTestDto
             CreateMap<CreateVerifiedTestDto, VerifiedTestDto>().ReverseMap();
