@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 namespace RLPortalBackend.Models.Test
 {
     /// <summary>
-    /// UpdateTest
+    /// CreateTestDto
     /// </summary>
-    public class UpdateTest
+    public class CreateTestDto
     {
         /// <summary>
         /// Name
@@ -15,9 +15,9 @@ namespace RLPortalBackend.Models.Test
         public string Name { get; set; }
 
         /// <summary>
-        /// Exercises <see cref="ExerciseDto"/>
+        /// Exercises <see cref="NewExerciseDto"/>
         /// </summary>
         [Required]
-        public ICollection<ExerciseDto> Exercises { get; set; }
+        public ICollection<NewExerciseDto> Exercises { get; set; }
     }
 }

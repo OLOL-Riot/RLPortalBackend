@@ -17,6 +17,6 @@ namespace RLPortalBackend.Models.VerifiedTest
         /// UserAnswers
         /// </summary>
         [Required]
-        public ICollection<SolvedExercise> UserAnswers { get; set; }
+        public ICollection<SolvedExerciseDto> UserAnswers { get; set; }
     }
 }

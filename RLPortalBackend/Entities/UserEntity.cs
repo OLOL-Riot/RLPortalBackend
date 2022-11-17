@@ -3,9 +3,9 @@
 namespace RLPortalBackend.Entities;
 
 /// <summary>
-/// User Entity class for IdentityFraemwork
+/// UserEntity Entity class for IdentityFraemwork
 /// </summary>
-public class User : IdentityUser
+public class UserEntity : IdentityUser
 {
     /// <summary>
     /// Firstname
