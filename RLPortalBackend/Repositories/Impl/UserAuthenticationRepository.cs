@@ -139,13 +139,20 @@ namespace RLPortalBackend.Repositories.Impl
         public async Task GiveRoleToUserAsync(ChangeRoleRequestDto email)
         {
             var user = await _userManager.FindByEmailAsync(email.UserEmail);
-            if (user != null)
+            if (user == null)
             {
-                await _userManager.AddToRoleAsync(user, email.Role);
-                if (email.Role.Equals("Administrator")) await _userManager.RemoveFromRoleAsync(user, "UserEntity");
-                if (email.Role.Equals("UserEntity")) await _userManager.RemoveFromRoleAsync(user, "Administrator");
+                throw new EmailNotFoundException($"Email {email.UserEmail} not found");
             }
-            throw new EmailNotFoundException($"Email {email.UserEmail} not found");
+
+            if (email.Role != "Administrator" && email.Role != "User")
+            {
+                throw new InvalidRoleException($"The role {email.Role} not found");
+            }
+
+            await _userManager.AddToRoleAsync(user, email.Role);
+
+            if (email.Role.Equals("Administrator")) await _userManager.RemoveFromRoleAsync(user, "User");
+            else if (email.Role.Equals("User")) await _userManager.RemoveFromRoleAsync(user, "Administrator");
         }
 
         private UserEntity CreateUser()
