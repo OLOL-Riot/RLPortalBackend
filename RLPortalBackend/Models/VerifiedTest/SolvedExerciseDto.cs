@@ -16,7 +16,6 @@ namespace RLPortalBackend.Models.VerifiedTest
         /// <summary>
         /// ChosenAnswer
         /// </summary>
-        [Required]
         public string ChosenAnswer { get; set; }
 
     }

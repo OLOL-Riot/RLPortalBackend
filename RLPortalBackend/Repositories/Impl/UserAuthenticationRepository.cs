@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.OpenApi.Writers;
+using RLPortalBackend.Container.Messages;
 using RLPortalBackend.Entities;
 using RLPortalBackend.Exceptions;
 using RLPortalBackend.Helpers;
 using RLPortalBackend.Models;
 using RLPortalBackend.Models.Autentification;
+using RLPortalBackend.Services;
 using System.Text.RegularExpressions;
 
 namespace RLPortalBackend.Repositories.Impl
@@ -20,7 +23,7 @@ namespace RLPortalBackend.Repositories.Impl
         private readonly IUserStore<UserEntity> _userStore;
         private readonly IUserEmailStore<UserEntity> _emailStore;
         private readonly ILogger<UserAuthenticationRepository> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailSenderService _emailSender;
         private readonly IConfiguration _configuration;
         private readonly IJWTHelper _jwtHelper;
 
@@ -41,7 +44,7 @@ namespace RLPortalBackend.Repositories.Impl
             IUserStore<UserEntity> userStore,
             SignInManager<UserEntity> signInManager,
             ILogger<UserAuthenticationRepository> logger,
-            IEmailSender emailSender)
+            IEmailSenderService emailSender)
         {
             _jwtHelper = jwtHelper;
             _configuration = configuration;
@@ -63,9 +66,13 @@ namespace RLPortalBackend.Repositories.Impl
         public async Task<LoginResponseDto> LoginAsync(AutentificationRequestDto request)
         {
             var resultLogin = await _userManager.FindByNameAsync(request.Login);
-            if(resultLogin == null)
+            if (resultLogin == null)
             {
                 throw new UserNameNotFoundException($"Login {request.Login} not found");
+            }
+            if (!resultLogin.EmailConfirmed)
+            {
+                throw new EmailNotConfirmedException("Email not confirmed");
             }
 
 
@@ -81,7 +88,7 @@ namespace RLPortalBackend.Repositories.Impl
             throw new WrongPasswordException("Wrong password");
         }
 
- 
+
         /// <summary>
         /// UserEntity registration
         /// </summary>
@@ -122,14 +129,43 @@ namespace RLPortalBackend.Repositories.Impl
 
             if (result.Succeeded)
             {
-                _logger.LogInformation($"UserEntity {input.Login} created");
-                await _userManager.AddToRoleAsync(user, "UserEntity");
+                await SendConfirmEmail(user);
+                _logger.LogInformation($"User {input.Login} created");
+                await _userManager.AddToRoleAsync(user, "User");
 
             }
 
         }
 
-     
+        /// <summary>
+        /// Change user password
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="PasswordMatchException"></exception>
+        /// <exception cref="InvalidPasswordException"></exception>
+        /// <exception cref="WrongPasswordException"></exception>
+        public async Task ChangePasswordAsync(ChangePasswordDto input, Guid userId)
+        {
+            if (input.CurrentPassword.Equals(input.NewPassword))
+            {
+                throw new PasswordMatchException("Passwords match");
+            }
+            if (!Regex.IsMatch(input.NewPassword, @"^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,}$"))
+            {
+                throw new InvalidPasswordException("Invalid password");
+            }
+            User user = await _userManager.FindByIdAsync(userId.ToString());
+            var result = await _userManager.ChangePasswordAsync(user, input.CurrentPassword, input.NewPassword);
+            if (!result.Succeeded)
+            {
+                throw new WrongPasswordException("Wrong password");
+            }
+
+        }
+
+
         /// <summary>
         /// Giving role by email
         /// </summary>
@@ -176,6 +212,33 @@ namespace RLPortalBackend.Repositories.Impl
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
             return (IUserEmailStore<UserEntity>)_userStore;
+        }
+
+        /// <summary>
+        /// Send confirmation email to EmailSenderService by Rabbit
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        private async Task SendConfirmEmail(User user)
+        {
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            string userId = user.Id;
+            string newToken = token.Replace("+", "%2B").Replace("/", "%2F").Replace("==", "%3D%3D");
+            string tempUrl = $"http://localhost:5242/api/Authentification/confirm-email?id={userId}&token={newToken}";
+            var message = new MessageToSend(user.Email, "Confirm email", tempUrl);
+            await _emailSender.SendEmail(message);
+        }
+
+        /// <summary>
+        /// Confirm email
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task ConfirmEmail(Guid id, string token)
+        {
+            User user = await _userManager.FindByIdAsync(id.ToString());
+            await _userManager.ConfirmEmailAsync(user, token);
         }
 
 
