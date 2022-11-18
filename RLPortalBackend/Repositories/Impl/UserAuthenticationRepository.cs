@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 
 using RLPortalBackend.Container.Messages;
 
@@ -168,114 +168,124 @@ namespace RLPortalBackend.Repositories.Impl
         }
 
 
-            /// <summary>
-            /// Giving role by email
-            /// </summary>
-            /// <param name="email"></param>
-            /// <returns></returns>
-            /// <exception cref="EmailNotFoundException"></exception>
-            public async Task GiveRoleToUserAsync(EmailAndRole email)
+        /// <summary>
+        /// Giving role by email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        /// <exception cref="EmailNotFoundException"></exception>
+        public async Task GiveRoleToUserAsync(EmailAndRole email)
+        {
+            var user = await _userManager.FindByEmailAsync(email.UserEmail);
+            if (user != null)
             {
-                var user = await _userManager.FindByEmailAsync(email.UserEmail);
-                if (user != null)
-                {
-                    await _userManager.AddToRoleAsync(user, email.Role);
-                    _logger.LogInformation($"User with {email.UserEmail} get new role {email.Role}");
-                    if (email.Role.Equals("Administrator")) await _userManager.RemoveFromRoleAsync(user, "User");
-                    if (email.Role.Equals("User")) await _userManager.RemoveFromRoleAsync(user, "Administrator");
-                }
-                throw new EmailNotFoundException($"Email {email.UserEmail} not found");
+                await _userManager.AddToRoleAsync(user, email.Role);
+                _logger.LogInformation($"User with {email.UserEmail} get new role {email.Role}");
+                if (email.Role.Equals("Administrator")) await _userManager.RemoveFromRoleAsync(user, "User");
+                if (email.Role.Equals("User")) await _userManager.RemoveFromRoleAsync(user, "Administrator");
+            }
+            throw new EmailNotFoundException($"Email {email.UserEmail} not found");
+        }
+
+
+        /// <summary>
+        /// Change user data
+        /// </summary>
+        /// <param name="changeUserDataDto"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="UserNameAlredyExistsException"></exception>
+        /// <exception cref="EmailAlredyExistsException"></exception>
+        /// <exception cref="InvalidEmailException"></exception>
+        public async Task ChangeUserDataAsync(ChangeUserDataDto changeUserDataDto, Guid userId)
+        {
+            User currentUser = await _userManager.FindByIdAsync(userId.ToString());
+
+            if (currentUser.UserName != changeUserDataDto.UserName & changeUserDataDto.UserName != null ? await _userManager.FindByNameAsync(changeUserDataDto.UserName) != null : false)
+            {
+                throw new UserNameAlredyExistsException($"UserName {changeUserDataDto.UserName} alredy exists");
             }
 
-
-            /// <summary>
-            /// Change user data
-            /// </summary>
-            /// <param name="changeUserDataDto"></param>
-            /// <param name="userId"></param>
-            /// <returns></returns>
-            /// <exception cref="UserNameAlredyExistsException"></exception>
-            /// <exception cref="EmailAlredyExistsException"></exception>
-            /// <exception cref="InvalidEmailException"></exception>
-            public async Task ChangeUserDataAsync(ChangeUserDataDto changeUserDataDto, Guid userId)
+            if (changeUserDataDto.Email != null ? !Regex.IsMatch(changeUserDataDto.Email, @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
+                @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$", RegexOptions.IgnoreCase) : false)
             {
-                if (await _userManager.FindByNameAsync(changeUserDataDto.UserName) != null)
-                {
-                    throw new UserNameAlredyExistsException($"UserName {changeUserDataDto.UserName} alredy exists");
-                }
+                throw new InvalidEmailException("Invalid email");
+            }
 
-                if (!Regex.IsMatch(changeUserDataDto.Email, @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
-                    @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$", RegexOptions.IgnoreCase))
-                {
-                    throw new InvalidEmailException("Invalid email");
-                }
+            if (currentUser.Email != changeUserDataDto.Email & changeUserDataDto.Email != null ? await _userManager.FindByEmailAsync(changeUserDataDto.Email) != null: false)
+            {
+                throw new EmailAlredyExistsException($"Email {changeUserDataDto.Email} alredy exists");
+            }
+            bool flag = false;
 
-                if (await _userManager.FindByEmailAsync(changeUserDataDto.Email) != null)
-                {
-                    throw new EmailAlredyExistsException($"Email {changeUserDataDto.Email} alredy exists");
-                }
-
+            currentUser.FirstName = changeUserDataDto.FirstName ?? currentUser.FirstName;
+            currentUser.LastName = changeUserDataDto.LastName ?? currentUser.LastName;
+            currentUser.PhoneNumber = changeUserDataDto.PhoneNumber ?? currentUser.PhoneNumber;
+            if (changeUserDataDto.Email != null & currentUser.Email != changeUserDataDto.Email)
+            {
+                flag = true;
+                currentUser.Email = changeUserDataDto.Email;
+                currentUser.EmailConfirmed = false;
+            }
+            
+            currentUser.UserName = changeUserDataDto.UserName ?? currentUser.UserName;
+            
+            await _userManager.UpdateAsync(currentUser);
+            if (flag)
+            {
                 
-                    
-
-                User currentUser = await _userManager.FindByIdAsync(userId.ToString());
-                User newUser = _mapper.Map<User>(currentUser);
-                newUser.FirstName = changeUserDataDto.FirstName == null ? newUser.FirstName : changeUserDataDto.FirstName;
-                newUser.LastName = changeUserDataDto.LastName == null ? newUser.LastName : changeUserDataDto.LastName;
-                newUser.PhoneNumber = changeUserDataDto.PhoneNumber == null ? newUser.PhoneNumber : changeUserDataDto.PhoneNumber;
-                newUser.Email = changeUserDataDto.Email == null ? newUser.Email : changeUserDataDto.Email;
-                newUser.UserName = changeUserDataDto.UserName == null ? newUser.UserName : changeUserDataDto.UserName == currentUser.UserName? currentUser.UserName : changeUserDataDto.UserName;
-                await _userManager.UpdateAsync(newUser);
-
+                await SendConfirmEmail(await _userManager.FindByIdAsync(currentUser.Id));
             }
-
-            private User CreateUser()
-            {
-                try
-                {
-                    return Activator.CreateInstance<User>();
-                }
-                catch
-                {
-                    throw new InvalidOperationException($"Can't create an instance of '{nameof(User)}'. " +
-                        $"Ensure that '{nameof(User)}' is not an abstract class and has a parameterless constructor, or alternatively " +
-                        $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
-                }
-            }
-
-            private IUserEmailStore<User> GetEmailStore()
-            {
-                if (!_userManager.SupportsUserEmail)
-                {
-                    throw new NotSupportedException("The default UI requires a user store with email support.");
-                }
-                return (IUserEmailStore<User>)_userStore;
-            }
-
-            public async Task<User> GetUserByUsername(string userName)
-            {
-                return await _userManager.FindByNameAsync(userName);
-            }
-
-            private async Task SendConfirmEmail(User user)
-            {
-                var token = _userManager.GenerateEmailConfirmationTokenAsync(user);
-                MessageToSend message = new MessageToSend(user.Email, "Confirm email", token.Result);
-                await _emailSender.SendEmail(message);
-
-            }
-
-            public async Task ConfirmEmail(Guid id, string token)
-            {
-                User user = await _userManager.FindByIdAsync(id.ToString());
-                await _userManager.ConfirmEmailAsync(user, token);
-
-            }
-
-
-
 
         }
+
+        private User CreateUser()
+        {
+            try
+            {
+                return Activator.CreateInstance<User>();
+            }
+            catch
+            {
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(User)}'. " +
+                    $"Ensure that '{nameof(User)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
+            }
+        }
+
+        private IUserEmailStore<User> GetEmailStore()
+        {
+            if (!_userManager.SupportsUserEmail)
+            {
+                throw new NotSupportedException("The default UI requires a user store with email support.");
+            }
+            return (IUserEmailStore<User>)_userStore;
+        }
+
+        public async Task<User> GetUserByUsername(string userName)
+        {
+            return await _userManager.FindByNameAsync(userName);
+        }
+
+        private async Task SendConfirmEmail(User user)
+        {
+            var token = _userManager.GenerateEmailConfirmationTokenAsync(user);
+            MessageToSend message = new MessageToSend(user.Email, "Confirm email", token.Result);
+            await _emailSender.SendEmail(message);
+
+        }
+
+        public async Task ConfirmEmail(Guid id, string token)
+        {
+            User user = await _userManager.FindByIdAsync(id.ToString());
+            await _userManager.ConfirmEmailAsync(user, token);
+
+        }
+
+
+
+
     }
+}
 
 
