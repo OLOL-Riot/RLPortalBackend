@@ -125,6 +125,12 @@ namespace RLPortalBackend.Controllers
             return Ok();
         }
 
+        [HttpPut("refresh")]
+        public async Task<LoginResponseDto> Refresh(LoginResponseDto login)
+        {
+            return await _auth.Refresh(login);
+        }
+
 
     }
 }

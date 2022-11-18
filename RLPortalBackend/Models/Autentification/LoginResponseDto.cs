@@ -11,12 +11,9 @@
         public string Token { get; set; }
 
         /// <summary>
-        /// LoginResponseDto constructor
+        /// Refresh token
         /// </summary>
-        /// <param name="token"></param>
-        public LoginResponseDto (string token)
-        {
-            Token = token;
-        }
+        public string RefreshToken { get; set; }
+
     }
 }

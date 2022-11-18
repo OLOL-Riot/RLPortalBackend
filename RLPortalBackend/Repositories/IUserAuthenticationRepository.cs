@@ -45,5 +45,6 @@ namespace RLPortalBackend.Repositories
         /// <param name="token"></param>
         /// <returns></returns>
         public Task ConfirmEmail(Guid id, string token);
+        Task<LoginResponseDto> Refresh(LoginResponseDto loginResponseDto);
     }
 }
