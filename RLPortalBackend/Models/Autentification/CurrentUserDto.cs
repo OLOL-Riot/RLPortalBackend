@@ -13,9 +13,9 @@
         public string LastName { get; set; }
 
         /// <summary>
-        /// Login
+        /// UserName
         /// </summary>
-        public string Login { get; set; }
+        public string UserName { get; set; }
 
         /// <summary>
         /// Email
