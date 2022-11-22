@@ -71,6 +71,9 @@ namespace RLPortalBackend.Mappers
             // CreateVerifiedTestDto, VerifiedTestDto
             CreateMap<CreateVerifiedTestDto, VerifiedTestDto>().ReverseMap();
 
+            // ChangeUserDataDto, User
+            CreateMap<ChangeUserDataDto, User>().ReverseMap();
+            
             // TheoryDto, TheoryEntity
             CreateMap<TheoryDto, TheoryEntity>().ReverseMap();
 

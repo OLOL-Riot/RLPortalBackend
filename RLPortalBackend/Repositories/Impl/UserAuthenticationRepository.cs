@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.OpenApi.Writers;
@@ -29,6 +30,10 @@ namespace RLPortalBackend.Repositories.Impl
         private readonly IJWTHelper _jwtHelper;
         private readonly IMapper _mapper;
 
+        private readonly IMapper _mapper;
+
+
+
         /// <summary>
         /// UserAuthenticationRepository constructor
         /// </summary>
@@ -40,6 +45,7 @@ namespace RLPortalBackend.Repositories.Impl
         /// <param name="logger"></param>
         /// <param name="emailSender"></param>
         public UserAuthenticationRepository(
+            IMapper mapper,
             IJWTHelper jwtHelper,
             IConfiguration configuration,
             UserManager<UserEntity> userManager,
@@ -49,6 +55,7 @@ namespace RLPortalBackend.Repositories.Impl
             IEmailSenderService emailSender,
             IMapper mapper)
         {
+            _mapper = mapper;
             _jwtHelper = jwtHelper;
             _configuration = configuration;
             _userManager = userManager;
@@ -72,6 +79,7 @@ namespace RLPortalBackend.Repositories.Impl
             var resultLogin = await _userManager.FindByNameAsync(request.Login);
             if (resultLogin == null)
             {
+                _logger.LogInformation($"User with username {request.Login} not found");
                 throw new UserNameNotFoundException($"Login {request.Login} not found");
             }
             if (!resultLogin.EmailConfirmed)
@@ -169,7 +177,6 @@ namespace RLPortalBackend.Repositories.Impl
 
         }
 
-
         /// <summary>
         /// Giving role by email
         /// </summary>
@@ -195,6 +202,57 @@ namespace RLPortalBackend.Repositories.Impl
             else if (email.Role.Equals("User")) await _userManager.RemoveFromRoleAsync(user, "Administrator");
         }
 
+        /// <summary>
+        /// Change user data
+        /// </summary>
+        /// <param name="changeUserDataDto"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        /// <exception cref="UserNameAlredyExistsException"></exception>
+        /// <exception cref="EmailAlredyExistsException"></exception>
+        /// <exception cref="InvalidEmailException"></exception>
+        public async Task ChangeUserDataAsync(ChangeUserDataDto changeUserDataDto, Guid userId)
+        {
+            User currentUser = await _userManager.FindByIdAsync(userId.ToString());
+
+            if (currentUser.UserName != changeUserDataDto.UserName & changeUserDataDto.UserName != null ? await _userManager.FindByNameAsync(changeUserDataDto.UserName) != null : false)
+            {
+                throw new UserNameAlredyExistsException($"UserName {changeUserDataDto.UserName} alredy exists");
+            }
+
+            if (changeUserDataDto.Email != null ? !Regex.IsMatch(changeUserDataDto.Email, @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
+                @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$", RegexOptions.IgnoreCase) : false)
+            {
+                throw new InvalidEmailException("Invalid email");
+            }
+
+            if (currentUser.Email != changeUserDataDto.Email & changeUserDataDto.Email != null ? await _userManager.FindByEmailAsync(changeUserDataDto.Email) != null: false)
+            {
+                throw new EmailAlredyExistsException($"Email {changeUserDataDto.Email} alredy exists");
+            }
+            bool flag = false;
+
+            currentUser.FirstName = changeUserDataDto.FirstName ?? currentUser.FirstName;
+            currentUser.LastName = changeUserDataDto.LastName ?? currentUser.LastName;
+            currentUser.PhoneNumber = changeUserDataDto.PhoneNumber ?? currentUser.PhoneNumber;
+            if (changeUserDataDto.Email != null & currentUser.Email != changeUserDataDto.Email)
+            {
+                flag = true;
+                currentUser.Email = changeUserDataDto.Email;
+                currentUser.EmailConfirmed = false;
+            }
+            
+            currentUser.UserName = changeUserDataDto.UserName ?? currentUser.UserName;
+            
+            await _userManager.UpdateAsync(currentUser);
+            if (flag)
+            {
+                
+                await SendConfirmEmail(await _userManager.FindByIdAsync(currentUser.Id));
+            }
+
+        }
+        
         private UserEntity CreateUser()
         {
             try
@@ -253,4 +311,5 @@ namespace RLPortalBackend.Repositories.Impl
         }
     }
 }
+
 

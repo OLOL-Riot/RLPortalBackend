@@ -138,6 +138,35 @@ namespace RLPortalBackend.Controllers
             return await _auth.GetUserDataById(userId);
         }
 
+        /// <summary>
+        /// Change current user data
+        /// (Permissions: User, Administrator)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(409)]
+
+        [Authorize(Roles = "User, Administrator")]
+        [HttpPut("change-current-user-data")]
+        public async Task<ActionResult> ChangeUserData(ChangeUserDataDto input)
+        {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            await _auth.ChangeUserDataAsync(input, userId);
+            return Ok();
+
+        }
+
+        [HttpPost("confirm-email")]
+        [Authorize(Roles = "User, Administrator")]
+        public async Task<ActionResult> ConfirmEmail(string token)
+        {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            await _auth.ConfirmEmail(userId, token);
+            return Ok();
+        }
+
 
     }
 }
