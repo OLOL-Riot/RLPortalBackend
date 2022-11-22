@@ -4,10 +4,16 @@ using System.ComponentModel.DataAnnotations;
 namespace RLPortalBackend.Models.Test
 {
     /// <summary>
-    /// CreateTest
+    /// NoRightAnswersTestDto
     /// </summary>
-    public class CreateTest
+    public class NoRightAnswersTestDto
     {
+        /// <summary>
+        /// Id
+        /// </summary>
+        [Required]
+        public Guid Id { get; set; }
+
         /// <summary>
         /// Name
         /// </summary>
@@ -15,9 +21,9 @@ namespace RLPortalBackend.Models.Test
         public string Name { get; set; }
 
         /// <summary>
-        /// Exercises <see cref="NewExercise"/>
+        /// Exercises <see cref="NoRightAnswerExerciseDto"/>
         /// </summary>
         [Required]
-        public ICollection<NewExercise> Exercises { get; set; }
+        public ICollection<NoRightAnswerExerciseDto> Exercises { get; set; }
     }
 }

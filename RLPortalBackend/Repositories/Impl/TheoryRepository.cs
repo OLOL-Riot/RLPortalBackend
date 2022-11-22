@@ -9,7 +9,7 @@ namespace RLPortalBackend.Repositories.Impl
     {
         private readonly IMongoCollection<TheoryEntity> _theoryCollection;
 
-        public TheoryRepository(IOptions<PortalGeographyMongoDBSettings> portalGeographyMongoDBSettings)
+        public TheoryRepository(IOptions<MongoDbSettings> portalGeographyMongoDBSettings)
         {
             var mongoClient = new MongoClient(
                 portalGeographyMongoDBSettings.Value.ConnectionString);

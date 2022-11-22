@@ -12,7 +12,7 @@ namespace RLPortalBackend.Repositories.Impl
     {
         private readonly IMongoCollection<VerifiedTestEntity> _verifiedTestCollection;
 
-        public VerifiedTestRepository(IOptions<PortalGeographyMongoDBSettings> portalGeographyMongoDBSettings)
+        public VerifiedTestRepository(IOptions<MongoDbSettings> portalGeographyMongoDBSettings)
         {
             var mongoClient = new MongoClient(
                 portalGeographyMongoDBSettings.Value.ConnectionString);

@@ -3,7 +3,7 @@
     /// <summary>
     /// MongoDB settings
     /// </summary>
-    public class PortalGeographyMongoDBSettings
+    public class MongoDbSettings
     {
         /// <summary>
         /// Connection string

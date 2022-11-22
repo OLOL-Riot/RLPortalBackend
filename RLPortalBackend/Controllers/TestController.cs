@@ -29,11 +29,11 @@ namespace RLPortalBackend.Controllers
         /// Get all tests for solving 
         /// (Permissions: User, Administrator)
         /// </summary>
-        /// <returns>Collection of NoRightAnswersTest</returns>
-        [ProducesResponseType(typeof(ICollection<NoRightAnswersTest>), 200)]
+        /// <returns>Collection of NoRightAnswersTestDto</returns>
+        [ProducesResponseType(typeof(ICollection<NoRightAnswersTestDto>), 200)]
 
         [HttpGet("solve"), Authorize(Roles = "User, Administrator")]
-        public async Task<ICollection<NoRightAnswersTest>> GetAllTestsToSolve()
+        public async Task<ICollection<NoRightAnswersTestDto>> GetAllTestsToSolve()
         {
             return await _testService.GetAsyncAllTestsToSolve();
         }
@@ -43,12 +43,12 @@ namespace RLPortalBackend.Controllers
         /// (Permissions: User, Administrator)
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>NoRightAnswersTest</returns>
-        [ProducesResponseType(typeof(NoRightAnswersTest), 200)]
+        /// <returns>NoRightAnswersTestDto</returns>
+        [ProducesResponseType(typeof(NoRightAnswersTestDto), 200)]
         [ProducesResponseType(404)]
 
         [HttpGet("solve/{id:length(36)}"), Authorize(Roles = "User, Administrator")]
-        public async Task<ActionResult<NoRightAnswersTest>> GetTestToSolveById(Guid id)
+        public async Task<ActionResult<NoRightAnswersTestDto>> GetTestToSolveById(Guid id)
         {
             var test = await _testService.GetAsyncTestToSolveById(id);
 
@@ -103,7 +103,7 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(typeof(TestDto), 201)]
 
         [HttpPost, Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Post(CreateTest newTest)
+        public async Task<IActionResult> Post(CreateTestDto newTest)
         {
             TestDto createdTest = await _testService.CreateAsync(newTest);
 
@@ -121,17 +121,10 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(404)]
 
         [HttpPut("{id:length(36)}"), Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Update(Guid id, UpdateTest updatedTest)
+        public async Task<IActionResult> Update(Guid id, UpdateTestDto updatedTest)
         {
             var test = await _testService.GetAsyncTestToSolveById(id);
-
-            if (test is null)
-            {
-                return NotFound();
-            }
-
             await _testService.UpdateAsync(id, updatedTest);
-
             return NoContent();
         }
 

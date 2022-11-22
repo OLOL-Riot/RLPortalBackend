@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RLPortalBackend.Entities;
+using RLPortalBackend.Exceptions;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
 using RLPortalBackend.Models.VerifiedTest;
@@ -15,12 +16,14 @@ namespace RLPortalBackend.Services.Impl
         private readonly IVerifiedTestRepository _verifiedTestRepository;
         private readonly ITestService _testService;
         private readonly IMapper _mapper;
+        private readonly IExerciseService _exerciseService;
 
-        public VerifiedTestService(IVerifiedTestRepository verifiedTestRepository, ITestService testService, IMapper mapper)
+        public VerifiedTestService(IVerifiedTestRepository verifiedTestRepository, ITestService testService, IMapper mapper, IExerciseService exerciseService)
         {
             _verifiedTestRepository = verifiedTestRepository;
             _testService = testService;
             _mapper = mapper;
+            _exerciseService = exerciseService;
         }
 
         public async Task<VerifiedTestDto> CreateAsync(SolvedTestDto solvedTest, Guid userId)
@@ -28,6 +31,10 @@ namespace RLPortalBackend.Services.Impl
             // Add Exceptions Handling: test not found, incorrect exercises
 
             TestDto test = await _testService.GetAsyncTestToEditById(solvedTest.TestId);
+            if(test == null)
+            {
+                throw new TestNotFoundException($"Test {solvedTest.TestId} not found");
+            }
             ICollection<ExerciseDto> exercises = test.Exercises;
 
             CreateVerifiedTestDto verifiedTest = _mapper.Map<CreateVerifiedTestDto>(solvedTest);
@@ -38,6 +45,7 @@ namespace RLPortalBackend.Services.Impl
             for (int i = 0; i < verifiedTest.VerifiedAnswers.Count; i++)
             {
                 VerifiedExerciseDto verifiedExercise = verifiedTest.VerifiedAnswers.ElementAtOrDefault(i);
+                await _exerciseService.GetAsyncExerciseToEditById(verifiedExercise.ExerciseId);
 
                 var chosendAnswer = verifiedExercise.ChosenAnswer;
 

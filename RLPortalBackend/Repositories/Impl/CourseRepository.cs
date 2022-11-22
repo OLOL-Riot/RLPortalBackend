@@ -12,7 +12,7 @@ namespace RLPortalBackend.Repositories.Impl
     {
         private readonly IMongoCollection<CourseEntity> _courseCollection;
 
-        public CourseRepository(IOptions<PortalGeographyMongoDBSettings> portalGeographyMongoDBSettings)
+        public CourseRepository(IOptions<MongoDbSettings> portalGeographyMongoDBSettings)
         {
             var mongoClient = new MongoClient(
                 portalGeographyMongoDBSettings.Value.ConnectionString);
