@@ -30,8 +30,6 @@ namespace RLPortalBackend.Repositories.Impl
         private readonly IJWTHelper _jwtHelper;
         private readonly IMapper _mapper;
 
-        private readonly IMapper _mapper;
-
 
 
         /// <summary>
@@ -44,6 +42,7 @@ namespace RLPortalBackend.Repositories.Impl
         /// <param name="signInManager"></param>
         /// <param name="logger"></param>
         /// <param name="emailSender"></param>
+        /// <param name="mapper"></param>
         public UserAuthenticationRepository(
             IMapper mapper,
             IJWTHelper jwtHelper,
@@ -52,8 +51,7 @@ namespace RLPortalBackend.Repositories.Impl
             IUserStore<UserEntity> userStore,
             SignInManager<UserEntity> signInManager,
             ILogger<UserAuthenticationRepository> logger,
-            IEmailSenderService emailSender,
-            IMapper mapper)
+            IEmailSenderService emailSender)
         {
             _mapper = mapper;
             _jwtHelper = jwtHelper;
@@ -213,7 +211,7 @@ namespace RLPortalBackend.Repositories.Impl
         /// <exception cref="InvalidEmailException"></exception>
         public async Task ChangeUserDataAsync(ChangeUserDataDto changeUserDataDto, Guid userId)
         {
-            User currentUser = await _userManager.FindByIdAsync(userId.ToString());
+            var currentUser = await _userManager.FindByIdAsync(userId.ToString());
 
             if (currentUser.UserName != changeUserDataDto.UserName & changeUserDataDto.UserName != null ? await _userManager.FindByNameAsync(changeUserDataDto.UserName) != null : false)
             {
@@ -303,9 +301,14 @@ namespace RLPortalBackend.Repositories.Impl
             await _userManager.ConfirmEmailAsync(user, token);
         }
 
+        /// <summary>
+        /// Get User Data By Id
+        /// </summary>
+        /// <param name="id">Id</param>
+        /// <returns></returns>
         public async Task<CurrentUserDto> GetUserDataById(Guid id)
         {
-            User userEntity = await _userManager.FindByIdAsync(id.ToString());
+            var userEntity = await _userManager.FindByIdAsync(id.ToString());
             CurrentUserDto userDto = _mapper.Map<CurrentUserDto>(userEntity);
             return userDto;
         }
