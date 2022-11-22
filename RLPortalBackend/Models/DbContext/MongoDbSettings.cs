@@ -3,7 +3,7 @@
     /// <summary>
     /// MongoDB settings
     /// </summary>
-    public class PortalGeographyMongoDBSettings
+    public class MongoDbSettings
     {
         /// <summary>
         /// Connection string
@@ -26,5 +26,12 @@
         public string TestCollectionName { get; set; } = null!;
 
         public string VerifiedTestCollectionName { get; set; } = null!;
+
+        public string TheoryCollectionName { get; set; } = null!;
+
+        public string CourseSectionsCollectionName { get; set; } = null!;
+
+        public string CourseCollectionName { get; set; } = null!;
+
     }
 }

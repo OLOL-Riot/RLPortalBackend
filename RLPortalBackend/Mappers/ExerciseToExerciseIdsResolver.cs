@@ -7,14 +7,10 @@ using RLPortalBackend.Repositories;
 
 namespace RLPortalBackend.Mappers
 {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public class NewExercisesToExerciseIdsResolver : IValueResolver<CreateTest, TestEntity, ICollection<Guid>>
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning disable CS1591
+    public class NewExercisesToExerciseIdsResolver : IValueResolver<CreateTestDto, TestEntity, ICollection<Guid>>
     {
-
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public ICollection<Guid> Resolve(CreateTest source, TestEntity destination, ICollection<Guid> destMember, ResolutionContext context)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+        public ICollection<Guid> Resolve(CreateTestDto source, TestEntity destination, ICollection<Guid> destMember, ResolutionContext context)
         {
             return null;
         }

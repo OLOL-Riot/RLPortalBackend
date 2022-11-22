@@ -28,7 +28,7 @@ namespace RLPortalBackend.Controllers
         /// (Permissions: Administrator)
         /// </summary>
         /// <param name="data"></param>
-        [HttpPost, Authorize(Roles = "Administrator")]
+        [HttpPost("send/email"), Authorize(Roles = "Administrator")]
         public void SendEmail(MessageToSend data)
         {
             _emailSenderService.SendEmail(data);

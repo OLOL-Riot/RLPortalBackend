@@ -24,12 +24,12 @@ var connectionString = builder.Configuration.GetConnectionString("AplicationDBCo
 builder.Services.AddDbContext<AplicationDBContext>(options =>
     options.UseNpgsql(connectionString));
 //Как поднимается сервис паблишера и ребита поменять значнеие на true для подтвреждения почты
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<UserEntity>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AplicationDBContext>();
 
 // Connection to the MongoDB
-builder.Services.Configure<PortalGeographyMongoDBSettings>(
+builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("RLPortalMongoDB"));
 
 builder.Services.AddControllersWithViews();
@@ -56,6 +56,12 @@ builder.Services.AddScoped<ITestRepository, TestRepository>();
 builder.Services.AddScoped<ITestService, TestService>();
 builder.Services.AddScoped<IVerifiedTestRepository, VerifiedTestRepository>();
 builder.Services.AddScoped<IVerifiedTestService, VerifiedTestService>();
+builder.Services.AddScoped<ITheoryRepository, TheoryRepository>();
+builder.Services.AddScoped<ITheoryService, TheoryService>();
+builder.Services.AddScoped<ICourseSectionRepository, CourseSectionRepository>();
+builder.Services.AddScoped<ICourseSectionService, CourseSectionService>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<ICourseService, CourseService>();
 
 builder.Services.AddScoped<IUserAuthenticationRepository, UserAuthenticationRepository>();
 builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
@@ -102,7 +108,7 @@ var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 using (var scope = scopeFactory.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserEntity>>();
     SeedData.Seed(userManager, roleManager);
 }
 

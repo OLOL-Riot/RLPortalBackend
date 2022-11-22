@@ -1,10 +1,11 @@
-﻿using RLPortalBackend.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using RLPortalBackend.Models;
 using RLPortalBackend.Models.Autentification;
 
 namespace RLPortalBackend.Repositories
 {
     /// <summary>
-    /// User repo, work with Postgres and IdentityFraemwork
+    /// UserEntity repo, work with Postgres and IdentityFraemwork
     /// </summary>
     public interface IUserAuthenticationRepository
     {
@@ -13,22 +14,21 @@ namespace RLPortalBackend.Repositories
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public Task RegistrateAsync(UserModel input);
+        public Task RegistrateAsync(UserDto input);
 
         /// <summary>
         /// Async login in account
         /// </summary>
         /// <param name="request"></param>
-        /// <returns><see cref="JWT"/></returns>
-        public Task<JWT> LoginAsync(AutentificationRequest request);
+        /// <returns><see cref="LoginResponseDto"/></returns>
+        public Task<LoginResponseDto> LoginAsync(AutentificationRequestDto request);
 
         /// <summary>
         /// Async give role to user
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
-        public Task GiveRoleToUserAsync(EmailAndRole email);
-
+        public Task GiveRoleToUserAsync(ChangeRoleRequestDto email);
 
         /// <summary>
         /// Async change user data
@@ -37,7 +37,29 @@ namespace RLPortalBackend.Repositories
         /// <param name="userId"></param>
         /// <returns></returns>
         public Task ChangeUserDataAsync(ChangeUserDataDto changeUserDataDto, Guid userId);
-        public Task ConfirmEmail(Guid id, string token);
+        
+        /// <summary>
+        /// Get user data by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Task<CurrentUserDto> GetUserDataById(Guid id);
+        
 
+        /// <summary>
+        /// Change user password
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public Task ChangePasswordAsync(ChangePasswordDto input, Guid userId);
+
+        /// <summary>
+        /// Confirm email
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public Task ConfirmEmail(Guid id, string token);
     }
 }
