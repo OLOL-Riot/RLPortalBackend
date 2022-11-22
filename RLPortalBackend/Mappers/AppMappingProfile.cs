@@ -72,7 +72,7 @@ namespace RLPortalBackend.Mappers
             CreateMap<CreateVerifiedTestDto, VerifiedTestDto>().ReverseMap();
 
             // ChangeUserDataDto, User
-            CreateMap<ChangeUserDataDto, User>().ReverseMap();
+            CreateMap<ChangeUserDataDto, UserEntity>().ReverseMap();
             
             // TheoryDto, TheoryEntity
             CreateMap<TheoryDto, TheoryEntity>().ReverseMap();
@@ -116,7 +116,7 @@ namespace RLPortalBackend.Mappers
                 .ForMember(dest => dest.CourseSectionIds, opt => opt.MapFrom(source => source.CourseSectionEntityIds))
                 .ReverseMap();
 
-            CreateMap<User, CurrentUserDto>().ReverseMap();
+            CreateMap<UserEntity, CurrentUserDto>().ReverseMap();
         }
 
 

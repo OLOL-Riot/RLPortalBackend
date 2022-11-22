@@ -131,7 +131,7 @@ namespace RLPortalBackend.Controllers
         /// <returns></returns>
 
         [Authorize(Roles = "Administrator, User")]
-        [HttpGet("get")]
+        [HttpGet("current-user-data")]
         public async Task<CurrentUserDto> GetCurrentUserData()
         {
             var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -156,15 +156,6 @@ namespace RLPortalBackend.Controllers
             await _auth.ChangeUserDataAsync(input, userId);
             return Ok();
 
-        }
-
-        [HttpPost("confirm-email")]
-        [Authorize(Roles = "User, Administrator")]
-        public async Task<ActionResult> ConfirmEmail(string token)
-        {
-            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            await _auth.ConfirmEmail(userId, token);
-            return Ok();
         }
 
 
