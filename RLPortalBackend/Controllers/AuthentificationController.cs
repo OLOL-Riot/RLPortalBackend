@@ -125,6 +125,19 @@ namespace RLPortalBackend.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Get current user data
+        /// </summary>
+        /// <returns></returns>
+
+        [Authorize(Roles = "Administrator, User")]
+        [HttpGet("get")]
+        public async Task<CurrentUserDto> GetCurrentUserData()
+        {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            return await _auth.GetUserDataById(userId);
+        }
+
 
     }
 }

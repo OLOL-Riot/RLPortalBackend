@@ -31,6 +31,14 @@ namespace RLPortalBackend.Repositories
         public Task GiveRoleToUserAsync(ChangeRoleRequestDto email);
 
         /// <summary>
+        /// Get user data by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Task<CurrentUserDto> GetUserDataById(Guid id);
+        
+
+        /// <summary>
         /// Change user password
         /// </summary>
         /// <param name="input"></param>
