@@ -87,7 +87,7 @@ namespace RLPortalBackend.Controllers
         }
 
         /// <summary>
-        /// Change user data
+        /// Change current user data
         /// (Permissions: User, Administrator)
         /// </summary>
         /// <param name="input"></param>
@@ -97,7 +97,7 @@ namespace RLPortalBackend.Controllers
         [ProducesResponseType(409)]
 
         [Authorize(Roles = "User, Administrator")]
-        [HttpPut("change-user-data")]
+        [HttpPut("change-current-user-data")]
         public async Task<ActionResult> ChangeUserData(ChangeUserDataDto input)
         {
             var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
