@@ -23,10 +23,10 @@ namespace RLPortalBackend.Services.Impl
         {
             TheoryEntity theoryEntity = _mapper.Map<TheoryEntity>(theoryDto);
 
-            IEnumerable<TheorySectionDto> createTheorySectionDtos = theoryDto.TheorySectionDtos;
+            IEnumerable<TheorySectionDto> createTheorySectionDtos = theoryDto.TheorySections;
             IEnumerable<TheorySectionEntity> theorySectionEntities = _mapper.Map<IEnumerable<TheorySectionEntity>>(createTheorySectionDtos);
 
-            theoryEntity.TheorySectionEntities = theorySectionEntities.ToList();
+            theoryEntity.TheorySections = theorySectionEntities.ToList();
             await _repository.CreateAsync(theoryEntity);
             TheoryDto dto = _mapper.Map<TheoryDto>(theoryEntity);
             return dto;
@@ -70,9 +70,9 @@ namespace RLPortalBackend.Services.Impl
 
             TheoryDto dto = _mapper.Map<TheoryDto>(updateTheoryDto);
             dto.Id = id;
-            ICollection<TheorySectionEntity> theorySectionEntities = _mapper.Map<ICollection<TheorySectionEntity>>(updateTheoryDto.TheorySectionDtos);
+            ICollection<TheorySectionEntity> theorySectionEntities = _mapper.Map<ICollection<TheorySectionEntity>>(updateTheoryDto.TheorySections);
             TheoryEntity newEntity = _mapper.Map<TheoryEntity>(dto);
-            newEntity.TheorySectionEntities = theorySectionEntities;
+            newEntity.TheorySections = theorySectionEntities;
             await _repository.UpdateAsync(id, newEntity);
         }
     }

@@ -30,7 +30,7 @@ namespace RLPortalBackend.Models.CourseSection
         /// <summary>
         /// TheoryDto
         /// </summary>
-        public TheoryDto TheoryDto { get; set; }
+        public TheoryDto Theory { get; set; }
 
         /// <summary>
         /// TestEntityId

@@ -28,6 +28,6 @@
         /// <summary>
         /// TheorySectionDtos
         /// </summary>
-        public ICollection<TheorySectionDto> TheorySectionEntities { get; set; }
+        public ICollection<TheorySectionDto> TheorySections { get; set; }
     }
 }

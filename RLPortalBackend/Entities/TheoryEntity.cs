@@ -39,6 +39,6 @@ namespace RLPortalBackend.Entities
         /// TheorySectionDtos
         /// </summary>
         [Required]
-        public ICollection<TheorySectionEntity> TheorySectionEntities { get; set; }
+        public ICollection<TheorySectionEntity> TheorySections { get; set; }
     }
 }

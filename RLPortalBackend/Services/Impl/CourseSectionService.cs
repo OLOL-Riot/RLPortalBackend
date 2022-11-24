@@ -42,7 +42,7 @@ namespace RLPortalBackend.Services.Impl
             newTheoryDto.Name = "";
             newTheoryDto.Description = "";
             newTheoryDto.ShortDescription = "";
-            newTheoryDto.TheorySectionDtos = new List<TheorySectionDto>();
+            newTheoryDto.TheorySections = new List<TheorySectionDto>();
 
             Guid theoryId = (await _theoryService.CreateAsync(newTheoryDto)).Id;
 
@@ -77,7 +77,7 @@ namespace RLPortalBackend.Services.Impl
 
             PageCourseSectionDto dto = _mapper.Map<PageCourseSectionDto>(courseSectionEntity);
 
-            dto.TheoryDto = await _theoryService.GetByIdAsync(courseSectionEntity.TheoryEntityId);
+            dto.Theory = await _theoryService.GetByIdAsync(courseSectionEntity.TheoryEntityId);
 
             return dto;
         }
