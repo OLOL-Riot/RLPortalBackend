@@ -158,6 +158,19 @@ namespace RLPortalBackend.Controllers
 
         }
 
+        [Authorize(Roles = "User, Administrator")]
+        [HttpPost("send-reset-token")]
+        public async Task SendResetPasswordEmail()
+        {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            await _auth.SendResetPasswordEmail(userId);
+        }
 
+        [HttpGet("reset-password")]
+        public async Task<ActionResult> ResetPassword(Guid id, string token, string newPassword)
+        {
+            await _auth.ResetPassword(id, token, newPassword);
+            return Ok();
+        }
     }
 }

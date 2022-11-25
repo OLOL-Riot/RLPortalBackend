@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.OpenApi.Writers;
+using NuGet.Common;
+using NuGet.Packaging.Signing;
 using RLPortalBackend.Container.Messages;
 using RLPortalBackend.Entities;
 using RLPortalBackend.Exceptions;
@@ -126,6 +128,12 @@ namespace RLPortalBackend.Repositories.Impl
             {
                 throw new EmailAlredyExistsException($"Email {input.Email} alredy exists");
             }
+            if (input.PhoneNumber != null ? !Regex.IsMatch(input.PhoneNumber, @"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$", RegexOptions.IgnoreCase) : false)
+            {
+                throw new InvalidPhoneNumberException($"Number {input.PhoneNumber} invalid");
+            }
+
+
             var user = CreateUser();
 
             user.FirstName = input.FirstName;
@@ -134,6 +142,7 @@ namespace RLPortalBackend.Repositories.Impl
 
             await _userStore.SetUserNameAsync(user, input.Login, CancellationToken.None);
             await _emailStore.SetEmailAsync(user, input.Email, CancellationToken.None);
+            await _userManager.SetPhoneNumberAsync(user, input.PhoneNumber);
 
             var result = await _userManager.CreateAsync(user, input.Password);
 
@@ -228,6 +237,12 @@ namespace RLPortalBackend.Repositories.Impl
             {
                 throw new EmailAlredyExistsException($"Email {changeUserDataDto.Email} alredy exists");
             }
+
+            if (changeUserDataDto.PhoneNumber != null ? !Regex.IsMatch(changeUserDataDto.PhoneNumber, @"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$", RegexOptions.IgnoreCase) : false)
+            {
+                throw new InvalidPhoneNumberException($"Number {changeUserDataDto.PhoneNumber} invalid");
+            }
+
             bool flag = false;
 
             currentUser.FirstName = changeUserDataDto.FirstName ?? currentUser.FirstName;
@@ -243,6 +258,7 @@ namespace RLPortalBackend.Repositories.Impl
             currentUser.UserName = changeUserDataDto.UserName ?? currentUser.UserName;
             
             await _userManager.UpdateAsync(currentUser);
+            await _userManager.SetPhoneNumberAsync(currentUser, currentUser.PhoneNumber);
             if (flag)
             {
                 
@@ -312,6 +328,34 @@ namespace RLPortalBackend.Repositories.Impl
             CurrentUserDto userDto = _mapper.Map<CurrentUserDto>(userEntity);
             return userDto;
         }
+
+        public async Task SendResetPasswordEmail(Guid id)
+        {
+            UserEntity user = await _userManager.FindByIdAsync(id.ToString());
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            string userId = user.Id;
+            string newToken = token.Replace("+", "%2B").Replace("/", "%2F").Replace("==", "%3D%3D");
+            string tempUrl = $"http://localhost:5242/api/Authentification/confirm-email?id={userId}&token={newToken}";
+            var message = new MessageToSend(user.Email, "Reset password", tempUrl);
+            await _emailSender.SendEmail(message);
+        }
+
+        public async Task ResetPassword(Guid id, string token, string newPassword)
+        {
+            if (!Regex.IsMatch(newPassword, @"^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,}$"))
+            {
+                throw new InvalidPasswordException("Invalid new password");
+            }
+
+            UserEntity user = await _userManager.FindByIdAsync(id.ToString());
+
+            await _userManager.ResetPasswordAsync(user, token, newPassword);
+
+        }
+
+        
+
+
     }
 }
 
