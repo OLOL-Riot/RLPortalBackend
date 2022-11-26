@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.OpenApi.Writers;
 using RLPortalBackend.Container.Messages;
 using RLPortalBackend.Entities;
 using RLPortalBackend.Exceptions;
@@ -117,13 +115,13 @@ namespace RLPortalBackend.Repositories.Impl
             {
                 throw new InvalidJwtException("Invalid token");
             }
-            
+
             string name = principal.Identity.Name;
 
             var user = await _userManager.FindByNameAsync(name);
             if (user.RefreshToken != loginResponseDto.RefreshToken)
             {
-                throw new RefreshTokenException("Incorrect token");
+                throw new RefreshTokenException("Incorrect refresh token");
             }
             var role = await _userManager.GetRolesAsync(user);
             var newAccessToken = _jwtHelper.CreateToken(user, role[0]);
