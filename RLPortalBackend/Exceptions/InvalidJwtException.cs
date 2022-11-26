@@ -4,7 +4,7 @@
     {
         public InvalidJwtException(string message) : base(message)
         {
-            Code = 403;
+            Code = 400;
         }
     }
 }
