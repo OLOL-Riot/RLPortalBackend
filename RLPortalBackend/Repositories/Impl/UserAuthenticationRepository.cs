@@ -108,9 +108,23 @@ namespace RLPortalBackend.Repositories.Impl
 
         public async Task<LoginResponseDto> Refresh(LoginResponseDto loginResponseDto)
         {
-            var principal = _jwtHelper.GetPrincipalFromExpiredToken(loginResponseDto.Token);
-            var name = principal.Identity.Name;
+            ClaimsPrincipal principal;
+            try
+            {
+                principal = _jwtHelper.GetPrincipalFromExpiredToken(loginResponseDto.Token);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidJwtException("Invalid token");
+            }
+            
+            string name = principal.Identity.Name;
+
             var user = await _userManager.FindByNameAsync(name);
+            if (user.RefreshToken != loginResponseDto.RefreshToken)
+            {
+                throw new RefreshTokenException("Incorrect token");
+            }
             var role = await _userManager.GetRolesAsync(user);
             var newAccessToken = _jwtHelper.CreateToken(user, role[0]);
             var newRefreshToken = _jwtHelper.GenerateRefreshToken();
