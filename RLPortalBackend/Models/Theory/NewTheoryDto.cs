@@ -29,6 +29,6 @@ namespace RLPortalBackend.Models.Theory
         /// TheorySectionDtos
         /// </summary>
         [Required]
-        public ICollection<TheorySectionDto> TheorySectionDtos { get; set; }
+        public ICollection<TheorySectionDto> TheorySections { get; set; }
     }
 }

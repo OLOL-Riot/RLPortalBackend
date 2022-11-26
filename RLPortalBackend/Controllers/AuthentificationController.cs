@@ -125,10 +125,48 @@ namespace RLPortalBackend.Controllers
             return Ok();
         }
 
+
+        /// <summary>
+        /// Refresh Token
+        /// </summary>
+        /// <param name="LoginResponseDto"></param>
+        /// <returns></returns>
         [HttpPut("refresh")]
         public async Task<LoginResponseDto> Refresh(LoginResponseDto login)
         {
             return await _auth.Refresh(login);
+        }
+        
+        /// <summary>
+        /// Get current user data
+        /// </summary>
+        /// <returns></returns>
+
+        [Authorize(Roles = "Administrator, User")]
+        [HttpGet("current-user-data")]
+        public async Task<CurrentUserDto> GetCurrentUserData()
+        {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            return await _auth.GetUserDataById(userId);
+        }
+
+        /// <summary>
+        /// Change current user data
+        /// (Permissions: User, Administrator)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(409)]
+
+        [Authorize(Roles = "User, Administrator")]
+        [HttpPut("change-current-user-data")]
+        public async Task<ActionResult> ChangeUserData(ChangeUserDataDto input)
+        {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            await _auth.ChangeUserDataAsync(input, userId);
+            return Ok();
         }
 
 
