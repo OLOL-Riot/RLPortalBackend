@@ -182,6 +182,12 @@ namespace RLPortalBackend.Repositories.Impl
             {
                 throw new EmailAlredyExistsException($"Email {input.Email} alredy exists");
             }
+            if (input.PhoneNumber != null ? !Regex.IsMatch(input.PhoneNumber, @"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$", RegexOptions.IgnoreCase) : false)
+            {
+                throw new InvalidPhoneNumberException($"Number {input.PhoneNumber} invalid");
+            }
+
+
             var user = CreateUser();
 
             user.FirstName = input.FirstName;
@@ -190,6 +196,7 @@ namespace RLPortalBackend.Repositories.Impl
 
             await _userStore.SetUserNameAsync(user, input.Login, CancellationToken.None);
             await _emailStore.SetEmailAsync(user, input.Email, CancellationToken.None);
+            await _userManager.SetPhoneNumberAsync(user, input.PhoneNumber);
 
             var result = await _userManager.CreateAsync(user, input.Password);
 
@@ -284,11 +291,17 @@ namespace RLPortalBackend.Repositories.Impl
             {
                 throw new EmailAlredyExistsException($"Email {changeUserDataDto.Email} alredy exists");
             }
+            if (changeUserDataDto.PhoneNumber != null ? !Regex.IsMatch(changeUserDataDto.PhoneNumber, @"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$", RegexOptions.IgnoreCase) : false)
+            {
+                throw new InvalidPhoneNumberException($"Number {changeUserDataDto.PhoneNumber} invalid");
+            }
+
             bool flag = false;
 
             currentUser.FirstName = changeUserDataDto.FirstName ?? currentUser.FirstName;
             currentUser.LastName = changeUserDataDto.LastName ?? currentUser.LastName;
             currentUser.PhoneNumber = changeUserDataDto.PhoneNumber ?? currentUser.PhoneNumber;
+            await _userManager.SetPhoneNumberAsync(currentUser, currentUser.PhoneNumber);
             if (changeUserDataDto.Email != null & currentUser.Email != changeUserDataDto.Email)
             {
                 flag = true;
