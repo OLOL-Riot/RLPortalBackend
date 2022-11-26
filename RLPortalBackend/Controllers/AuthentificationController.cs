@@ -125,6 +125,18 @@ namespace RLPortalBackend.Controllers
             return Ok();
         }
 
+
+        /// <summary>
+        /// Refresh Token
+        /// </summary>
+        /// <param name="LoginResponseDto"></param>
+        /// <returns></returns>
+        [HttpPut("refresh")]
+        public async Task<LoginResponseDto> Refresh(LoginResponseDto login)
+        {
+            return await _auth.Refresh(login);
+        }
+        
         /// <summary>
         /// Get current user data
         /// </summary>
@@ -155,7 +167,6 @@ namespace RLPortalBackend.Controllers
             var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             await _auth.ChangeUserDataAsync(input, userId);
             return Ok();
-
         }
 
 

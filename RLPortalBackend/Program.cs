@@ -65,7 +65,7 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 
 builder.Services.AddScoped<IUserAuthenticationRepository, UserAuthenticationRepository>();
 builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
-builder.Services.AddScoped<IJWTHelper, JWTHelper>();
+builder.Services.AddScoped<ITokenHelper, TokenHelper>();
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
