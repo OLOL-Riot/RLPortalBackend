@@ -235,11 +235,17 @@ namespace RLPortalBackend.Repositories.Impl
             {
                 throw new EmailAlredyExistsException($"Email {changeUserDataDto.Email} alredy exists");
             }
+            if (changeUserDataDto.PhoneNumber != null ? !Regex.IsMatch(changeUserDataDto.PhoneNumber, @"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$", RegexOptions.IgnoreCase) : false)
+            {
+                throw new InvalidPhoneNumberException($"Number {changeUserDataDto.PhoneNumber} invalid");
+            }
+
             bool flag = false;
 
             currentUser.FirstName = changeUserDataDto.FirstName ?? currentUser.FirstName;
             currentUser.LastName = changeUserDataDto.LastName ?? currentUser.LastName;
             currentUser.PhoneNumber = changeUserDataDto.PhoneNumber ?? currentUser.PhoneNumber;
+            await _userManager.SetPhoneNumberAsync(currentUser, currentUser.PhoneNumber);
             if (changeUserDataDto.Email != null & currentUser.Email != changeUserDataDto.Email)
             {
                 flag = true;
