@@ -329,6 +329,11 @@ namespace RLPortalBackend.Repositories.Impl
             return userDto;
         }
 
+        /// <summary>
+        /// Send reset password email
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task SendResetPasswordEmail(Guid id)
         {
             UserEntity user = await _userManager.FindByIdAsync(id.ToString());
@@ -340,6 +345,14 @@ namespace RLPortalBackend.Repositories.Impl
             await _emailSender.SendEmail(message);
         }
 
+        /// <summary>
+        /// Reset password
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="token"></param>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidPasswordException"></exception>
         public async Task ResetPassword(Guid id, string token, string newPassword)
         {
             if (!Regex.IsMatch(newPassword, @"^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9!@#$%^&*]{8,}$"))

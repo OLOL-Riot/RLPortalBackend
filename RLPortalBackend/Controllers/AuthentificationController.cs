@@ -158,6 +158,11 @@ namespace RLPortalBackend.Controllers
 
         }
 
+        /// <summary>
+        /// Send reset password token
+        /// (Permissions: User, Administrator)
+        /// </summary>
+        /// <returns></returns>
         [Authorize(Roles = "User, Administrator")]
         [HttpPost("send-reset-token")]
         public async Task SendResetPasswordEmail()
@@ -166,6 +171,13 @@ namespace RLPortalBackend.Controllers
             await _auth.SendResetPasswordEmail(userId);
         }
 
+        /// <summary>
+        /// Reset password
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="token"></param>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
         [HttpGet("reset-password")]
         public async Task<ActionResult> ResetPassword(Guid id, string token, string newPassword)
         {

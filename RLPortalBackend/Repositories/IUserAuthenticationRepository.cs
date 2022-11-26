@@ -61,7 +61,21 @@ namespace RLPortalBackend.Repositories
         /// <param name="token"></param>
         /// <returns></returns>
         public Task ConfirmEmail(Guid id, string token);
+
+        /// <summary>
+        /// Rest password
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="token"></param>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
         Task ResetPassword(Guid id, string token, string newPassword);
+
+        /// <summary>
+        /// Send reset password email
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         Task SendResetPasswordEmail(Guid id);
     }
 }
