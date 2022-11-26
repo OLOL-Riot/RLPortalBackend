@@ -126,6 +126,12 @@ namespace RLPortalBackend.Repositories.Impl
             {
                 throw new EmailAlredyExistsException($"Email {input.Email} alredy exists");
             }
+            if (input.PhoneNumber != null ? !Regex.IsMatch(input.PhoneNumber, @"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$", RegexOptions.IgnoreCase) : false)
+            {
+                throw new InvalidPhoneNumberException($"Number {input.PhoneNumber} invalid");
+            }
+
+
             var user = CreateUser();
 
             user.FirstName = input.FirstName;
@@ -134,6 +140,7 @@ namespace RLPortalBackend.Repositories.Impl
 
             await _userStore.SetUserNameAsync(user, input.Login, CancellationToken.None);
             await _emailStore.SetEmailAsync(user, input.Email, CancellationToken.None);
+            await _userManager.SetPhoneNumberAsync(user, input.PhoneNumber);
 
             var result = await _userManager.CreateAsync(user, input.Password);
 
