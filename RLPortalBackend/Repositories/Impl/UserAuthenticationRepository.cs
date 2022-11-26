@@ -123,6 +123,10 @@ namespace RLPortalBackend.Repositories.Impl
             {
                 throw new RefreshTokenException("Incorrect refresh token");
             }
+            if (user.RefreshTokenExpiryTime < DateTime.UtcNow)
+            {
+                throw new RefreshTokenException("Refresh token expired");
+            }
             var role = await _userManager.GetRolesAsync(user);
             var newAccessToken = _jwtHelper.CreateToken(user, role[0]);
             var newRefreshToken = _jwtHelper.GenerateRefreshToken();
