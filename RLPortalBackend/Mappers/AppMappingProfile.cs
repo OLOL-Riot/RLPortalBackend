@@ -90,10 +90,6 @@ namespace RLPortalBackend.Mappers
                 .ForMember(dest => dest.TestEntityId, opt => opt.MapFrom(source => source.TestId))
                 .ReverseMap();
 
-            CreateMap<NewCourseSectionDto, CourseSectionEntity>().ReverseMap();
-
-            CreateMap<PageCourseSectionDto, NewCourseSectionDto>().ReverseMap();
-
             CreateMap<PreviewCourseSectionDto, PageCourseSectionDto>().ReverseMap();
 
             CreateMap<PreviewCourseSectionDto, CourseSectionEntity>().ReverseMap();
@@ -117,6 +113,12 @@ namespace RLPortalBackend.Mappers
                 .ReverseMap();
 
             CreateMap<UserEntity, CurrentUserDto>().ReverseMap();
+
+            CreateMap<UpdateCourseSectionDto, CourseSectionEntity>().ReverseMap();
+
+            CreateMap<CourseSectionEntity, UpdateCourseSectionDto>().ReverseMap();
+
+            CreateMap<CreateCourseSectionDto, CourseSectionEntity>().ReverseMap();
         }
 
 

@@ -7,9 +7,9 @@ namespace RLPortalBackend.Services
         /// <summary>
         /// Create Course section
         /// </summary>
-        /// <param name="newCourseSectionDto"></param>
+        /// <param name="createCourseSectionDto"></param>
         /// <returns></returns>
-        public Task<CourseSectionDto> CreateAsync(NewCourseSectionDto newCourseSectionDto);
+        public Task<CourseSectionDto> CreateAsync(CreateCourseSectionDto createCourseSectionDto);
 
         /// <summary>
         /// Get all Course sections
@@ -35,9 +35,9 @@ namespace RLPortalBackend.Services
         /// Update Course section by Id
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="newCourseSectionDto"></param>
+        /// <param name="updateCourseSectionDto"></param>
         /// <returns></returns>
-        public Task UpdateAsync(Guid id, NewCourseSectionDto newCourseSectionDto);
+        public Task UpdateAsync(Guid id, UpdateCourseSectionDto updateCourseSectionDto);
 
         /// <summary>
         /// Delete Course section by Id
