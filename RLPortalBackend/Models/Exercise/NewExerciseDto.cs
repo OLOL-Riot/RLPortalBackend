@@ -7,6 +7,8 @@ namespace RLPortalBackend.Models.Exercise
     /// </summary>
     public class NewExerciseDto
     {
+        public Guid? TestId { get; set; }
+
         /// <summary>
         /// Description
         /// </summary>
