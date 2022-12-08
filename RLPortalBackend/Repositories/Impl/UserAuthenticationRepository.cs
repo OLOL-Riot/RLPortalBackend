@@ -85,6 +85,7 @@ namespace RLPortalBackend.Repositories.Impl
             }
             if (!resultLogin.EmailConfirmed)
             {
+                await SendConfirmEmail(resultLogin);
                 throw new EmailNotConfirmedException("Email not confirmed");
             }
 
