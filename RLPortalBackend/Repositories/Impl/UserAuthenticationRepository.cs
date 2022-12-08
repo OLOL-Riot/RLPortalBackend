@@ -12,6 +12,7 @@ using RLPortalBackend.Helpers;
 using RLPortalBackend.Models;
 using RLPortalBackend.Models.Autentification;
 using RLPortalBackend.Services;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 
 namespace RLPortalBackend.Repositories.Impl
@@ -29,7 +30,7 @@ namespace RLPortalBackend.Repositories.Impl
         private readonly ILogger<UserAuthenticationRepository> _logger;
         private readonly IEmailSenderService _emailSender;
         private readonly IConfiguration _configuration;
-        private readonly IJWTHelper _jwtHelper;
+        private readonly ITokenHelper _jwtHelper;
         private readonly IMapper _mapper;
 
 
@@ -46,8 +47,8 @@ namespace RLPortalBackend.Repositories.Impl
         /// <param name="emailSender"></param>
         /// <param name="mapper"></param>
         public UserAuthenticationRepository(
+            ITokenHelper jwtHelper,
             IMapper mapper,
-            IJWTHelper jwtHelper,
             IConfiguration configuration,
             UserManager<UserEntity> userManager,
             IUserStore<UserEntity> userStore,
@@ -95,10 +96,65 @@ namespace RLPortalBackend.Repositories.Impl
                 var user = await _userManager.FindByNameAsync(request.Login);
                 var role = await _userManager.GetRolesAsync(user);
                 string token = _jwtHelper.CreateToken(user, role[0]);
-                return new LoginResponseDto(token);
+                string refreshToken;
+                if (resultLogin.RefreshTokenExpiryTime < DateTime.UtcNow.AddDays(7))
+                {
+                    refreshToken = resultLogin.RefreshToken;
+                }
+
+                refreshToken = _jwtHelper.GenerateRefreshToken();
+
+                resultLogin.RefreshToken = refreshToken;
+                resultLogin.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+
+                await _userManager.UpdateAsync(resultLogin);
+
+                return new LoginResponseDto()
+                {
+                    Token = token,
+                    RefreshToken = refreshToken
+                };
             }
             throw new WrongPasswordException("Wrong password");
         }
+
+        public async Task<LoginResponseDto> Refresh(LoginResponseDto loginResponseDto)
+        {
+            ClaimsPrincipal principal;
+            try
+            {
+                principal = _jwtHelper.GetPrincipalFromExpiredToken(loginResponseDto.Token);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidJwtException("Invalid token");
+            }
+
+            string name = principal.Identity.Name;
+
+            var user = await _userManager.FindByNameAsync(name);
+            if (user.RefreshToken != loginResponseDto.RefreshToken)
+            {
+                throw new RefreshTokenException("Incorrect refresh token");
+            }
+            if (user.RefreshTokenExpiryTime < DateTime.UtcNow)
+            {
+                throw new RefreshTokenException("Refresh token expired");
+            }
+            var role = await _userManager.GetRolesAsync(user);
+            var newAccessToken = _jwtHelper.CreateToken(user, role[0]);
+            var newRefreshToken = _jwtHelper.GenerateRefreshToken();
+            user.RefreshToken = newRefreshToken;
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+            await _userManager.UpdateAsync(user);
+            return new LoginResponseDto()
+            {
+                Token = newAccessToken,
+                RefreshToken = newRefreshToken
+            };
+        }
+
+
 
 
         /// <summary>
@@ -237,7 +293,7 @@ namespace RLPortalBackend.Repositories.Impl
             {
                 throw new EmailAlredyExistsException($"Email {changeUserDataDto.Email} alredy exists");
             }
-
+            
             if (changeUserDataDto.PhoneNumber != null ? !Regex.IsMatch(changeUserDataDto.PhoneNumber, @"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$", RegexOptions.IgnoreCase) : false)
             {
                 throw new InvalidPhoneNumberException($"Number {changeUserDataDto.PhoneNumber} invalid");
@@ -248,6 +304,7 @@ namespace RLPortalBackend.Repositories.Impl
             currentUser.FirstName = changeUserDataDto.FirstName ?? currentUser.FirstName;
             currentUser.LastName = changeUserDataDto.LastName ?? currentUser.LastName;
             currentUser.PhoneNumber = changeUserDataDto.PhoneNumber ?? currentUser.PhoneNumber;
+            await _userManager.SetPhoneNumberAsync(currentUser, currentUser.PhoneNumber);
             if (changeUserDataDto.Email != null & currentUser.Email != changeUserDataDto.Email)
             {
                 flag = true;

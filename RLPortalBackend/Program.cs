@@ -24,7 +24,7 @@ var connectionString = builder.Configuration.GetConnectionString("AplicationDBCo
 builder.Services.AddDbContext<AplicationDBContext>(options =>
     options.UseNpgsql(connectionString));
 //Как поднимается сервис паблишера и ребита поменять значнеие на true для подтвреждения почты
-builder.Services.AddDefaultIdentity<UserEntity>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<UserEntity>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AplicationDBContext>();
 
@@ -65,7 +65,7 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 
 builder.Services.AddScoped<IUserAuthenticationRepository, UserAuthenticationRepository>();
 builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
-builder.Services.AddScoped<IJWTHelper, JWTHelper>();
+builder.Services.AddScoped<ITokenHelper, TokenHelper>();
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -96,6 +96,15 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var dataContext = scope.ServiceProvider.GetRequiredService<AplicationDBContext>();
+    dataContext.Database.Migrate();
+}
+
+
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -108,8 +117,7 @@ var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 using (var scope = scopeFactory.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserEntity>>();
-    SeedData.Seed(userManager, roleManager);
+    SeedData.Seed(roleManager);
 }
 
 app.UseMiddleware();

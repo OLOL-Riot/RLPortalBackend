@@ -9,10 +9,12 @@ namespace RLPortalBackend.Services.Impl
     public class ExerciseService : IExerciseService
     {
         private readonly IExerciseRepository _exerciseRepository;
+        private readonly ITestRepository _testRepository;
         private readonly IMapper _mapper;
 
-        public ExerciseService(IExerciseRepository exerciseRepository, IMapper mapper)
+        public ExerciseService(IExerciseRepository exerciseRepository, IMapper mapper, ITestRepository testRepository)
         {
+            _testRepository = testRepository;
             _exerciseRepository = exerciseRepository;
             _mapper = mapper;
         }
@@ -22,6 +24,14 @@ namespace RLPortalBackend.Services.Impl
             ExerciseEntity newExerciseEntity = _mapper.Map<ExerciseEntity>(newExercise);
             await _exerciseRepository.CreateAsync(newExerciseEntity);
             ExerciseDto createdExercise = _mapper.Map<ExerciseDto>(newExerciseEntity);
+            if(!newExercise.TestId.Equals(null)) {
+                TestEntity testEntity = await _testRepository.GetAsync((Guid) newExercise.TestId);
+                testEntity.ExerciseIds.Add((Guid)createdExercise.Id);
+                await _testRepository.UpdateAsync(testEntity.Id, testEntity);
+
+            }
+
+
             return createdExercise;
         }
 

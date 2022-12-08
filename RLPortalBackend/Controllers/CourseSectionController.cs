@@ -94,7 +94,7 @@ namespace RLPortalBackend.Controllers
 
         [Authorize(Roles = "Administrator")]
         [HttpPost]
-        public async Task<ActionResult<CourseSectionDto>> CreateNewCourseSection([FromBody] NewCourseSectionDto input)
+        public async Task<ActionResult<CourseSectionDto>> CreateNewCourseSection([FromBody] CreateCourseSectionDto input)
         {
             var dto = await _courseSectionService.CreateAsync(input);
             return CreatedAtAction(nameof(GetCourseSectionByIdAsync), new { id = dto.Id }, dto);
@@ -127,7 +127,7 @@ namespace RLPortalBackend.Controllers
 
         [Authorize(Roles = "Administrator")]
         [HttpPut("{id:length(36)}")]
-        public async Task<ActionResult> UpdateCourseSection(Guid id, NewCourseSectionDto newCourseSectionDto)
+        public async Task<ActionResult> UpdateCourseSection(Guid id, UpdateCourseSectionDto newCourseSectionDto)
         {
             await _courseSectionService.UpdateAsync(id, newCourseSectionDto);
             return NoContent();
