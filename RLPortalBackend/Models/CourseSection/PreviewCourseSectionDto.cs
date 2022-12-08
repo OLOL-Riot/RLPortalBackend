@@ -11,6 +11,11 @@
         public Guid Id { get; set; }
 
         /// <summary>
+        /// Serial number
+        /// </summary>
+        public int SerialNumber { get; set; }
+
+        /// <summary>
         /// Name
         /// </summary>
         public string Name { get; set; }
