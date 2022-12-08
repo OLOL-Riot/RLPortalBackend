@@ -16,6 +16,7 @@ namespace RLPortalBackend.Entities
         [Required]
         public Guid Id { get; set; }
 
+
         /// <summary>
         /// Name
         /// </summary>
