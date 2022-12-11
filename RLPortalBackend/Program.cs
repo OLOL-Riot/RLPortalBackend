@@ -116,8 +116,12 @@ app.UseAuthorization();
 var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 using (var scope = scopeFactory.CreateScope())
 {
+    SeedData seedData = new SeedData(builder.Configuration);
+
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    SeedData.Seed(roleManager);
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserEntity>>();
+
+    seedData.Seed(userManager, roleManager);
 }
 
 app.UseMiddleware();
