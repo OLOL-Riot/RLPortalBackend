@@ -12,10 +12,38 @@ namespace RLPortalBackend.Helpers
         /// <summary>
         /// Seed roles and user in database
         /// </summary>
+        /// <param name="userManager"></param>
         /// <param name="roleManager"></param>
-        public static void Seed(RoleManager<IdentityRole> roleManager)
+        public static void Seed(UserManager<UserEntity> userManager, RoleManager<IdentityRole> roleManager)
         {
             SeedRoles(roleManager);
+            SeedUsers(userManager);
+        }
+
+        /// <summary>
+        /// Seed users to Postgres
+        /// </summary>
+        /// <param name="userManager"></param>
+        private static void SeedUsers(UserManager<UserEntity> userManager)
+        {
+            if (userManager.FindByNameAsync("admin").Result == null)
+            {
+                var user = new UserEntity
+                {
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    UserName = "admin",
+                    Email = "admin@test.com",
+                    EmailConfirmed = true
+
+                };
+                var result = userManager.CreateAsync(user, "Password@1").Result;
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(user, "Administrator").Wait();
+                }
+            }
         }
 
         /// <summary>
