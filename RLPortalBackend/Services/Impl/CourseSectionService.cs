@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using RLPortalBackend.Entities;
 using RLPortalBackend.Exceptions;
+using RLPortalBackend.Models.Course;
 using RLPortalBackend.Models.CourseSection;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
@@ -16,18 +17,25 @@ namespace RLPortalBackend.Services.Impl
         private readonly IMapper _mapper;
         private readonly ITheoryService _theoryService;
         private readonly ITestService _testService;
+        private readonly ICourseRepository _courseRepository;
 
-        public CourseSectionService(ICourseSectionRepository courseSectionRepository, IMapper mapper, ITheoryService theoryService, ITestService testService)
+        public CourseSectionService(
+            ICourseSectionRepository courseSectionRepository,
+            IMapper mapper,
+            ITheoryService theoryService,
+            ITestService testService,
+            ICourseRepository courseRepository)
         {
             _courseSectionRepository = courseSectionRepository;
             _mapper = mapper;
             _theoryService = theoryService;
             _testService = testService;
+            _courseRepository = courseRepository;
         }
 
 
 
-        public async Task<CourseSectionDto> CreateAsync(NewCourseSectionDto newCourseSectionDto)
+        public async Task<CourseSectionDto> CreateAsync(CreateCourseSectionDto newCourseSectionDto)
         {
             CourseSectionEntity courseSectionEntity = _mapper.Map<CourseSectionEntity>(newCourseSectionDto);
 
@@ -50,6 +58,18 @@ namespace RLPortalBackend.Services.Impl
             courseSectionEntity.TheoryEntityId = theoryId;
 
             await _courseSectionRepository.CreateAsync(courseSectionEntity);
+
+
+            if(newCourseSectionDto.CourseId != null)
+            {
+                var course = await _courseRepository.GetCourseByIdAsync((Guid) newCourseSectionDto.CourseId);
+                if(course == null)
+                {
+                    throw new CourseNotFoundException($"Course {newCourseSectionDto.CourseId} not found");
+                }
+                course.CourseSectionEntityIds.Add(courseSectionEntity.Id);
+                await _courseRepository.UpdateAsync((Guid) newCourseSectionDto.CourseId, course);
+            }
 
             CourseSectionDto dto = _mapper.Map<CourseSectionDto>(courseSectionEntity);
 
@@ -110,7 +130,7 @@ namespace RLPortalBackend.Services.Impl
             await _testService.RemoveAsync(courseSectionEntity.TestEntityId);
         }
 
-        public async Task UpdateAsync(Guid id, NewCourseSectionDto newCourseSectionDto)
+        public async Task UpdateAsync(Guid id, UpdateCourseSectionDto updateCourseSectionDto)
         {
             CourseSectionEntity oldCourseSectionEntity = await _courseSectionRepository.GetAsync(id);
 
@@ -119,7 +139,7 @@ namespace RLPortalBackend.Services.Impl
                 throw new CourseSectionNotFoundException($"Course section {id} not found");
             }
 
-            CourseSectionEntity courseSectionEntity = _mapper.Map<CourseSectionEntity>(newCourseSectionDto);
+            CourseSectionEntity courseSectionEntity = _mapper.Map<CourseSectionEntity>(updateCourseSectionDto);
 
             courseSectionEntity.TheoryEntityId = oldCourseSectionEntity.TheoryEntityId;
             courseSectionEntity.TestEntityId = oldCourseSectionEntity.TestEntityId;
@@ -134,7 +154,7 @@ namespace RLPortalBackend.Services.Impl
             ICollection<CourseSectionEntity> entities = await _courseSectionRepository.GetAsync(ids);
 
             ICollection<PreviewCourseSectionDto> previews = _mapper.Map<ICollection<PreviewCourseSectionDto>>(entities);
-            
+
             return previews;
 
         }

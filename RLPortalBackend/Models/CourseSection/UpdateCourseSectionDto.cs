@@ -1,12 +1,6 @@
-﻿using RLPortalBackend.Models.Test;
-using RLPortalBackend.Models.Theory;
-
-namespace RLPortalBackend.Models.CourseSection
+﻿namespace RLPortalBackend.Models.CourseSection
 {
-    /// <summary>
-    /// NewCourseSectionDto
-    /// </summary>
-    public class NewCourseSectionDto
+    public class UpdateCourseSectionDto
     {
         /// <summary>
         /// Name

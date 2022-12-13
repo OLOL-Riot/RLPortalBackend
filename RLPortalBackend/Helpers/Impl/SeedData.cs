@@ -1,43 +1,52 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using RLPortalBackend.Entities;
 
-namespace RLPortalBackend.Helpers
+namespace RLPortalBackend.Helpers.Impl
 {
     /// <summary>
     /// SeedData - make roles and admin account in postgres database
     /// </summary>
-    public static class SeedData
+    public class SeedData: ISeedData
     {
+        private readonly IConfiguration _configuration;
+
+        public SeedData(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         /// <summary>
         /// Seed roles and user in database
         /// </summary>
         /// <param name="userManager"></param>
         /// <param name="roleManager"></param>
-        public static void Seed(UserManager<UserEntity> userManager, RoleManager<IdentityRole> roleManager)
+        public void Seed(UserManager<UserEntity> userManager, RoleManager<IdentityRole> roleManager)
         {
             SeedRoles(roleManager);
             SeedUsers(userManager);
+
         }
 
         /// <summary>
         /// Seed users to Postgres
         /// </summary>
         /// <param name="userManager"></param>
-        private static void SeedUsers(UserManager<UserEntity> userManager)
+        private void SeedUsers(UserManager<UserEntity> userManager)
         {
-            if (userManager.FindByNameAsync("admin").Result == null)
+
+
+            if (userManager.FindByNameAsync(_configuration["Admin:Login"]).Result == null)
             {
                 var user = new UserEntity
                 {
-                    FirstName = "Admin",
-                    LastName = "Admin",
-                    UserName = "admin",
-                    Email = "admin@test.com",
+                    FirstName = _configuration["Admin:Firstname"],
+                    LastName = _configuration["Admin:Lastname"],
+                    UserName = _configuration["Admin:Login"],
+                    Email = _configuration["Admin:Email"],
                     EmailConfirmed = true
-                    
+
                 };
-                var result = userManager.CreateAsync(user, "Password@1").Result;
+                var result = userManager.CreateAsync(user, _configuration["Admin:Password"]).Result;
 
                 if (result.Succeeded)
                 {
@@ -50,7 +59,7 @@ namespace RLPortalBackend.Helpers
         /// Seed roles to Postgres
         /// </summary>
         /// <param name="roleManager"></param>
-        private static void SeedRoles(RoleManager<IdentityRole> roleManager)
+        private void SeedRoles(RoleManager<IdentityRole> roleManager)
         {
             if (!roleManager.RoleExistsAsync("Administrator").Result)
             {
