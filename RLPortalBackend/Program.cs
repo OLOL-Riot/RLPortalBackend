@@ -16,6 +16,7 @@ using Swashbuckle.AspNetCore.Filters;
 using RLPortalBackend.Helpers.Impl;
 using RLPortalBackend;
 using RLPortalBackend.Entities;
+using RLPortalBackend.Models.Autentification;
 
 var builder = WebApplication.CreateBuilder(args);
 //Postgres
@@ -62,7 +63,6 @@ builder.Services.AddScoped<ICourseSectionRepository, CourseSectionRepository>();
 builder.Services.AddScoped<ICourseSectionService, CourseSectionService>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICourseService, CourseService>();
-
 builder.Services.AddScoped<IUserAuthenticationRepository, UserAuthenticationRepository>();
 builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
 builder.Services.AddScoped<ITokenHelper, TokenHelper>();
@@ -86,6 +86,7 @@ builder.Services.AddAuthentication(x =>
 
 builder.Services.AddCors();
 builder.Services.AddAutoMapper(typeof(AppMappingProfile));
+builder.Services.Configure<AdminOptions>(builder.Configuration.GetSection("AdminOptions"));
 
 initRabbitMQ();
 
@@ -101,7 +102,7 @@ if (!app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope())
 {
     var dataContext = scope.ServiceProvider.GetRequiredService<AplicationDBContext>();
-    dataContext.Database.Migrate();
+    dataContext.Database.MigrateAsync();
 }
 
 
@@ -116,8 +117,8 @@ app.UseAuthorization();
 var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 using (var scope = scopeFactory.CreateScope())
 {
-    SeedData seedData = new SeedData(builder.Configuration);
-
+    var adminCred = builder.Configuration.GetSection("AdminOptions").Get<AdminOptions>();
+    SeedData seedData = new SeedData(adminCred);
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserEntity>>();
 
@@ -142,8 +143,6 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("v1/swagger.json", "My API V1");
 });
 
-//app.UseMiddleware<JwtMiddleware>();
-
 app.Run();
 
 
@@ -156,10 +155,14 @@ void initRabbitMQ()
 
         x.UsingRabbitMq((context, cfg) =>
         {
-            cfg.Host("localhost", "/", h =>
+            RabbitOptions rabbitOptions = new();
+            rabbitOptions.RABBIT_IP = builder.Configuration.GetSection("RABBIT_IP").Get<string>();
+            rabbitOptions.RABBITMQ_DEFAULT_USER = builder.Configuration.GetSection("RABBITMQ_DEFAULT_USER").Get<string>();
+            rabbitOptions.RABBITMQ_DEFAULT_PASS = builder.Configuration.GetSection("RABBITMQ_DEFAULT_PASS").Get<string>();
+            cfg.Host(rabbitOptions.RABBIT_IP, "/", h =>
             {
-                h.Username("guest");
-                h.Password("guest");
+                h.Username(rabbitOptions.RABBITMQ_DEFAULT_USER);
+                h.Password(rabbitOptions.RABBITMQ_DEFAULT_PASS);
             });
 
             cfg.ConfigureEndpoints(context);
