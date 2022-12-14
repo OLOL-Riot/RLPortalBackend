@@ -24,9 +24,9 @@ namespace RLPortalBackend.Helpers.Impl
         /// </summary>
         /// <param name="userManager"></param>
         /// <param name="roleManager"></param>
-        public void Seed(UserManager<UserEntity> userManager, RoleManager<IdentityRole> roleManager)
+        public async Task SeedAsync(UserManager<UserEntity> userManager, RoleManager<IdentityRole> roleManager)
         {
-            SeedRoles(roleManager);
+            await SeedRolesAsync(roleManager);
             SeedUsers(userManager);
 
         }
@@ -64,7 +64,7 @@ namespace RLPortalBackend.Helpers.Impl
         /// Seed roles to Postgres
         /// </summary>
         /// <param name="roleManager"></param>
-        private void SeedRoles(RoleManager<IdentityRole> roleManager)
+        private async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
         {
             if (!roleManager.RoleExistsAsync("Administrator").Result)
             {
@@ -72,7 +72,7 @@ namespace RLPortalBackend.Helpers.Impl
                 {
                     Name = "Administrator"
                 };
-                var result = roleManager.CreateAsync(role).Result;
+                await roleManager.CreateAsync(role);
             }
 
             if (!roleManager.RoleExistsAsync("User").Result)
@@ -81,7 +81,7 @@ namespace RLPortalBackend.Helpers.Impl
                 {
                     Name = "User"
                 };
-                var result = roleManager.CreateAsync(role).Result;
+                await roleManager.CreateAsync(role);
             }
         }
 

@@ -17,13 +17,15 @@ using RLPortalBackend.Helpers.Impl;
 using RLPortalBackend;
 using RLPortalBackend.Entities;
 using RLPortalBackend.Models.Autentification;
+using Microsoft.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
+WebHost.CreateDefaultBuilder(args).UseUrls("http://+:5242");
 //Postgres
-var connectionString = builder.Configuration.GetConnectionString("AplicationDBContextConnection") ?? throw new InvalidOperationException("Connection string 'AplicationDBContextConnection' not found.");
+//var connectionString = builder.Configuration.GetConnectionString("AplicationDBContextConnection") ?? throw new InvalidOperationException("Connection string 'AplicationDBContextConnection' not found.");
 
 builder.Services.AddDbContext<AplicationDBContext>(options =>
-    options.UseNpgsql(connectionString));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("AplicationDBContextConnection")));
 //Как поднимается сервис паблишера и ребита поменять значнеие на true для подтвреждения почты
 builder.Services.AddDefaultIdentity<UserEntity>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
@@ -96,13 +98,26 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+    app.UseSwagger();
+
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("v1/swagger.json", "My API V1");
+    });
 }
 
 
 using (var scope = app.Services.CreateScope())
 {
     var dataContext = scope.ServiceProvider.GetRequiredService<AplicationDBContext>();
-    dataContext.Database.MigrateAsync();
+    try
+    {
+        await dataContext.Database.MigrateAsync();
+    } catch
+    {
+
+    }
+    
 }
 
 
@@ -122,7 +137,7 @@ using (var scope = scopeFactory.CreateScope())
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserEntity>>();
 
-    seedData.Seed(userManager, roleManager);
+    await seedData.SeedAsync(userManager, roleManager);
 }
 
 app.UseMiddleware();
@@ -136,12 +151,8 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.UseSwagger();
 
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("v1/swagger.json", "My API V1");
-});
+
 
 app.Run();
 

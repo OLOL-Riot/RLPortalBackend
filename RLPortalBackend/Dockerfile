@@ -2,6 +2,7 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
+ENV ASPNETCORE_ENVIRONMENT=Development
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
@@ -18,4 +19,4 @@ RUN dotnet publish "RLPortalBackend.csproj" -c Release -o /app/publish /p:UseApp
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "RLPortalBackend.dll"]
+ENTRYPOINT ["dotnet", "RLPortalBackend.dll", "--environment=Development"]
