@@ -358,7 +358,8 @@ namespace RLPortalBackend.Repositories.Impl
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             string userId = user.Id;
             string newToken = token.Replace("+", "%2B").Replace("/", "%2F").Replace("==", "%3D%3D");
-            string tempUrl = $"http://localhost:5242/api/Authentification/confirm-email?id={userId}&token={newToken}";
+            string confirmEmailPageURL = _configuration["ConfirmEmailPageURL"];
+            string tempUrl = $"{confirmEmailPageURL}?id={userId}&token={newToken}";
             var message = new MessageToSend(user.Email, "Confirm email", tempUrl);
             await _emailSender.SendEmail(message);
         }
