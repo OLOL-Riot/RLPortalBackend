@@ -31,10 +31,12 @@ namespace RLPortalBackend.Services.Impl
             // Add Exceptions Handling: test not found, incorrect exercises
 
             TestDto test = await _testService.GetAsyncTestToEditById(solvedTest.TestId);
+
             if(test == null)
             {
                 throw new TestNotFoundException($"Test {solvedTest.TestId} not found");
             }
+
             ICollection<ExerciseDto> exercises = test.Exercises;
 
             CreateVerifiedTestDto verifiedTest = _mapper.Map<CreateVerifiedTestDto>(solvedTest);
@@ -45,11 +47,12 @@ namespace RLPortalBackend.Services.Impl
             for (int i = 0; i < verifiedTest.VerifiedAnswers.Count; i++)
             {
                 VerifiedExerciseDto verifiedExercise = verifiedTest.VerifiedAnswers.ElementAtOrDefault(i);
-                await _exerciseService.GetAsyncExerciseToEditById(verifiedExercise.ExerciseId);
+
+                string rightAnswer = exercises.First(exercise => exercise.Id == verifiedExercise.ExerciseId).RightAnswer;
 
                 var chosendAnswer = verifiedExercise.ChosenAnswer;
 
-                verifiedExercise.IsRight = (chosendAnswer == exercises.ElementAtOrDefault(i).RightAnswer);
+                verifiedExercise.IsRight = chosendAnswer == rightAnswer;
             }
 
             verifiedTest.Points = verifiedTest.VerifiedAnswers.Count(verifiedExercise => verifiedExercise.IsRight);
@@ -57,6 +60,7 @@ namespace RLPortalBackend.Services.Impl
 
             VerifiedTestEntity verifiedTestEntity = _mapper.Map<VerifiedTestEntity>(verifiedTest);
             verifiedTestEntity.UserId = userId;
+
             await _verifiedTestRepository.CreateAsync(verifiedTestEntity);
 
             VerifiedTestDto resultVerifiedTest = _mapper.Map<VerifiedTestDto>(verifiedTest);
