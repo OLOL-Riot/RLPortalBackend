@@ -20,7 +20,8 @@ using RLPortalBackend.Models.Autentification;
 using Microsoft.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
-WebHost.CreateDefaultBuilder(args).UseUrls("http://+:5242");
+var port = builder.Configuration.GetSection("RESPONSE_PORT").Get<string>();
+builder.WebHost.UseUrls($"http://+:{port}");
 //Postgres
 //var connectionString = builder.Configuration.GetConnectionString("AplicationDBContextConnection") ?? throw new InvalidOperationException("Connection string 'AplicationDBContextConnection' not found.");
 
@@ -94,16 +95,20 @@ initRabbitMQ();
 
 var app = builder.Build();
 
+app.UseSwagger();
+
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("v1/swagger.json", "My API V2.9");
+});
+
+
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    app.UseSwagger();
-
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("v1/swagger.json", "My API V1");
-    });
+    
 }
 
 
