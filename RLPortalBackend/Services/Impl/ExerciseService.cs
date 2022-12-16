@@ -97,5 +97,10 @@ namespace RLPortalBackend.Services.Impl
             ICollection<ExerciseDto> exerciseDtos = _mapper.Map<ICollection<ExerciseDto>>(exerciseEntities);
             return exerciseDtos; 
         }
+
+        public async Task RemoveAsync(ICollection<Guid> ids)
+        {
+            await _exerciseRepository.RemoveAsync(ids);
+        }
     }
 }

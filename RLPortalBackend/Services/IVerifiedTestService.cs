@@ -50,5 +50,7 @@ namespace RLPortalBackend.Services
         /// <param name="id">Id</param>
         /// <returns></returns>
         public Task RemoveAsync(Guid id);
+
+        public Task RemoveAsync(ICollection<Guid> ids);
     }
 }
