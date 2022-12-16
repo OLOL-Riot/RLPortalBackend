@@ -9,6 +9,6 @@ namespace RLPortalBackend.Helpers
         /// Seed users to Postgres
         /// </summary>
         /// <param name="userManager"></param>
-        public void Seed(UserManager<UserEntity> userManager, RoleManager<IdentityRole> roleManager);
+        public Task SeedAsync(UserManager<UserEntity> userManager, RoleManager<IdentityRole> roleManager);
     }
 }
