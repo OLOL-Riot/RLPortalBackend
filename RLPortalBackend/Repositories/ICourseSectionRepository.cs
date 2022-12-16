@@ -13,7 +13,7 @@ namespace RLPortalBackend.Repositories
         public Task<ICollection<CourseSectionEntity>> GetAsync(ICollection<Guid> ids);
         
         public Task RemoveAsync(Guid id);
-
+        public Task RemoveAsync(ICollection<Guid> ids);
         public Task UpdateAsync(Guid id, CourseSectionEntity updateCourseSectionEntity);
     }
 }
