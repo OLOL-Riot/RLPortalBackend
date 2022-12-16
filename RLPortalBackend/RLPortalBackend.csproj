@@ -39,6 +39,7 @@
 	  <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.5" />
 	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.23.1" />
 	  
+	  
   </ItemGroup>
 
 </Project>
