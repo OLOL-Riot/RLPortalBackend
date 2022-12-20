@@ -93,7 +93,7 @@ namespace RLPortalBackend.Services.Impl
             await _verifiedTestRepository.RemoveAsync(id);
         }
 
-        public async Task RemoveAsync(ICollection<Guid> ids)
+        public async Task RemoveAsyncByTestId(Guid ids)
         {
             await _verifiedTestRepository.RemoveAsyncByTestIds(ids);
         }

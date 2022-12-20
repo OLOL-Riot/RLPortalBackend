@@ -51,6 +51,6 @@ namespace RLPortalBackend.Services
         /// <returns></returns>
         public Task RemoveAsync(Guid id);
 
-        public Task RemoveAsync(ICollection<Guid> ids);
+        public Task RemoveAsyncByTestId(Guid ids);
     }
 }

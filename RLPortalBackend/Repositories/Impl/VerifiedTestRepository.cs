@@ -51,9 +51,9 @@ namespace RLPortalBackend.Repositories.Impl
             await _verifiedTestCollection.DeleteOneAsync(x => x.Id == id);
         }
 
-        public async Task RemoveAsyncByTestIds(ICollection<Guid> ids)
+        public async Task RemoveAsyncByTestIds(Guid id)
         {
-            await _verifiedTestCollection.DeleteManyAsync(x => ids.Contains(x.TestId));
+            await _verifiedTestCollection.DeleteManyAsync(x => id == x.TestId);
         }
 
         public async Task UpdateAsync(Guid id, VerifiedTestEntity updatedVerifiedTestEntity)

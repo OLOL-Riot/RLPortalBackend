@@ -134,7 +134,7 @@ namespace RLPortalBackend.Services.Impl
             var test = await _testRepository.GetAsync(id);
             var exercises = test.ExerciseIds;
             await _exerciseService.RemoveAsync(exercises);
-            await _verifiedTestRepository.RemoveAsyncByTestIds(exercises);
+            await _verifiedTestRepository.RemoveAsyncByTestIds(test.Id);
             await _testRepository.RemoveAsync(id);
 
         }
