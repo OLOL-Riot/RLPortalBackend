@@ -130,6 +130,11 @@ namespace RLPortalBackend.Services.Impl
             await _testService.RemoveAsync(courseSectionEntity.TestEntityId);
         }
 
+        public async Task RemoveAsync(ICollection<Guid> ids)
+        {
+            await _courseSectionRepository.RemoveAsync(ids);
+        }
+
         public async Task UpdateAsync(Guid id, UpdateCourseSectionDto updateCourseSectionDto)
         {
             CourseSectionEntity oldCourseSectionEntity = await _courseSectionRepository.GetAsync(id);
