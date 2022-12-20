@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using RLPortalBackend.Entities;
@@ -57,6 +58,9 @@ namespace RLPortalBackend.Repositories.Impl
             await _exerciseCollection.DeleteOneAsync(x => x.Id == id);
         }
 
-        
+        public async Task RemoveAsync(ICollection<Guid> ids)
+        {
+            await _exerciseCollection.DeleteManyAsync(x => ids.Contains(x.Id));
+        }
     }
 }

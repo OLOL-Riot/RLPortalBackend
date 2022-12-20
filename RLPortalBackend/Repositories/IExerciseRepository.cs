@@ -55,5 +55,12 @@ namespace RLPortalBackend.Repositories
         /// <param name="id">Id</param>
         /// <returns></returns>
         public Task RemoveAsync(Guid id);
+
+        /// <summary>
+        /// Remove collection of exercise by Id
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public Task RemoveAsync(ICollection<Guid> ids);
     }
 }
