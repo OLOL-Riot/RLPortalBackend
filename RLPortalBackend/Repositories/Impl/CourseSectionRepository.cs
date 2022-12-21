@@ -48,6 +48,11 @@ namespace RLPortalBackend.Repositories.Impl
             await _courseSection.DeleteOneAsync(x => x.Id == id);
         }
 
+        public async Task RemoveAsync(ICollection<Guid> ids)
+        {
+            await _courseSection.DeleteManyAsync(x => ids.Contains(x.Id));
+        }
+
         public async Task UpdateAsync(Guid id, CourseSectionEntity updateCourseSectionEntity)
         {
             await _courseSection.ReplaceOneAsync(x => x.Id == id, updateCourseSectionEntity);

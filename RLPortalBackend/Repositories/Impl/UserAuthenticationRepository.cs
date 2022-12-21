@@ -358,7 +358,8 @@ namespace RLPortalBackend.Repositories.Impl
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             string userId = user.Id;
             string newToken = token.Replace("+", "%2B").Replace("/", "%2F").Replace("==", "%3D%3D");
-            string tempUrl = $"http://localhost:5242/api/Authentification/confirm-email?id={userId}&token={newToken}";
+            string confirmEmailPageURL = _configuration["ConfirmEmailPageURL"];
+            string tempUrl = $"{confirmEmailPageURL}?id={userId}&token={newToken}";
             var message = new MessageToSend(user.Email, "Confirm email", tempUrl);
             await _emailSender.SendEmail(message);
         }
@@ -372,7 +373,11 @@ namespace RLPortalBackend.Repositories.Impl
         public async Task ConfirmEmail(Guid id, string token)
         {
             UserEntity user = await _userManager.FindByIdAsync(id.ToString());
-            await _userManager.ConfirmEmailAsync(user, token);
+            var res = await _userManager.ConfirmEmailAsync(user, token);
+            if (!res.Succeeded)
+            {
+                throw new InvalidTokenException($"Invalid token: {token}");
+            }
         }
 
         /// <summary>

@@ -93,6 +93,11 @@ namespace RLPortalBackend.Services.Impl
             await _verifiedTestRepository.RemoveAsync(id);
         }
 
+        public async Task RemoveAsyncByTestId(Guid ids)
+        {
+            await _verifiedTestRepository.RemoveAsyncByTestIds(ids);
+        }
+
         public async Task UpdateAsync(Guid id, UpdateVerifiedTestDto updatedVerifiedTestDto)
         {
             VerifiedTestEntity verifiedTestEntity = _mapper.Map<VerifiedTestEntity>(updatedVerifiedTestDto);

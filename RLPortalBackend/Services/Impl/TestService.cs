@@ -12,12 +12,14 @@ namespace RLPortalBackend.Services.Impl
         private readonly ITestRepository _testRepository;
         private readonly IMapper _mapper;
         private readonly IExerciseService _exerciseService;
+        private readonly IVerifiedTestRepository _verifiedTestRepository;
 
-        public TestService(ITestRepository testRepository, IMapper mapper, IExerciseService exerciseService)
+        public TestService(ITestRepository testRepository, IMapper mapper, IExerciseService exerciseService, IVerifiedTestRepository verifiedTestRepository)
         {
             _testRepository = testRepository;
             _mapper = mapper;
             _exerciseService = exerciseService;
+            _verifiedTestRepository = verifiedTestRepository;
         }
 
         public async Task<TestDto> CreateAsync(CreateTestDto newTest)
@@ -129,7 +131,12 @@ namespace RLPortalBackend.Services.Impl
 
         public async Task RemoveAsync(Guid id)
         {
+            var test = await _testRepository.GetAsync(id);
+            var exercises = test.ExerciseIds;
+            await _exerciseService.RemoveAsync(exercises);
+            await _verifiedTestRepository.RemoveAsyncByTestIds(test.Id);
             await _testRepository.RemoveAsync(id);
+
         }
 
         public async Task UpdateAsync(Guid id, UpdateTestDto updatedTest)

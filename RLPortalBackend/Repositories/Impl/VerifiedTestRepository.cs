@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Options;
+﻿using MassTransit.Internals;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Writers;
 using MongoDB.Driver;
 using RLPortalBackend.Entities;
 using RLPortalBackend.Models;
@@ -47,6 +49,11 @@ namespace RLPortalBackend.Repositories.Impl
         public async Task RemoveAsync(Guid id)
         {
             await _verifiedTestCollection.DeleteOneAsync(x => x.Id == id);
+        }
+
+        public async Task RemoveAsyncByTestIds(Guid id)
+        {
+            await _verifiedTestCollection.DeleteManyAsync(x => id == x.TestId);
         }
 
         public async Task UpdateAsync(Guid id, VerifiedTestEntity updatedVerifiedTestEntity)

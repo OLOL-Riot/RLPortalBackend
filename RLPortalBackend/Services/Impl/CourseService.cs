@@ -80,6 +80,7 @@ namespace RLPortalBackend.Services.Impl
                 await _courseSectionService.RemoveAsync(courseSectionIds);
             }
 
+            await _courseSectionService.RemoveAsync(courseEntity.CourseSectionEntityIds);
             await _courseRepository.RemoveAsync(id);
         }
 
