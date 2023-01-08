@@ -42,5 +42,6 @@ namespace RLPortalBackend.Repositories
         /// <param name="id"></param>
         /// <returns></returns>
         public Task RemoveAsync(Guid id);
+        Task<CourseEntity> FindCourseWitchContainsCourseSEctionId(Guid id);
     }
 }

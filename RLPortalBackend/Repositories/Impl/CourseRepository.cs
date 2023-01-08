@@ -48,5 +48,10 @@ namespace RLPortalBackend.Repositories.Impl
         {
             await _courseCollection.ReplaceOneAsync(x => x.Id == id, updateCourseEntity);
         }
+
+        public async Task<CourseEntity> FindCourseWitchContainsCourseSEctionId(Guid id)
+        {
+            return await _courseCollection.Find(o => o.CourseSectionEntityIds.Contains(id)).FirstOrDefaultAsync();
+        }
     }
 }
