@@ -403,7 +403,8 @@ namespace RLPortalBackend.Repositories.Impl
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             string userId = user.Id;
             string newToken = token.Replace("+", "%2B").Replace("/", "%2F").Replace("==", "%3D%3D");
-            string tempUrl = $"http://localhost:5242/api/Authentification/confirm-email?id={userId}&token={newToken}";
+            var confirmEmailPageUrl = _configuration.GetSection("ConfirmEmailPageUrl").Get<string>();
+            string tempUrl = $"{confirmEmailPageUrl}={userId}&token={newToken}";
             var message = new MessageToSend(user.Email, "Reset password", tempUrl);
             await _emailSender.SendEmail(message);
         }
