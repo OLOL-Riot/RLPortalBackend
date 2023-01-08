@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using RLPortalBackend.Entities;
 using RLPortalBackend.Exceptions;
-using RLPortalBackend.Models.Course;
 using RLPortalBackend.Models.CourseSection;
 using RLPortalBackend.Models.Exercise;
 using RLPortalBackend.Models.Test;
@@ -60,15 +59,15 @@ namespace RLPortalBackend.Services.Impl
             await _courseSectionRepository.CreateAsync(courseSectionEntity);
 
 
-            if(newCourseSectionDto.CourseId != null)
+            if (newCourseSectionDto.CourseId != null)
             {
-                var course = await _courseRepository.GetCourseByIdAsync((Guid) newCourseSectionDto.CourseId);
-                if(course == null)
+                var course = await _courseRepository.GetCourseByIdAsync((Guid)newCourseSectionDto.CourseId);
+                if (course == null)
                 {
                     throw new CourseNotFoundException($"Course {newCourseSectionDto.CourseId} not found");
                 }
                 course.CourseSectionEntityIds.Add(courseSectionEntity.Id);
-                await _courseRepository.UpdateAsync((Guid) newCourseSectionDto.CourseId, course);
+                await _courseRepository.UpdateAsync((Guid)newCourseSectionDto.CourseId, course);
             }
 
             CourseSectionDto dto = _mapper.Map<CourseSectionDto>(courseSectionEntity);
@@ -124,7 +123,9 @@ namespace RLPortalBackend.Services.Impl
             {
                 throw new CourseSectionNotFoundException($"Course section {id} not found");
             }
-
+            var courseEntity = await _courseRepository.FindCourseWitchContainsCourseSEctionId(id);
+            courseEntity.CourseSectionEntityIds.Remove(id);
+            await _courseRepository.UpdateAsync(courseEntity.Id, courseEntity);
             await _courseSectionRepository.RemoveAsync(id);
             await _theoryService.RemoveAsync(courseSectionEntity.TheoryEntityId);
             await _testService.RemoveAsync(courseSectionEntity.TestEntityId);
@@ -132,7 +133,10 @@ namespace RLPortalBackend.Services.Impl
 
         public async Task RemoveAsync(ICollection<Guid> ids)
         {
-            await _courseSectionRepository.RemoveAsync(ids);
+            foreach (var id in ids)
+            {
+                await RemoveAsync(id);
+            }
         }
 
         public async Task UpdateAsync(Guid id, UpdateCourseSectionDto updateCourseSectionDto)
